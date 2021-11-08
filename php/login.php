@@ -1,6 +1,8 @@
 <?php
     require_once("connection.php");
 
+    $listUser = $conn -> query("SELECT * FROM user") -> fetch_all(MYSQLI_ASSOC);
+
     if (isset($_REQUEST['login'])) {
         $username = $_REQUEST['username'];
         $password = $_REQUEST['password'];
@@ -14,6 +16,25 @@
             if ($username == "admin" && $password == "admin") {
                 $_SESSION['admin'] = true;
                 header("Location: admin.php");
+            } else {
+                $index = -1;
+                foreach ($listUser as $key => $value) {
+                    if ($username == $value['username']) {
+                        $index = $key;
+                        break;
+                    }
+                }
+
+                if ($index == -1) {
+                    echo "<script>alert('Username belum pernah terdaftar')</script>";
+                } else {
+                    if ($password != $listUser[$index]['password']) {
+                        echo "<script>alert('Password Salah!')</script>";
+                    } else {
+                        $_SESSION['user'] = $index;
+                        header("Location: search.php");
+                    }
+                }
             }
         }
     }

@@ -1,7 +1,69 @@
 <?php
-    $user = mysqli_connect("localhost", "root", "");
-    
-    mysqli_close($user);
+    require_once('connection.php');
+
+    $listUser = $conn -> query("SELECT * FROM user") -> fetch_all(MYSQLI_ASSOC);
+
+    $countUser = $conn -> query("SELECT COUNT(*) FROM user") -> fetch_all(MYSQLI_ASSOC);
+    $nextId = $countUser[0];
+    $nextId = (int)$nextId['COUNT(*)'] + 1;
+
+    if (isset($_REQUEST['register'])) {
+        $username = $_REQUEST['username'];
+        $nama = $_REQUEST['nama'];
+        $password = $_REQUEST['password'];
+        $confirm = $_REQUEST['confirm'];
+        $email = $_REQUEST['email'];
+        $nomor = $_REQUEST['nomor'];
+        $gender = $_REQUEST['gender'];
+        $tanggal = $_REQUEST['tanggal'];
+        $kota = $_REQUEST['kota'];
+        $foto = $_FILES['foto'];
+
+        if ($username == "") {
+            echo "<script>alert('Username harus diisi')</script>";
+        } else if ($nama == "") {
+            echo "<script>alert('Nama harus diisi')</script>";
+        } else if ($password == "") {
+            echo "<script>alert('Password harus diisi')</script>";
+        } else if ($email == "") {
+            echo "<script>alert('Email harus diisi')</script>";
+        } else if ($password != $confirm) {
+            echo "<script>alert('Password dan Confirm Password tidak sama')</script>";
+        } else {
+            if ($username == "admin" || $password == "admin") {
+                echo "<script>alert('USERNAME / PASSWORD tidak boleh admin')</script>";
+            } else {
+                $ada = false;
+                foreach ($listUser as $key => $value) {
+                    if ($value['username'] == $username || $value['email_user']) {
+                        $ada = true;
+                        break;
+                    }
+                }
+
+                if ($ada) {
+                    echo "<script>alert('USERNAME / EMAIL sudah ada yang punya')</script>";
+                } else {
+                    //ADA FOTO
+                    $lokasi = "";
+                    if ($foto['error'] == 0) {
+                        $lokasi = "../user/";
+                        $namafoto = $nextId;
+                        $temp = $foto['tmp_name'];
+                        $lokasi .= $namafoto;
+                        move_uploaded_file($temp, $lokasi);
+                    }
+
+                    //ADD TO DATABASE
+                    $sql = "INSERT INTO `user` (`username`, `password`, `email_user`, `nama_user`, `nomor_user`, `gender_user`, `tl_user`, `kota_user`, `foto_user`) VALUES ('$username', '$password', '$email', '$nama', '$nomor', '$gender', '$tanggal', '$kota', '$lokasi')";
+                    $stmt = $conn -> prepare($sql);
+                    $stmt -> execute();
+
+                    header("Location: login.php");
+                }
+            }
+        }
+    }
 ?>
 
 <!DOCTYPE html>
@@ -14,15 +76,75 @@
 </head>
 <body>
     <form action="" method="post">
-        <h1>Register</h1>
-        <label for="username">Username</label>
-        <input type="text" name="username" placeholder="Username">
-        <br>
-        <label for="password">Password</label>
-        <input type="text" name="password" placeholder="Password">
-        <br>
-        <input type="submit" name="register" value="Register">
         <label>Already have account? <a href="login.php">Let's Login!</a></label>
+        <h1>Register</h1>
+
+        <table>
+            <tr>
+                <td style="text-align: right;">Username</td>
+                <td>:</td>
+                <td><input type="text" name="username" placeholder="Username"></td>
+            </tr>
+            <tr>
+                <td style="text-align: right;">Nama</td>
+                <td>:</td>
+                <td><input type="text" name="nama" placeholder="Nama"></td>
+            </tr>
+            <tr>
+                <td style="text-align: right;">Password</td>
+                <td>:</td>
+                <td><input type="password" name="password" placeholder="Password"></td>
+            </tr>
+            <tr>
+                <td style="text-align: right;">Email</td>
+                <td>:</td>
+                <td><input type="email" name="email" placeholder="example@gmail.com"></td>
+            </tr>
+            <tr>
+                <td style="text-align: right;">Nomor Telepon</td>
+                <td>:</td>
+                <td><input type="text" name="nomor" maxlength="12" onkeypress="return onlyNumberKey(event)" placeholder="081801234567"></td>
+            </tr>
+            <tr>
+                <td style="text-align: right;">Gender</td>
+                <td>:</td>
+                <td>
+                    <input type="radio" name="gender" value="L">Laki-laki<br>
+                    <input type="radio" name="radio" value="P">Perempuan<br>
+                    <input type="radio" name="gender" value="Lainnya">Lainnya<br>
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: right;">Tanggal Lahir</td>
+                <td>:</td>
+                <td><input type="date" name="tanggal"></td>
+            </tr>
+            <tr>
+                <td style="text-align: right;">Kota Tempat Tinggal</td>
+                <td>:</td>
+                <td><input type="text" name="kota" placeholder="Surabaya"></td>
+            </tr>
+            <tr>
+                <td style="text-align: right;">Foto</td>
+                <td>:</td>
+                <td><input type="file" name="foto"></td>
+            </tr>
+            <tr>
+                <td style="text-align: right;">Confirm Password</td>
+                <td>:</td>
+                <td><input type="password" name="confirm" placeholder="Confirm Password"></td>
+            </tr>
+        </table>
+
+        <input type="submit" name="register" value="Register">
     </form>
 </body>
+<script>
+    function onlyNumberKey(key) {
+        var ascii = (key.which) ? key.which : key.keyCode
+        if (ascii > 31 && (ascii < 48 || ascii > 57))
+            return false;
+        return true;
+    }
+</script>
 </html>
