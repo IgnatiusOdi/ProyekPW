@@ -73,42 +73,51 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
+    <link rel="stylesheet" href="../css/style.css">
+   
+ 
 </head>
-<body>
+<body  style="background-image: url(../img/back.jpg); "  >
+    <div class="regis">
     <form action="" method="post">
-        <label>Already have account? <a href="login.php">Let's Login!</a></label>
+        
         <h1>Register</h1>
 
-        <table>
             <tr>
-                <td style="text-align: right;">Username</td>
-                <td>:</td>
+                <td style="text-align: right;"></td>
+                <td></td>
                 <td><input type="text" name="username" placeholder="Username"></td>
             </tr>
             <tr>
-                <td style="text-align: right;">Nama</td>
-                <td>:</td>
+                <td style="text-align: right;"></td>
+                <td></td>
                 <td><input type="text" name="nama" placeholder="Nama"></td>
             </tr>
             <tr>
-                <td style="text-align: right;">Password</td>
-                <td>:</td>
+                <td style="text-align: right;"></td>
+                <td></td>
                 <td><input type="password" name="password" placeholder="Password"></td>
             </tr>
             <tr>
-                <td style="text-align: right;">Email</td>
-                <td>:</td>
-                <td><input type="email" name="email" placeholder="example@gmail.com"></td>
+                <td style="text-align: right;"></td>
+                <td></td>
+                <td><input type="password" name="confirm" placeholder="Confirm Password"></td>
             </tr>
             <tr>
-                <td style="text-align: right;">Nomor Telepon</td>
-                <td>:</td>
+                <td style="text-align: right;"></td>
+                <td></td>
+                <td><input type="text" name="email" placeholder="example@gmail.com"></td>
+            </tr>
+            <tr>
+                <td style="text-align: right;"></td>
+                <td></td>
                 <td><input type="text" name="nomor" maxlength="12" onkeypress="return onlyNumberKey(event)" placeholder="081801234567"></td>
             </tr>
-            <tr>
+            <tr >
                 <td style="text-align: right;">Gender</td>
                 <td>:</td>
                 <td>
+                    <br>
                     <input type="radio" name="gender" value="L">Laki-laki<br>
                     <input type="radio" name="radio" value="P">Perempuan<br>
                     <input type="radio" name="gender" value="Lainnya">Lainnya<br>
@@ -120,24 +129,25 @@
                 <td><input type="date" name="tanggal"></td>
             </tr>
             <tr>
-                <td style="text-align: right;">Kota Tempat Tinggal</td>
-                <td>:</td>
-                <td><input type="text" name="kota" placeholder="Surabaya"></td>
+                <td style="text-align: right;"></td>
+                <td></td>
+                <td><input type="text" name="kota" placeholder="kota"></td>
             </tr>
             <tr>
                 <td style="text-align: right;">Foto</td>
                 <td>:</td>
                 <td><input type="file" name="foto"></td>
             </tr>
-            <tr>
-                <td style="text-align: right;">Confirm Password</td>
-                <td>:</td>
-                <td><input type="password" name="confirm" placeholder="Confirm Password"></td>
-            </tr>
-        </table>
+            <br>
+    
 
         <input type="submit" name="register" value="Register">
+        <br><br>
+        <label>Already have account? <a href="login.php">Let's Login!</a></label>
+        
+        
     </form>
+    </div>
 </body>
 <script>
     function onlyNumberKey(key) {
