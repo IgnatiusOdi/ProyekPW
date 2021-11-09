@@ -1,5 +1,11 @@
 $(() => {
     $("#search").on("keyup", function() {
-        $("#container").load("ajax/search.php?keyword=" + $("#keyword").val());
+        // $('.loader').show();
+        alert($("#search").val());
+        $("#container").load("barang.php?keyword="+$("#search").val());
+        // $.get("barang.php?keyword=" + $("#keyword").val(), function(data) {
+        //     $("#container").html(data);
+        //     // $('.loader').hide();
+        // });
     });
 });
