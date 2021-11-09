@@ -64,6 +64,11 @@
         <br>
         <br>
         <label>Don't have account? <a href="register.php">Register Now!</a></label>
+        <br>
+        <br>
+        <br>    
+        <label> <a href="home.php">Back To Home</a></label>
+       
     </form>
     
   </div>
