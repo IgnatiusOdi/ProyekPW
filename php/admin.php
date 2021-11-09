@@ -65,7 +65,7 @@
     foreach ($listBarang as $key => $value) {
         if (isset($_REQUEST[$value['id_barang']])) {
             $_SESSION['edit'] = $key;
-            header("Location: adminEdit.php");
+            header("Location: adminEdit.php?id_barang=".$key);
         }
     }
 ?>
