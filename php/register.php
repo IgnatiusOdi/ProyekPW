@@ -1,8 +1,6 @@
 <?php
     require_once('connection.php');
 
-    $listUser = $conn -> query("SELECT * FROM user") -> fetch_all(MYSQLI_ASSOC);
-
     $countUser = $conn -> query("SELECT COUNT(*) FROM user") -> fetch_all(MYSQLI_ASSOC);
     $nextId = $countUser[0];
     $nextId = (int)$nextId['COUNT(*)'] + 1;

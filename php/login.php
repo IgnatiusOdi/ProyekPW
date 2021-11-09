@@ -1,8 +1,6 @@
 <?php
     require_once("connection.php");
 
-    $listUser = $conn -> query("SELECT * FROM user") -> fetch_all(MYSQLI_ASSOC);
-
     if (isset($_REQUEST['login'])) {
         $username = $_REQUEST['username'];
         $password = $_REQUEST['password'];
