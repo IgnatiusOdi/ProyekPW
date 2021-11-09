@@ -47,27 +47,27 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <link rel="stylesheet" href="../css/style.css">
 </head>
-<body>
+<body class="img" style="background-image: url(../img/BG.jpg);">
     <form action="" method="post">
-        <h1>Login</h1>
-        <table>
-            <tr>
-                <td>Username</td>
-                <td>:</td>
-                <td><input type="text" name="username" placeholder="Username"></td>
-            </tr>
-            <tr>
-                <td>Password</td>
-                <td>:</td>
-                <td><input type="text" name="password" placeholder="Password"></td>
-            </tr>
-        </table>
-        <input type="checkbox" name="remember" value="checked"> Remember Me
+
+    <div class="left">
+    <h1>Sign up</h1>
+    <br>
+    
+    <input type="text" name="username" placeholder="Username" />
+    <input type="password" name="password" placeholder="Password" />
+    <input type="checkbox" name="remember" value="checked"> Remember Me
         <br>
         <input type="submit" name="login" value="Login">
         <br>
+        <br>
         <label>Don't have account? <a href="register.php">Register Now!</a></label>
     </form>
+    
+  </div>
+
+     
 </body>
 </html>
