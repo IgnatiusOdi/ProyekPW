@@ -5,12 +5,12 @@
         header("Location: login.php");
     }
 
-    $listBarang = $conn -> query("SELECT * FROM barang") -> fetch_all(MYSQLI_ASSOC);
-    $listKategori = $conn -> query("SELECT * FROM kategori") -> fetch_all(MYSQLI_ASSOC);
+    $countBarang = count($listBarang);
+    $nextId = $countBarang + 1;
     
-    $countBarang = $conn -> query("SELECT COUNT(*) FROM barang") -> fetch_all(MYSQLI_ASSOC);
-    $nextId = $countBarang[0];
-    $nextId = (int)$nextId['COUNT(*)'] + 1;
+    // $countBarang = $conn -> query("SELECT COUNT(*) FROM barang") -> fetch_all(MYSQLI_ASSOC);
+    // $nextId = $countBarang[0];
+    // $nextId = (int)$nextId['COUNT(*)'] + 1;
 
     if (isset($_REQUEST['logout'])){
         unset($_SESSION['admin']);

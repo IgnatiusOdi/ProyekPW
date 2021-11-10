@@ -5,7 +5,6 @@
         header("Location: admin.php");
     }
 
-    $listBarang = $conn -> query("SELECT * FROM barang") -> fetch_all(MYSQLI_ASSOC);
     $barangNow = $listBarang[$_SESSION['edit']];
 
     $id = $barangNow['id_barang'];

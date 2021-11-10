@@ -5,9 +5,6 @@
         header("Location: login.php");
     }
 
-    $listBarang = $conn -> query("SELECT * FROM barang") -> fetch_all(MYSQLI_ASSOC);
-    $listUser = $conn -> query("SELECT * FROM user") -> fetch_all(MYSQLI_ASSOC);
-
     $userNow = $listUser[$_SESSION['user']];
 
     if (isset($_REQUEST['logout'])) {
