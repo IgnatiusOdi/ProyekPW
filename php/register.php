@@ -1,9 +1,8 @@
 <?php
     require_once('connection.php');
 
-    $countUser = $conn -> query("SELECT COUNT(*) FROM user") -> fetch_all(MYSQLI_ASSOC);
-    $nextId = $countUser[0];
-    $nextId = (int)$nextId['COUNT(*)'] + 1;
+    $countUser = count($listUser);
+    $nextId = $countUser + 1;
 
     if (isset($_REQUEST['register'])) {
         $username = $_REQUEST['username'];
@@ -27,6 +26,8 @@
             echo "<script>alert('Email harus diisi')</script>";
         } else if ($password != $confirm) {
             echo "<script>alert('Password dan Confirm Password tidak sama')</script>";
+        } else if ($foto['size'] > 200000) {
+            echo "<script>alert('File Size terlalu besar, MAKS. 200KB')</script>";
         } else {
             if ($username == "admin" || $password == "admin") {
                 echo "<script>alert('USERNAME / PASSWORD tidak boleh admin')</script>";
