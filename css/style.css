@@ -445,7 +445,10 @@ textarea.input {
   background-color: lightblue;
 
 }
-
+/* img{
+  height: 345px;
+  width: 345;
+} */
 
 /*----------------------------*\
 	Logo
@@ -958,13 +961,12 @@ input[type="submit"]:active {
 }
 
 .product .product-img {
-  position: relative;
+  display: flex;
 }
 
 .product .product-img>img {
   width: 100%;
 }
-
 .product .product-img .product-label {
   position: absolute;
   top: 15px;
