@@ -41,21 +41,24 @@
                 }
 
                 if ($ada) {
-                    echo "<script>alert('USERNAME / EMAIL sudah ada yang punya')</script>";
+                    echo "<script>alert('USERNAME / EMAIL sudah ada')</script>";
                 } else {
                     //ADA FOTO
-                    $lokasi = "";
                     if ($foto['error'] == 0) {
                         $lokasi = "../user/";
+                        if (!file_exists($lokasi)) {
+                            @mkdir($lokasi);
+                        }
                         $namafoto = $nextId;
                         $temp = $foto['tmp_name'];
                         $lokasi .= $namafoto;
                         move_uploaded_file($temp, $lokasi);
                     }
 
-                    //ADD TO DATABASE
-                    $sql = "INSERT INTO `user` (`username`, `password`, `email_user`, `nama_user`, `nomor_user`, `gender_user`, `tl_user`, `kota_user`, `foto_user`) VALUES ('$username', '$password', '$email', '$nama', '$nomor', '$gender', '$tanggal', '$kota', '$lokasi')";
+                    //ADD TO USER
+                    $sql = "INSERT INTO `user` (`username`, `password`, `email_user`, `nama_user`, `nomor_user`, `gender_user`, `tl_user`, `kota_user`, `foto_user`) VALUES (?,?,?,?,?,?,?,?,?)";
                     $stmt = $conn -> prepare($sql);
+                    $stmt -> bind_param("ssssiisss", $username, $password, $email, $nama, $nomor, $gender, $tanggal, $kota, $lokasi);
                     $stmt -> execute();
 
                     header("Location: login.php");
@@ -72,80 +75,28 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
-    <link rel="stylesheet" href="../css/style.css">
-   
- 
+    <link rel="stylesheet" href="../css/register.css">
 </head>
-<body  style="background-image: url(../img/back.jpg); "  >
-    <div class="regis">
-    <form action="" method="post">
-        
-        <h1>Register</h1>
-
-            <tr>
-                <td style="text-align: right;"></td>
-                <td></td>
-                <td><input type="text" name="username" placeholder="Username"></td>
-            </tr>
-            <tr>
-                <td style="text-align: right;"></td>
-                <td></td>
-                <td><input type="text" name="nama" placeholder="Nama"></td>
-            </tr>
-            <tr>
-                <td style="text-align: right;"></td>
-                <td></td>
-                <td><input type="password" name="password" placeholder="Password"></td>
-            </tr>
-            <tr>
-                <td style="text-align: right;"></td>
-                <td></td>
-                <td><input type="password" name="confirm" placeholder="Confirm Password"></td>
-            </tr>
-            <tr>
-                <td style="text-align: right;"></td>
-                <td></td>
-                <td><input type="text" name="email" placeholder="example@gmail.com"></td>
-            </tr>
-            <tr>
-                <td style="text-align: right;"></td>
-                <td></td>
-                <td><input type="text" name="nomor" maxlength="12" onkeypress="return onlyNumberKey(event)" placeholder="081801234567"></td>
-            </tr>
-            <tr >
-                <td style="text-align: right;">Gender</td>
-                <td>:</td>
-                <td>
-                    <br>
-                    <input type="radio" name="gender" value="L">Laki-laki<br>
-                    <input type="radio" name="radio" value="P">Perempuan<br>
-                    <input type="radio" name="gender" value="Lainnya">Lainnya<br>
-                </td>
-            </tr>
-            <tr>
-                <td style="text-align: right;">Tanggal Lahir</td>
-                <td>:</td>
-                <td><input type="date" name="tanggal"></td>
-            </tr>
-            <tr>
-                <td style="text-align: right;"></td>
-                <td></td>
-                <td><input type="text" name="kota" placeholder="kota"></td>
-            </tr>
-            <tr>
-                <td style="text-align: right;">Foto</td>
-                <td>:</td>
-                <td><input type="file" name="foto"></td>
-            </tr>
-            <br>
-    
-
-        <input type="submit" name="register" value="Register">
-        <br><br>
-        <label>Already have account? <a href="login.php">Let's Login!</a></label>
-        
-        
-    </form>
+<body>
+    <div class="h1">Create Account</div>
+    <div class="center">
+        <form action="" method="post">
+            <input type="text" name="username" placeholder="Username"><br>
+            <input type="text" name="nama" placeholder="Nama"><br>
+            <input type="password" name="password" placeholder="Password"><br>
+            <input type="password" name="confirm" placeholder="Confirm Password"><br>
+            <input type="email" name="email" placeholder="example@gmail.com"><br>
+            <input type="text" name="nomor" maxlength="12" onkeypress="return onlyNumberKey(event)" placeholder="Phone (081801234567)"><br>
+            <div class="gender">
+                <input type="radio" class="radio" name="gender" value="L">Laki-laki<br>
+                <input type="radio" class="radio" name="gender" value="P">Perempuan<br>
+            </div>
+            <input type="date" class="date" name="tanggal"><br>
+            <input type="text" name="kota" placeholder="Surabaya"><br>
+            <input type="file" name="foto"><br>
+            <button name="register">Register</button><br>
+            <label>Already have account? <a href="login.php">Let's Login!</a></label>
+        </form>
     </div>
 </body>
 <script>

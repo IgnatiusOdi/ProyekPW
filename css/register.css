@@ -1,0 +1,83 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    background: rgba(43, 26, 26, 0.5) url(../img/back.jpg);
+    background-blend-mode: darken;
+    background-size: cover;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.center{
+    text-align: center;
+    position: fixed;
+    top: 47%;
+    left: 50%;
+    padding: 1% 5%;
+    transform: translate(-50%, -50%);
+
+    border: 1px solid rgba(100,100,100,.6);
+    border-radius: 15px;
+}
+
+.h1{
+    color: white;
+    font-size: 3.5em;
+    margin-top: 1%;
+    text-align: center;
+}
+
+input {
+    color: lightgray;
+    border: 0;
+    background-color: transparent;
+    margin: 3% 0;
+    padding: 2%;
+    font-size: 1.2em;
+
+    border-bottom: 1px solid lightgray;
+    text-align: left;
+    width: 300px;
+}
+
+input:hover {
+    cursor: pointer;
+    background-color: rgba(0,0,0,.5);
+}
+
+.gender{
+    text-align: left;
+    color: lightgray;
+}
+
+.gender .radio{
+    width: 100px;
+    cursor: pointer;
+}
+
+button{
+    width: 200px;
+    height: 50px;
+    cursor: pointer;
+    background-color: transparent;
+    border: 0;
+    border-radius: 10px;
+    margin: 5% 0;
+
+    color: lightgray;
+}
+
+button:hover{
+    background-color: lightgray;
+    color: red;
+}
+
+label{
+    color: white;
+}
+
+a:hover{
+    color:red;
+}
