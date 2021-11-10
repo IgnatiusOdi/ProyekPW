@@ -7,10 +7,6 @@
 
     $countBarang = count($listBarang);
     $nextId = $countBarang + 1;
-    
-    // $countBarang = $conn -> query("SELECT COUNT(*) FROM barang") -> fetch_all(MYSQLI_ASSOC);
-    // $nextId = $countBarang[0];
-    // $nextId = (int)$nextId['COUNT(*)'] + 1;
 
     if (isset($_REQUEST['logout'])){
         unset($_SESSION['admin']);
@@ -22,9 +18,7 @@
         $desc = $_REQUEST['descBarang'];
         $harga = $_REQUEST['hargaBarang'];
         $stok = $_REQUEST['stokBarang'];
-        if (isset($_REQUEST['kategoriBarang'])) {
-            $kategori = $_REQUEST['kategoriBarang'];
-        }
+        $kategori = $_REQUEST['kategoriBarang'];
         $foto = $_FILES['fotoBarang'];
 
         if ($nama == "") {
@@ -37,7 +31,9 @@
             echo "<script>alert('Kategori harus diisi')</script>";
         } else if ($foto['error'] == 4) {
             echo "<script>alert('Sertakan foto juga')</script>";
-        } else {
+        } else if ($foto['size'] > 200000) {
+            echo "<script>alert('Size File terlalu besar, MAKS. 200KB')</script>";
+        }  else {
             // SAVE FOTO
             $lokasi = "../barang/";
             if (!file_exists($lokasi)) {
@@ -49,13 +45,15 @@
             move_uploaded_file($temp, $lokasi);
 
             //ADD TO BARANG
-            $sql = "INSERT INTO `barang`(`nama_barang`, `desc_barang`, `harga_barang`, `stok_barang`, `foto_barang`) VALUES ('$nama', '$desc', '$harga', '$stok', '$lokasi')";
+            $sql = "INSERT INTO `barang`(`nama_barang`, `desc_barang`, `harga_barang`, `stok_barang`, `foto_barang`) VALUES (?,?,?,?,?)";
             $stmt = $conn -> prepare($sql);
+            $stmt -> bind_param("ssiis", $nama, $desc, $harga, $stok, $lokasi);
             $stmt -> execute();
 
             //ADD TO KATEGORI_BARANG
-            $sql = "INSERT INTO `kategori_barang` (`id_barang`, `id_kategori`) VALUES ('$nextId', '$kategori')";
+            $sql = "INSERT INTO `kategori_barang` (`id_barang`, `id_kategori`) VALUES (?,?)";
             $stmt = $conn -> prepare($sql);
+            $stmt -> bind_param("ii", $nextId, $kategori);
             $stmt -> execute();
 
             header("Location: admin.php");
@@ -65,7 +63,7 @@
     foreach ($listBarang as $key => $value) {
         if (isset($_REQUEST[$value['id_barang']])) {
             $_SESSION['edit'] = $key;
-            header("Location: adminEdit.php?id_barang=".$key);
+            header("Location: adminEdit.php?id_barang=".$value['id_barang']);
         }
     }
 ?>
@@ -77,6 +75,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin</title>
+    <script src="../js/jquery.min.js"></script>
 </head>
 <body>
     <form action="" method="post" enctype="multipart/form-data">
@@ -103,14 +102,14 @@
                 <td>Harga Barang</td>
                 <td>:</td>
                 <td>
-                    Rp. <input type="text" name="hargaBarang" maxlength="9" onkeypress="return onlyNumberKey(event)" placeholder="000.000.000" style="text-align: right; width: 100px;"> ,-
+                    Rp. <input type="text" name="hargaBarang" maxlength="9" onkeypress="return onlyNumberKey(event)" placeholder="999.999.999" style="text-align: right; width: 100px;"> ,-
                 </td>
             </tr>
             <tr>
                 <td>Stok Barang</td>
                 <td>:</td>
                 <td>
-                    <input type="text" name="stokBarang" maxlength="9" onkeypress="return onlyNumberKey(event)" placeholder="987654321" style="text-align: right; width: 100px;">
+                    <input type="text" name="stokBarang" maxlength="9" onkeypress="return onlyNumberKey(event)" placeholder="123456789" style="text-align: right; width: 100px;">
                 </td>
             </tr>
             <tr>
@@ -138,51 +137,53 @@
         <br>
 
         <h2>TABEL BARANG</h2>
-        <div>Jumlah Barang: <?=$nextId - 1?></div>
-        <input type="text" name="search">
-        <button name="search">Search</button>
+        <input type="text" name="search" id="search" autocomplete="off" placeholder="Search" autofocus>
+        <span>Jumlah Barang: <?=$nextId - 1?></span>
         <?php
             if ($listBarang != null) {
         ?>
-            <table border=1>
-                <tr>
-                    <th>ID</th>
-                    <th>NAMA</th>
-                    <th>HARGA</th>
-                    <th>STOK</th>
-                    <th>KATEGORI</th>
-                    <th>FOTO</th>
-                    <th>ACTION</th>
-                </tr>
-                <?php
-                    foreach ($listBarang as $key => $value) {
-                ?>
-                        <tr>
-                            <td><?=$value['id_barang']?>.</td>
-                            <td><?=$value['nama_barang']?></td>
-                            <td>Rp. <?=number_format($value['harga_barang'],0,'','.')?>,-</td>
-                            <td style="text-align: right;"><?=$value['stok_barang']?></td>
-                            <?php
-                                $id = $value['id_barang'];
-                                $kategori = $conn -> query("SELECT * FROM kategori_barang WHERE id_barang = $id") -> fetch_assoc();
+            <div id="container">
+                <table border=1>
+                    <tr>
+                        <th>ID</th>
+                        <th>NAMA</th>
+                        <th>HARGA</th>
+                        <th>STOK</th>
+                        <th>KATEGORI</th>
+                        <th>FOTO</th>
+                        <th>ACTION</th>
+                    </tr>
+                    <?php
+                        foreach ($listBarang as $key => $value) :
+                    ?>
+                            <tr>
+                                <td><?=$key + 1?>.</td>
+                                <td><?=$value['nama_barang']?></td>
+                                <td style="text-align: right;">Rp. <?=number_format($value['harga_barang'],0,'','.')?>,-</td>
+                                <td style="text-align: left;"><?=$value['stok_barang']?></td>
+                                <?php
+                                    $id = $value['id_barang'];
+                                    $kategori = $conn -> query("SELECT * FROM kategori_barang WHERE id_barang = $id") -> fetch_assoc();
 
-                                $id = $kategori['id_kategori'];
-                                $namaKategori = $conn -> query("SELECT * FROM kategori WHERE id_kategori = $id") -> fetch_assoc();
-                                $namaKategori = $namaKategori['nama_kategori'];
-                            ?>
-                            <td><?=$namaKategori?></td>
-                            <td><img src="<?=$value['foto_barang']?>" style="width: 50px; height: 50px;"></td>
-                            <td><button name="<?=$value['id_barang']?>">Edit</button></td>
-                        </tr>
-                <?php
-                    }
-                ?>
-            </table>
+                                    $id = $kategori['id_kategori'];
+                                    $namaKategori = $conn -> query("SELECT * FROM kategori WHERE id_kategori = $id") -> fetch_assoc();
+                                    $namaKategori = $namaKategori['nama_kategori'];
+                                ?>
+                                <td><?=$namaKategori?></td>
+                                <td><img src="<?=$value['foto_barang']?>" style="width: 100px; height: 100px;"></td>
+                                <td style="text-align: center;"><button name="<?=$value['id_barang']?>">Edit</button></td>
+                            </tr>
+                    <?php
+                        endforeach;
+                    ?>
+                </table>
+            </div>
         <?php
             }
         ?>
     </form>
 </body>
+<script src="../js/script.js"></script>
 <script>
     function onlyNumberKey(key) {
         var ascii = (key.which) ? key.which : key.keyCode

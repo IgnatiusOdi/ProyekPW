@@ -59,7 +59,7 @@
                                     $namaKategori = $namaKategori['nama_kategori'];
                                 ?>
                                 <td><?=$namaKategori?></td>
-                                <td><img src="<?=$value['foto_barang']?>" style="width: 50px; height: 50px;"></td>
+                                <td><img src="<?=$value['foto_barang']?>" style="width: 100px; height: 100px;"></td>
                                 <td><button name="<?=$value['id_barang']?>">Add to Cart</button></td>
                             </tr>
                     <?php
