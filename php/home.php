@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -35,7 +34,7 @@
 								<option value="1">Racket</option>
 								<option value="2">Clothes</option>
 								<option value="3">Shoes</option>
-								<option value="4">Gear</option>
+								<option value="4">bags</option>
 							</select>
 							<input class="input" placeholder="Search here">
 							<button class="search-btn">Search</button>
@@ -50,105 +49,91 @@
 	</div>
 	</header>
 
-	
 	<div class="section">
-		
+		<!-- container -->
 		<div class="container">
-		
+			<!-- row -->
 			<div class="row">
-			
-				<div class="col-md-12">
-					<div class="row">
-						<div class="products-tabs">
-						
-						
-							<div class="product">
-								<div class="product-img">
-									<img src="../img/logo.jpg" alt="" style="height: 345px; width: 345px;">
-								</div>
-								<div class="product-body">
-									<p class="product-category">Category</p>
-									<h3 class="product-name"><a href="#">Racket</a></h3>
-								
-									<div class="product-rating">
-										<i class="fa fa-star"></i>
-										<i class="fa fa-star"></i>
-										<i class="fa fa-star"></i>
-										<i class="fa fa-star"></i>
-										<i class="fa fa-star"></i>
-									</div>
-
-								</div>
-
-							</div>
-							<!-- /product -->
-							<div class="product">
-								<div class="product-img">
-									<img src="../img/logo.jpg" alt="" style="height: 345px; width: 345px;">
-								</div>
-								<div class="product-body">
-									<p class="product-category">Category</p>
-									<h3 class="product-name"><a href="#">Racket</a></h3>
-									<!-- <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4> -->
-									<div class="product-rating">
-										<i class="fa fa-star"></i>
-										<i class="fa fa-star"></i>
-										<i class="fa fa-star"></i>
-										<i class="fa fa-star"></i>
-										<i class="fa fa-star"></i>
-									</div>
-
-								</div>
-
-							</div>
-
-							<!-- /product -->
-							<div class="product">
-								<div class="product-img">
-									<img src="../img/logo.jpg" alt="" style="height: 345px; width: 345px;">
-								</div>
-								<div class="product-body">
-									<p class="product-category">Category</p>
-									<h3 class="product-name"><a href="#">Racket</a></h3>
-									<!-- <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4> -->
-									<div class="product-rating">
-										<i class="fa fa-star"></i>
-										<i class="fa fa-star"></i>
-										<i class="fa fa-star"></i>
-										<i class="fa fa-star"></i>
-										<i class="fa fa-star"></i>
-									</div>
-
-								</div>
-
-							</div>
-							<!-- product -->
-							<div class="product">
-								<div class="product-img">
-									<img src="../img/logo.jpg" alt="" style="height: 345px; width: 345px;">
-								</div>
-								<div class="product-body">
-									<p class="product-category">Category</p>
-									<h3 class="product-name"><a href="#">Racket</a></h3>
-									<!-- <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4> -->
-									<div class="product-rating">
-										<i class="fa fa-star"></i>
-										<i class="fa fa-star"></i>
-										<i class="fa fa-star"></i>
-										<i class="fa fa-star"></i>
-										<i class="fa fa-star"></i>
-									</div>
-
-								</div>
-
-							</div>
-							<!-- </div> -->
+				<!-- shop -->
+				<div class="col-md-3 col-xs-6">
+					<div class="product">
+						<div class="product-img">
+							<img src="../img/rakett.jpg" alt="">
 						</div>
-						<!-- /tab -->
+
+						<div class="product-body">
+							<p class="product-category">Category</p>
+							<h3 class="product-name"><a href="#">Racket</a></h3>
+							<div class="product-rating">
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+							</div>
+						</div>
 					</div>
 				</div>
-				<!-- </div> -->
-				<!-- Products tab & slick -->
+				<!-- /shop -->
+				<div class="col-md-3 col-xs-6">
+					<div class="product">
+						<div class="product-img">
+							<img src="../img/baju.jpg" alt="">
+						</div>
+
+						<div class="product-body">
+							<p class="product-category">Category</p>
+							<h3 class="product-name"><a href="#">Clothes</a></h3>
+							<div class="product-rating">
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3 col-xs-6">
+					<div class="product">
+						<div class="product-img">
+							<img src="../img/sepatu.jpg" alt="">
+						</div>
+
+						<div class="product-body">
+							<p class="product-category">Category</p>
+							<h3 class="product-name"><a href="#">Shoes</a></h3>
+							<div class="product-rating">
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3 col-xs-6">
+					<div class="product">
+						<div class="product-img">
+							<img src="../img/tas.jpg" alt="">
+						</div>
+
+						<div class="product-body">
+							<p class="product-category">Category</p>
+							<h3 class="product-name"><a href="#">bags</a></h3>
+							<div class="product-rating">
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- shop -->
+
 			</div>
 			<!-- /row -->
 		</div>
@@ -157,6 +142,56 @@
 	<!-- /SECTION -->
 
 
+	<section>
+		<div class="container">
+			<div class="newsletter">
+
+			</div>
+			<h1>About Badminton Kuy</h1>
+			Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cumque rem exercitationem debitis tempora laboriosam doloribus sit voluptates facere neque deleniti quos facilis iure reiciendis libero quod tenetur, magnam omnis ratione labore? Quam itaque architecto autem quis molestiae nesciunt. Magni eveniet voluptatibus quaerat aperiam voluptatum asperiores iusto beatae quisquam, sequi placeat quibusdam voluptate veniam animi illum? Beatae porro perspiciatis exercitationem. Non.
+		</div>
+	</section>
+	<br>
+	<section>
+		<div class="newsletter">
+			<h1 style="text-align:center;">Follow Us Now!!!</h1>
+			<ul class="newsletter-follow">
+				<li>
+					<a href="#"><i class="fa fa-facebook"></i></a>
+				</li>
+				<li>
+					<a href="#"><i class="fa fa-twitter"></i></a>
+				</li>
+				<li>
+					<a href="#"><i class="fa fa-instagram"></i></a>
+				</li>
+				<li>
+					<a href="#"><i class="fa fa-pinterest"></i></a>
+				</li>
+			</ul>
+		</div>
+	</section>
+<br><br><br><br><br>
+
+	<footer>
+		<!-- bottom footer -->
+		<div id="bottom-footer" class="section">
+				<div class="container">
+					<!-- row -->
+					<div class="row">
+						<div class="col-md-12 text-center">
+							<span class="copyright" style="color: white;">
+								<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+								Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made by odi and airlangga
+							<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+							</span>
+						</div>
+					</div>
+						<!-- /row -->
+				</div>
+				<!-- /container -->
+			</div>
+	</footer>
 	<script src="js/jquery.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/slick.min.js"></script>
