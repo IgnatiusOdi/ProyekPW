@@ -1,0 +1,17 @@
+.content {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.card{
+    margin: 5%;
+    background-color: lightgray;
+    padding: 2%;
+    border: 1px solid black;
+    cursor: pointer;
+}
+
+.card:hover{
+    opacity: 0.5;
+}

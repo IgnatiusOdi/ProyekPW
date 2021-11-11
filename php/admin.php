@@ -145,7 +145,7 @@
             <div id="container">
                 <table border=1>
                     <tr>
-                        <th>ID</th>
+                        <th>NO.</th>
                         <th>NAMA</th>
                         <th>HARGA</th>
                         <th>STOK</th>

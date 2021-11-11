@@ -13,6 +13,7 @@
 	<link type="text/css" rel="stylesheet" href="../css/nouislider.min.css" />
 	<link rel="stylesheet" href="../css/font-awesome.min.css">
 	<link type="text/css" rel="stylesheet" href="../css/style.css" />
+	<script src="../js/jquery.min.js"></script>
 </head>
 
 <body>
@@ -31,10 +32,10 @@
 						<form>
 							<select class="input-select">
 								<option value="0">All Categories</option>
-								<option value="1">Racket</option>
-								<option value="2">Clothes</option>
-								<option value="3">Shoes</option>
-								<option value="4">bags</option>
+								<option value="1">Rackets</option>
+								<option value="2">Shoes</option>
+								<option value="3">Shuttlecocks</option>
+								<option value="4">Nets</option>
 							</select>
 							<input class="input" placeholder="Search here">
 							<button class="search-btn">Search</button>
@@ -56,79 +57,79 @@
 			<div class="row">
 				<!-- shop -->
 				<div class="col-md-3 col-xs-6">
-					<div class="product">
+					<div class="product" id="rackets">
 						<div class="product-img">
-							<img src="../img/rakett.jpg" alt="">
+							<img src="../img/raket.jpg" alt="">
 						</div>
 
 						<div class="product-body">
 							<p class="product-category">Category</p>
-							<h3 class="product-name"><a href="#">Racket</a></h3>
-							<div class="product-rating">
+							<h3 class="product-name">Rackets</h3>
+							<!-- <div class="product-rating">
 								<i class="fa fa-star"></i>
 								<i class="fa fa-star"></i>
 								<i class="fa fa-star"></i>
 								<i class="fa fa-star"></i>
 								<i class="fa fa-star"></i>
-							</div>
+							</div> -->
 						</div>
 					</div>
 				</div>
 				<!-- /shop -->
 				<div class="col-md-3 col-xs-6">
-					<div class="product">
-						<div class="product-img">
-							<img src="../img/baju.jpg" alt="">
-						</div>
-
-						<div class="product-body">
-							<p class="product-category">Category</p>
-							<h3 class="product-name"><a href="#">Clothes</a></h3>
-							<div class="product-rating">
-								<i class="fa fa-star"></i>
-								<i class="fa fa-star"></i>
-								<i class="fa fa-star"></i>
-								<i class="fa fa-star"></i>
-								<i class="fa fa-star"></i>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-3 col-xs-6">
-					<div class="product">
+					<div class="product" id="shoes">
 						<div class="product-img">
 							<img src="../img/sepatu.jpg" alt="">
 						</div>
 
 						<div class="product-body">
 							<p class="product-category">Category</p>
-							<h3 class="product-name"><a href="#">Shoes</a></h3>
-							<div class="product-rating">
+							<h3 class="product-name">Shoes</h3>
+							<!-- <div class="product-rating">
 								<i class="fa fa-star"></i>
 								<i class="fa fa-star"></i>
 								<i class="fa fa-star"></i>
 								<i class="fa fa-star"></i>
 								<i class="fa fa-star"></i>
-							</div>
+							</div> -->
 						</div>
 					</div>
 				</div>
 				<div class="col-md-3 col-xs-6">
-					<div class="product">
+					<div class="product" id="cocks">
 						<div class="product-img">
-							<img src="../img/tas.jpg" alt="">
+							<img src="../img/cocks.jpg" alt="">
 						</div>
 
 						<div class="product-body">
 							<p class="product-category">Category</p>
-							<h3 class="product-name"><a href="#">bags</a></h3>
-							<div class="product-rating">
+							<h3 class="product-name">Shuttlecocks</h3>
+							<!-- <div class="product-rating">
 								<i class="fa fa-star"></i>
 								<i class="fa fa-star"></i>
 								<i class="fa fa-star"></i>
 								<i class="fa fa-star"></i>
 								<i class="fa fa-star"></i>
-							</div>
+							</div> -->
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3 col-xs-6">
+					<div class="product" id="nets">
+						<div class="product-img">
+							<img src="../img/nets.jpg" alt="">
+						</div>
+
+						<div class="product-body">
+							<p class="product-category">Category</p>
+							<h3 class="product-name">Nets</h3>
+							<!-- <div class="product-rating">
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+							</div> -->
 						</div>
 					</div>
 				</div>
@@ -198,6 +199,22 @@
 	<script src="js/nouislider.min.js"></script>
 	<script src="js/jquery.zoom.min.js"></script>
 	<script src="js/main.js"></script>
+	<script>
+		$(() => {
+			$("#rackets").on("click", function() {
+				window.location.href='search.php?keyword=Rackets';
+			});
+			$("#shoes").on("click", function() {
+				window.location.href='search.php?keyword=Shoes';
+			});
+			$("#cocks").on("click", function() {
+				window.location.href='search.php?keyword=Shuttlecocks';
+			});
+			$("#nets").on("click", function() {
+				window.location.href='search.php?keyword=Nets';
+			});
+		});
+	</script>
 </body>
 
 </html>
