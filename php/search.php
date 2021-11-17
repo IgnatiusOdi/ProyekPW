@@ -5,23 +5,7 @@
 
     if (isset($_REQUEST['keyword'])) {
         $keyword = $_GET["keyword"];
-    }
-
-    $kategori = $conn -> query("SELECT * FROM kategori WHERE nama_kategori LIKE '%$keyword%'") -> fetch_all(MYSQLI_ASSOC);
-
-    $listBarang = $conn -> query("SELECT * FROM barang") -> fetch_all(MYSQLI_ASSOC);
-
-    if (isset($_REQUEST['keyword'])) {
-        $idKategori = $kategori[0]['id_kategori'];
-        $listBarang = $conn -> query("SELECT * FROM barang WHERE id_kategori=$idKategori") -> fetch_all(MYSQLI_ASSOC);
-    }
-
-    foreach ($listBarang as $key => $value) {
-        if (isset($_REQUEST["barang-".$value['id_barang']])) {
-            echo "<script>alert('CLICKED')</script>";
-            // $_SESSION['barang'] = $key;
-            // header("Location: barang.php?id_barang=".$value['id_barang']);
-        }
+        $listBarang = $conn -> query("SELECT * FROM barang WHERE nama_barang LIKE '%$keyword%' OR id_kategori in (SELECT id_kategori FROM kategori WHERE nama_kategori LIKE '%$keyword%')") -> fetch_all(MYSQLI_ASSOC);
     }
 ?>
 
@@ -32,7 +16,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Badminton Kuy</title>
+    <title>Search</title>
     <!-- <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="../css/bootstrap.min.css" />
     <link type="text/css" rel="stylesheet" href="../css/slick.css" />
@@ -42,22 +26,30 @@
     <link type="text/css" rel="stylesheet" href="../css/style.css" /> -->
 
     <link rel="stylesheet" href="../css/search.css">
+    <script src="../js/jquery.min.js"></script>
 </head>
 
 <body>
 
     <div class="header">
         <a href="home.php">Back To Home</a>
+        <a href="cart.php">Cart</a>
+        <a href="history.php">History</a>
     </div>
 
-    <h1>Keyword "<?=$keyword?>"</h1>
-    <input type="search" name="search" id="search">
+    <input type="search" id="search">
+    <button onclick="search();">Search</button>
+    <?php
+        if (isset($_REQUEST['keyword'])) {
+            echo "<h1 id='keyword'>Keyword '".$keyword."'</h1>";
+        }
+    ?>
     <form action="" method="post">
         <div class="content">
             <?php
-                foreach($listBarang as $key => $value) {        
+                foreach($listBarang as $key => $value) {
             ?>
-                <div class="card" name="barang-<?=$value['id_barang']?>">
+                <div class="card" name=<?=$value['id_barang']?> onclick=detail(<?=$value['id_barang']?>)>
                     <img src=<?=$value['foto_barang']?>>
                     <h3><?=$value['nama_barang']?></h3>
                     <div>Rp. <?=number_format($value['harga_barang'],0,'','.')?>,-</div>
@@ -170,6 +162,28 @@
     <script src="js/nouislider.min.js"></script>
     <script src="js/jquery.zoom.min.js"></script>
     <script src="js/main.js"></script> -->
+    <script>
+        function search(){
+            $keyword = $("#search").val();
+            $.ajax({
+                type:"GET",
+                url:"./controller.php",
+                data:{
+                    "action":"search",
+                    "keyword":$keyword
+                },
+                success:function(response){
+                    $("#keyword").html("Keyword '" + $keyword + "'");
+                    $(".content").html(response);
+                    location.href = "search.php?keyword="+$keyword;
+                }
+            });
+        }
+
+        function detail(id){
+            location.href = 'barang.php?id_barang='+id;
+        }
+    </script>
 </body>
 
 </html>

@@ -30,7 +30,7 @@
                         echo "<script>alert('Password Salah!')</script>";
                     } else {
                         $_SESSION['user'] = $index;
-                        header("Location: kodesearch.php");
+                        header("Location: home.php");
                     }
                 }
             }

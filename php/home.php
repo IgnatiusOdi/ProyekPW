@@ -1,3 +1,12 @@
+<?php
+	require_once('connection.php');
+
+	if (isset($_REQUEST['logout'])) {
+		unset($_SESSION['user']);
+		header("Location: home.php");
+	}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,7 +14,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Idk judul</title>
+	<title>Badminton Kuy</title>
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
 	<link type="text/css" rel="stylesheet" href="../css/bootstrap.min.css" />
 	<link type="text/css" rel="stylesheet" href="../css/slick.css" />
@@ -43,7 +52,15 @@
 					</div>
 				</div>
 				<div class="col-md-3 clearfix">
-					<button class="btn"><a href="login.php">Sign in</a></button>
+					<form action="" method="post">
+						<?php
+							if (isset($_SESSION['user'])) {
+								echo "<button class='btn' name='logout'>Logout</button>";
+							} else {
+								echo "<button class='btn'><a href='login.php'>Sign in</a></button>";
+							}
+						?>
+					</form>
 				</div>
 			</div>
 		</div>
