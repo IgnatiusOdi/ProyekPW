@@ -6,7 +6,7 @@
 		header("Location: home.php");
 	}
 	if (isset($_POST['catalogg'])) {
-		header("Location: catalog.php");
+		header("Location: kodesearch.php");
 	}
 ?>
 
