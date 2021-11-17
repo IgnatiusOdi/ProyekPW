@@ -5,6 +5,9 @@
 		unset($_SESSION['user']);
 		header("Location: home.php");
 	}
+	if (isset($_POST['catalogg'])) {
+		header("Location: catalog.php");
+	}
 ?>
 
 <!DOCTYPE html>
@@ -69,7 +72,10 @@
 	
 	<div class="section" style=" background-image: url(../img/catalog.jpg); background-size: cover; background-repeat: no-repeat; height: 700px; display: flex; align-items: center; justify-content:center;" >
 		<div class="row" style=" width: 100%; height: 300px;  display: flex; align-items: center; justify-content:center; " >
-			<button style="padding: 10px;  background-color: transparent; "> <h1 style="color: grey;">Catalog</h1></button>
+		<form action="" method="POST" >
+			<button name="catalogg" style="padding: 10px;  background-color: transparent; "> <h1 style="color: grey;">Catalog</h1></button>
+		</form>
+			
 		</div>
 	</div>
 
