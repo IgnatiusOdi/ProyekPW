@@ -49,6 +49,12 @@
 		</div>
 	</div>
 	</header>
+	
+	<div class="section" style=" background-image: url(../img/catalog.jpg); background-size: cover; background-repeat: no-repeat; height: 700px; display: flex; align-items: center; justify-content:center;" >
+		<div class="row" style=" width: 100%; height: 300px;  display: flex; align-items: center; justify-content:center; " >
+			<button style="padding: 10px;  background-color: transparent; "> <h1 style="color: grey;">Catalog</h1></button>
+		</div>
+	</div>
 
 	<div class="section">
 		<!-- container -->
@@ -183,7 +189,7 @@
 						<div class="col-md-12 text-center">
 							<span class="copyright" style="color: white;">
 								<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-								Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made by odi and airlangga
+								Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made by Colorlib
 							<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 							</span>
 						</div>
