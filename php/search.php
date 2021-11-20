@@ -27,187 +27,91 @@ if (isset($_REQUEST['keyword'])) {
 
     <link rel="stylesheet" href="../css/search.css">
     <script src="../js/jquery.min.js"></script>
-    <style>
-        .topnav {
-            background-color: #333;
-            overflow: hidden;
-            display: flex;
-            /* margin-left: 100px; */
-        }
 
 
-        .topnav .a a {
-            justify-content: center;
-            margin-right: 10px;
-            float: left;
-            color: #f2f2f2;
-            text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
-            font-size: 17px;
-        }
 
-        .topnav div {
-            margin-left: 270px;
-            display: flex;
-        }
-
-        .b{
-            padding-top:10px ;
-            
-        }
-        .b input[type=search] {
-            border: 1px solid #ccc;
-            height: 30px;
-            width: 200px;
-            border-radius: 5px;
-        }
-        .b button{
-            height: 30px;
-            width: 70px;
-            border-radius: 5px;
-        }
-        .topnav a:hover {
-            background-color: #ddd;
-            color: black;
-        }
-    </style>
 </head>
 
 <body>
 
-    <div class="topnav">
-        <div>
-            <div class="a">
-                <a href="home.php">Back To Home</a>
-                <a href="cart.php">Cart</a>
-                <a href="history.php">History</a>
+    <section>
+
+        <div class="topnav">
+            <div>
+                <div class="a">
+                    <a href="home.php">Back To Home</a>
+                    <a href="cart.php">Cart</a>
+                    <a href="history.php">History</a>
+                </div>
+
+                <div class="c">
+                    <a href="search.php?keyword=Rackets" id="Rackets">Rackets</a>
+                    <a href="search.php?keyword=Shoes" id="Shoes">Shoes</a>
+                    <a href="search.php?keyword=Shuttlecocks" id="cocks">Shuttlecocks</a>
+                    <a href="search.php?keyword=Nets" id="nets">Nets</a>
+                </div>
+
+                <div class="b">
+                    <input type="search" id="search">
+                    <button onclick="search();">Search</button>
+                </div>
             </div>
 
-            <div class="b">
-                <input type="search" id="search">
-                <button onclick="search();">Search</button>
+        </div>
+
+
+        <?php
+        if (isset($_REQUEST['keyword'])) {
+            // echo "<h1 id='keyword'>Keyword '" . $keyword . "'</h1>";
+        }
+        ?>
+
+        <div class="isi">
+            <form action="" method="post">
+                <div class="content" style="width: 100%; height: 50%;">
+                    <?php
+                    foreach ($listBarang as $key => $value) {
+                    ?>
+                        <div class="card col" name=<?= $value['id_barang'] ?> onclick=detail(<?= $value['id_barang'] ?>)>
+                            <img src=<?= $value['foto_barang'] ?>>
+                            <h3 style="text-align: center;"><?= $value['nama_barang'] ?></h3>
+                            <div style="margin-bottom: 10px;">Rp. <?= number_format($value['harga_barang'], 0, '', '.') ?>,-</div>
+                            <div style="margin-bottom: 10px;">Stok : <?= number_format($value['stok_barang'], 0, '', '.') ?> </div>
+                            <button style="margin-bottom: 10px;">Add to Cart</button>
+                        </div>
+                    <?php
+                    }
+                    ?>
+                </div>
+            </form>
+            <div class="page">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                        </li>
+                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
+            
         </div>
 
-    </div>
 
 
-    <?php
-    if (isset($_REQUEST['keyword'])) {
-        echo "<h1 id='keyword'>Keyword '" . $keyword . "'</h1>";
-    }
-    ?>
-    <form action="" method="post">
-        <div class="content">
-            <?php
-            foreach ($listBarang as $key => $value) {
-            ?>
-                <div class="card" name=<?= $value['id_barang'] ?> onclick=detail(<?= $value['id_barang'] ?>)>
-                    <img src=<?= $value['foto_barang'] ?>>
-                    <h3><?= $value['nama_barang'] ?></h3>
-                    <div>Rp. <?= number_format($value['harga_barang'], 0, '', '.') ?>,-</div>
-                </div>
-            <?php
-            }
-            ?>
-        </div>
-    </form>
 
-    <!-- <div class="section">
-      
-        <div class="container">
-          
-            <div class="row">
-               
-                <div class="col-md-3 col-xs-6">
-                    <div class="product">
-                        <div class="product-img">
-                            <img src="../img/rakett.jpg" alt="">
-                        </div>
-                        <div class="product-body">
-                            <p class="product-category">Category</p>
-                            <h3 class="product-name"><a href="#">Racket</a></h3>
-                            <div class="product-rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            
-                            <div>stok barang :</div>
-                        </div>
-                       
-
-                    </div>
-                </div>
-               
-                <div class="col-md-3 col-xs-6">
-                    <div class="product">
-                        <div class="product-img">
-                            <img src="../img/baju.jpg" alt="">
-                        </div>
-                        <div class="product-body">
-                            <p class="product-category">Category</p>
-                            <h3 class="product-name"><a href="#">Clothes</a></h3>
-                            <div class="product-rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-3 col-xs-6">
-                    <div class="product">
-                        <div class="product-img">
-                            <img src="../img/sepatu.jpg" alt="">
-                        </div>
-                        <div class="product-body">
-                            <p class="product-category">Category</p>
-                            <h3 class="product-name"><a href="#">Shoes</a></h3>
-                            <div class="product-rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-3 col-xs-6">
-                    <div class="product">
-                        <div class="product-img">
-                            <img src="../img/tas.jpg" alt="">
-                        </div>
-                        <div class="product-body">
-                            <p class="product-category">Category</p>
-                            <h3 class="product-name"><a href="#">bags</a></h3>
-                            <div class="product-rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
-    <!-- shop -->
-
-    <!-- </div> -->
-    <!-- /row -->
-    <!-- </div> -->
-    <!-- /container -->
-    <!-- </div> -->
-
-
+    </section>
 
 
     <!-- <script src="js/jquery.min.js"></script>

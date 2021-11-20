@@ -1,13 +1,13 @@
 <?php
-	require_once('connection.php');
+require_once('connection.php');
 
-	if (isset($_REQUEST['logout'])) {
-		unset($_SESSION['user']);
-		header("Location: home.php");
-	}
-	if (isset($_POST['catalogg'])) {
-		header("Location: search.php");
-	}
+if (isset($_REQUEST['logout'])) {
+	unset($_SESSION['user']);
+	header("Location: home.php");
+}
+if (isset($_POST['catalogg'])) {
+	header("Location: search.php");
+}
 ?>
 
 <!DOCTYPE html>
@@ -38,12 +38,12 @@
 							<img style="margin-left: 22px;" src="../img/logo.jpg" alt="hai">
 						</a>
 					</div>
-					
+
 					<div class="kata " style="color: white; font-size: 20px;">
 						Badminton Kuy
 					</div>
 				</div>
-				
+
 				<div class="col-md-6" style="margin-top: 20px;">
 					<div class="header-search">
 						<form>
@@ -63,11 +63,11 @@
 				<div class="" style="margin-top: 20px; margin-left: 1000px;">
 					<form action="" method="post">
 						<?php
-							if (isset($_SESSION['user'])) {
-								echo "<button class='btn' name='logout'>Logout</button>";
-							} else {
-								echo "<button class='btn'><a href='login.php'>Sign in</a></button>";
-							}
+						if (isset($_SESSION['user'])) {
+							echo "<button class='btn' name='logout'>Logout</button>";
+						} else {
+							echo "<button class='btn'><a href='login.php'>Sign in</a></button>";
+						}
 						?>
 					</form>
 				</div>
@@ -75,13 +75,19 @@
 		</div>
 	</div>
 	</header>
-	
-	<div class="section" style=" background-image: url(../img/catalog.jpg); background-size: cover; background-repeat: no-repeat; height: 700px; display: flex; align-items: center; justify-content:center;" >
-		<div class="row" style=" width: 100%; height: 300px;  display: flex; align-items: center; justify-content:center; " >
-		<form action="" method="POST" >
-			<button name="catalogg" style="padding: 10px;  background-color: transparent; "> <h1 style="color: grey;">Catalog</h1></button>
-		</form>
-			
+
+	<div class="section" style=" background-image: url(../img/catalog.jpg); background-size: cover; background-repeat: no-repeat; height: 700px; display: flex; align-items: center; justify-content:center;">
+		<div class="row" style=" width: 100%; height: 100px;  display: flex; margin-left: 200px; ">
+			<div class="col-" style="font-weight: 500; color: white; margin-top: -200px; font-size: 50px;">
+				<span>MAKE YOU </span>
+				<br>
+				<span>BE THE CHAMPION</span>
+			</div>
+
+			<form action="" method="POST">
+				<button name="catalogg" style="border-radius: 10px; padding: 10px; margin-left: -500px; background-color: transparent; border: 4px solid white;"> <span style="color: white;font-weight: 500; text-transform: uppercase; font-size: 20px;">Shop Now</span></button>
+			</form>
+
 		</div>
 	</div>
 
@@ -207,26 +213,28 @@
 			</ul>
 		</div>
 	</section>
-<br><br><br><br><br>
+	<br><br><br><br><br>
 
 	<footer>
 		<!-- bottom footer -->
 		<div id="bottom-footer" class="section">
-				<div class="container">
-					<!-- row -->
-					<div class="row">
-						<div class="col-md-12 text-center">
-							<span class="copyright" style="color: white;">
-								<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-								Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved 
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+					<div class="col-md-12 text-center">
+						<span class="copyright" style="color: white;">
 							<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-							</span>
-						</div>
+							Copyright &copy;<script>
+								document.write(new Date().getFullYear());
+							</script> All rights reserved
+							<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+						</span>
 					</div>
-						<!-- /row -->
 				</div>
-				<!-- /container -->
+				<!-- /row -->
 			</div>
+			<!-- /container -->
+		</div>
 	</footer>
 	<script src="js/jquery.min.js"></script>
 	<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js"></script> -->
@@ -238,16 +246,16 @@
 	<script>
 		$(() => {
 			$("#rackets").on("click", function() {
-				window.location.href='search.php?keyword=Rackets';
+				window.location.href = 'search.php?keyword=Rackets';
 			});
 			$("#shoes").on("click", function() {
-				window.location.href='search.php?keyword=Shoes';
+				window.location.href = 'search.php?keyword=Shoes';
 			});
 			$("#cocks").on("click", function() {
-				window.location.href='search.php?keyword=Shuttlecocks';
+				window.location.href = 'search.php?keyword=Shuttlecocks';
 			});
 			$("#nets").on("click", function() {
-				window.location.href='search.php?keyword=Nets';
+				window.location.href = 'search.php?keyword=Nets';
 			});
 		});
 	</script>
