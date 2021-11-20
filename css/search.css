@@ -26,11 +26,13 @@ section{
     background-color: white;
     width: 253px;
     border: 1px solid black;
+    cursor: pointer;
 }
 
-/* .card:hover{
+.card:hover{
     opacity: 0.5;
-} */
+    
+}
 
 .topnav {
     background-color: #333;
