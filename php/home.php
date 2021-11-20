@@ -33,13 +33,18 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-md-3">
-					<div class="header-logo">
+					<div class="header-logo col-md-12">
 						<a href="#" class="logo">
-							<img src="../img/logo.jpg" alt="hai">
+							<img style="margin-left: 22px;" src="../img/logo.jpg" alt="hai">
 						</a>
 					</div>
+					
+					<div class="kata " style="color: white; font-size: 20px;">
+						Badminton Kuy
+					</div>
 				</div>
-				<div class="col-md-6">
+				
+				<div class="col-md-6" style="margin-top: 20px;">
 					<div class="header-search">
 						<form>
 							<select class="input-select">
@@ -54,7 +59,8 @@
 						</form>
 					</div>
 				</div>
-				<div class="col-md-3 clearfix">
+
+				<div class="" style="margin-top: 20px; margin-left: 1000px;">
 					<form action="" method="post">
 						<?php
 							if (isset($_SESSION['user'])) {
@@ -223,6 +229,7 @@
 			</div>
 	</footer>
 	<script src="js/jquery.min.js"></script>
+	<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js"></script> -->
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/slick.min.js"></script>
 	<script src="js/nouislider.min.js"></script>
