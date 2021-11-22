@@ -1,6 +1,10 @@
 <?php
     require_once('connection.php');
 
+    if (!isset($_SESSION['user'])) {
+        header("Location: login.php");
+    }
+
     $idUser = $_SESSION['user'] + 1;
     $listCart = $conn -> query("SELECT * FROM cart WHERE id_users='$idUser'") -> fetch_all(MYSQLI_ASSOC);
     $hargaTotal = 0;
