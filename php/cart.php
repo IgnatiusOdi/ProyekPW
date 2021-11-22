@@ -6,7 +6,7 @@
     }
 
     $idUser = $_SESSION['user'] + 1;
-    $listCart = $conn -> query("SELECT * FROM cart WHERE id_users='$idUser'") -> fetch_all(MYSQLI_ASSOC);
+    $listCart = $conn -> query("SELECT * FROM cart WHERE id_users='$idUser' AND kondisi='1'") -> fetch_all(MYSQLI_ASSOC);
     $hargaTotal = 0;
 ?>
 

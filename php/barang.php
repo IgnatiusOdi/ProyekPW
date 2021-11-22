@@ -1,32 +1,26 @@
 <?php
-require_once('connection.php');
+    require_once('connection.php');
 
-$barangNow = $listBarang[$_REQUEST['id_barang']];
+    $barangNow = $listBarang[$_REQUEST['id_barang']];
 
-$keyword = "";
+    if (isset($_REQUEST['addToCart'])) {
+        if (!isset($_SESSION['user'])) {
+            header("Location: login.php");
+        } else {
+            $idUser = $_SESSION['user'] + 1;
+            $idBarang = $barangNow['id_barang'];
+            $jumlahOrder = $_REQUEST['order'];
+            $kondisi = 1;
 
-if (isset($_REQUEST['keyword'])) {
-    $keyword = $_GET["keyword"];
-    $listBarang = $conn->query("SELECT * FROM barang WHERE nama_barang LIKE '%$keyword%' OR id_kategori in (SELECT id_kategori FROM kategori WHERE nama_kategori LIKE '%$keyword%')")->fetch_all(MYSQLI_ASSOC);
-}
+            //TAMBAHKAN KE CART
+            $sql = "INSERT INTO `cart`(`id_users`, `id_barang`, `jumlah`, `kondisi`) VALUES (?,?,?,?)";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("iiii", $idUser, $idBarang, $jumlahOrder, $kondisi);
+            $stmt->execute();
 
-if (isset($_REQUEST['addToCart'])) {
-    if (!isset($_SESSION['user'])) {
-        header("Location: login.php");
-    } else {
-        $idUser = $_SESSION['user'] + 1;
-        $idBarang = $barangNow['id_barang'];
-        $jumlahOrder = $_REQUEST['order'];
-
-        //TAMBAHKAN KE CART
-        $sql = "INSERT INTO `cart`(`id_users`, `id_barang`, `jumlah`) VALUES (?,?,?)";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("iii", $idUser, $idBarang, $jumlahOrder);
-        $stmt->execute();
-
-        header("Location: cart.php");
+            header("Location: cart.php");
+        }
     }
-}
 ?>
 
 <!DOCTYPE html>
@@ -44,6 +38,7 @@ if (isset($_REQUEST['addToCart'])) {
     <link type="text/css" rel="stylesheet" href="../css/nouislider.min.css" />
     <link rel="stylesheet" href="../css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
+    <script src="../js/jquery.min.js"></script>
 </head>
 
 <body>
@@ -52,17 +47,11 @@ if (isset($_REQUEST['addToCart'])) {
             <div class="a">
                 <a href="search.php">Back</a>
                 <a href="cart.php">Cart</a>
+                <a href="history.php">History</a>
             </div>
 
-            <!-- <div class="c">
-                <a href="search.php?keyword=Rackets" id="Rackets">Rackets</a>
-                <a href="search.php?keyword=Shoes" id="Shoes">Shoes</a>
-                <a href="search.php?keyword=Shuttlecocks" id="cocks">Shuttlecocks</a>
-                <a href="search.php?keyword=Nets" id="nets">Nets</a>
-            </div> -->
-
             <div class="b">
-                <input type="search" id="search">
+                <input type="search" id="search" placeholder="Nama Item">
                 <button onclick="search();">Search</button>
             </div>
         </div>
@@ -92,41 +81,22 @@ if (isset($_REQUEST['addToCart'])) {
             <br>
             <div class="cart" style="display: flex;">
                 <form action="" method="post">
-                    <input type="number" name="order" value="1" min="1" max="<?= $barangNow['stok_barang'] ?>">
-                    <button class="btn" name="addToCart">Add to Cart</button>
+                    <input type="number" name="order" value="<?= $barangNow['stok_barang'] >= 1 ? 1 : 0 ?>" min="<?= $barangNow['stok_barang'] >= 1 ? 1 : 0 ?>" max="<?= $barangNow['stok_barang'] ?>">
+                    <?php
+                        if ($barangNow['stok_barang'] >= 1)
+                            echo "<button class='btn' name='addToCart'>Add to Cart</button>";
+                        else
+                            echo "<button class='btn' name='addToCart' disabled>Add to Cart</button>";
+                    ?>
                 </form>
             </div>
         </div>
     </div>
 
-    <!-- <div class="container">
-        <img src=<?= $barangNow['foto_barang'] ?>>
-        <h1><?= $barangNow['nama_barang'] ?></h1>
-        <div><?= $barangNow['desc_barang'] ?></div>
-        <div>Rp. <?= number_format($barangNow['harga_barang'], 0, '', '.') ?>,-</div>
-        <div>Sisa stok: <?= $barangNow['stok_barang'] ?></div>
-        <form action="" method="post">
-            <input type="number" name="order" value="1" min="1" max="<?= $barangNow['stok_barang'] ?>"><br>
-            <button name="addToCart">Add to Cart</button>
-        </form>
-    </div> -->
-
     <script>
         function search() {
-            $keyword = $("#search").val();
-            $.ajax({
-                type: "GET",
-                url: "./controller.php",
-                data: {
-                    "action": "search",
-                    "keyword": $keyword
-                },
-                success: function(response) {
-                    $("#keyword").html("Keyword '" + $keyword + "'");
-                    $(".content").html(response);
-                    location.href = "search.php?keyword=" + $keyword;
-                }
-            });
+            $itemname = $("#search").val();
+            location.href = "search.php?itemname=" + $itemname;
         }
     </script>
 

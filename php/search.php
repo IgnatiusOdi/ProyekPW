@@ -1,11 +1,21 @@
 <?php
 require_once("connection.php");
 
-$keyword = "";
+$category = "";
+$itemname = "";
 
-if (isset($_REQUEST['keyword'])) {
-    $keyword = $_GET["keyword"];
-    $listBarang = $conn->query("SELECT * FROM barang WHERE nama_barang LIKE '%$keyword%' OR id_kategori in (SELECT id_kategori FROM kategori WHERE nama_kategori LIKE '%$keyword%')")->fetch_all(MYSQLI_ASSOC);
+if (isset($_REQUEST['category'])) {
+    $category = $_GET['category'];
+    $listBarang = $conn -> query("SELECT * FROM barang WHERE id_kategori in (SELECT id_kategori FROM kategori WHERE nama_kategori LIKE '%$category%')") -> fetch_all(MYSQLI_ASSOC);
+}
+
+if (isset($_REQUEST['itemname'])) {
+    $itemname = $_GET['itemname'];
+    if (isset($_REQUEST['category'])) {
+        $listBarang = $conn -> query("SELECT * FROM barang WHERE nama_barang LIKE '%$itemname%' OR id_kategori in (SELECT id_kategori FROM kategori WHERE nama_kategori LIKE '%$category%')") -> fetch_all(MYSQLI_ASSOC);
+    } else {
+        $listBarang = $conn -> query("SELECT * FROM barang WHERE nama_barang LIKE '%$itemname%'") -> fetch_all(MYSQLI_ASSOC);
+    }
 }
 ?>
 
@@ -27,9 +37,6 @@ if (isset($_REQUEST['keyword'])) {
 
     <link rel="stylesheet" href="../css/search.css">
     <script src="../js/jquery.min.js"></script>
-
-
-
 </head>
 
 <body>
@@ -45,26 +52,19 @@ if (isset($_REQUEST['keyword'])) {
                 </div>
 
                 <div class="c">
-                    <a href="search.php?keyword=Rackets" id="Rackets">Rackets</a>
-                    <a href="search.php?keyword=Shoes" id="Shoes">Shoes</a>
-                    <a href="search.php?keyword=Shuttlecocks" id="cocks">Shuttlecocks</a>
-                    <a href="search.php?keyword=Nets" id="nets">Nets</a>
+                    <a href="search.php?category=Rackets" id="Rackets">Rackets</a>
+                    <a href="search.php?category=Shoes" id="Shoes">Shoes</a>
+                    <a href="search.php?category=Shuttlecocks" id="Cocks">Shuttlecocks</a>
+                    <a href="search.php?category=Nets" id="Nets">Nets</a>
                 </div>
 
                 <div class="b">
                     <input type="search" id="search">
-                    <button onclick="search();">Search</button>
+                    <button onclick="search(<?=$category?>);">Search</button>
                 </div>
             </div>
 
         </div>
-
-
-        <?php
-        if (isset($_REQUEST['keyword'])) {
-            // echo "<h1 id='keyword'>Keyword '" . $keyword . "'</h1>";
-        }
-        ?>
 
         <div class="isi">
             <form action="" method="post">
@@ -72,7 +72,7 @@ if (isset($_REQUEST['keyword'])) {
                     <?php
                     foreach ($listBarang as $key => $value) {
                     ?>
-                        <div class="card col" name=<?= $value['id_barang'] ?> onclick=detail(<?= $value['id_barang'] ?>)>
+                        <div class="card col" onclick=detail(<?= $value['id_barang'] ?>)>
                             <img src=<?= $value['foto_barang'] ?>>
                             <h3 style="text-align: center;"><?= $value['nama_barang'] ?></h3>
                             <div style="margin-bottom: 10px;">Rp. <?= number_format($value['harga_barang'], 0, '', '.') ?>,-</div>
@@ -121,25 +121,27 @@ if (isset($_REQUEST['keyword'])) {
     <script src="js/jquery.zoom.min.js"></script>
     <script src="js/main.js"></script> -->
     <script>
-        function search() {
-            $keyword = $("#search").val();
-            $.ajax({
-                type: "GET",
-                url: "./controller.php",
-                data: {
-                    "action": "search",
-                    "keyword": $keyword
-                },
-                success: function(response) {
-                    $("#keyword").html("Keyword '" + $keyword + "'");
-                    $(".content").html(response);
-                    location.href = "search.php?keyword=" + $keyword;
+        function search(category) {
+            $itemname = $("#search").val();
+            let newLocation = "";
+        
+            if (category != undefined) {
+                newLocation += "?category=" + category;
+            }
+
+            if ($itemname != "") {
+                if (category != undefined) {
+                    newLocation += "&";
+                } else {
+                    newLocation += "?";
                 }
-            });
+                newLocation += "itemname=" + $itemname;
+            }
+            window.location.pathname += newLocation;
         }
 
         function detail(id) {
-            location.href = 'barang.php?id_barang=' + id;
+            location.href = 'barang.php?id_barang=' + (id-1);
         }
     </script>
 </body>
