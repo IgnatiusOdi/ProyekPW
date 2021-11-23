@@ -22,20 +22,51 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cart</title>
     <script src="../js/jquery.min.js"></script>
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+        }
+        .header a {
+            justify-content: center;
+            margin-right: 10px;
+            float: left;
+            color: #f2f2f2;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            font-size: 17px;
+        }
+
+        .header {
+            background-color: #333;
+            overflow: hidden;
+            display: flex;
+            position: sticky;
+            /* margin-left: 100px; */
+        }
+    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </head>
+
 <body>
     <div class="header">
         <a href="home.php">Home</a>
         <a href="search.php">Search</a>
         <a href="history.php">History</a>
     </div>
-    <table border=1>
+
+    <!-- <br> -->
+
+    <table class="table" border=1>
         <tr>
             <td>No.</td>
             <td>Nama Barang</td>
@@ -59,8 +90,9 @@
             ?>
         </div>
     </table>
-    <h3>Total: Rp. <?=number_format($hargaTotal,0,'','.')?>,-</h3>
-    <button>Checkout</button>
+    <h3 style="float: right;">Total: Rp. <?=number_format($hargaTotal,0,'','.')?>,-</h3>
+    <br><br>
+    <button style="float: right;" class="btn btn-primary">Checkout</button>
 
     <script>
         function delete(id) {
@@ -78,4 +110,5 @@
         }
     </script>
 </body>
+
 </html>
