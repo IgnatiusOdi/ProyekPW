@@ -29,7 +29,7 @@ section{
     cursor: pointer;
 }
 
-.card:hover{
+.card img:hover{
     opacity: 0.5;
     
 }

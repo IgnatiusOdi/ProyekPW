@@ -35,16 +35,16 @@ if (isset($_POST['catalogg'])) {
 				<div class="col-md-3">
 					<div class="header-logo col-md-12">
 						<a href="#" class="logo">
-							<img style="margin-left: 22px;" src="../img/logo.jpg" alt="hai">
+							<img style="margin-left: 0px; margin-top: 10px; width: 100%;" src="../img/truelogo.png" alt="hai">
 						</a>
 					</div>
 
-					<div class="kata " style="color: white; font-size: 20px;">
+					<!-- <div class="kata " style="color: white; font-size: 20px;">
 						Badminton Kuy
-					</div>
+					</div> -->
 				</div>
 
-				<div class="col-md-6" style="margin-top: 20px;">
+				<div class="col-md-6" style="margin-top: 17px; margin-left: 20px;">
 					<div class="header-search">
 						<form>
 							<select class="input-select">
@@ -60,7 +60,7 @@ if (isset($_POST['catalogg'])) {
 					</div>
 				</div>
 
-				<div class="" style="margin-top: 20px; margin-left: 1000px;">
+				<div class="" style="margin-top: 17px; margin-left: 1000px;">
 					<form action="" method="post">
 						<?php
 						if (isset($_SESSION['user'])) {
