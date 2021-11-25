@@ -132,21 +132,6 @@
                 return false;
             return true;
         }
-
-        function search() {
-            keyword = $("#keyword").val();
-            $.ajax({
-                type:"get",
-                url:"./controller.php",
-                data:{
-                    'action':'searchAdmin',
-                    'keyword':keyword
-                },
-                success:function(response){
-                    $("#container").html(response);
-                }
-            });
-        }
     </script>
 </body>
 </html>

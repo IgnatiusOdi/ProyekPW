@@ -3,11 +3,13 @@
 
     if (isset($_REQUEST['category'])) {
         $category = $_REQUEST['category'];
+        $_SESSION['category'] = $category;
         $listBarang = $conn -> query("SELECT * FROM barang WHERE id_kategori in (SELECT id_kategori FROM kategori WHERE nama_kategori LIKE '%$category%')") -> fetch_all(MYSQLI_ASSOC);
     }
 
     if (isset($_REQUEST['itemname'])) {
         $itemname = $_REQUEST['itemname'];
+        $_SESSION['itemname'] = $itemname;
         
         if ($itemname != "") {
             if (isset($_REQUEST['category'])) {
@@ -18,14 +20,54 @@
         }
     }
 
+    $dataPerHalaman = 8;
+    $totalData = count($listBarang);
+    $totalHalaman = ceil($totalData/$dataPerHalaman);
+    $pageAktif = isset($_REQUEST['page']) ? $_REQUEST['page'] : 1;
+    $start = ( $dataPerHalaman * $pageAktif ) - $dataPerHalaman;
+
+    $jumlahTampil = 1;
+    if ($pageAktif > $jumlahTampil) {
+        $start_num = $pageAktif - $jumlahTampil;
+    } else {
+        $start_num = 1;
+    }
+    if ($pageAktif < ($totalHalaman - $jumlahTampil)) {
+        $end_num = $pageAktif + $jumlahTampil;
+    } else {
+        $end_num = $totalHalaman;
+    }
+
+    $listBarang = $conn -> query("SELECT * FROM barang LIMIT $start, $dataPerHalaman") -> fetch_all(MYSQLI_ASSOC);
+
+    if (isset($_REQUEST['category'])) {
+        $category = $_REQUEST['category'];
+        $_SESSION['category'] = $category;
+        $listBarang = $conn -> query("SELECT * FROM barang WHERE id_kategori in (SELECT id_kategori FROM kategori WHERE nama_kategori LIKE '%$category%') LIMIT $start, $dataPerHalaman") -> fetch_all(MYSQLI_ASSOC);
+    }
+
+    if (isset($_REQUEST['itemname'])) {
+        $itemname = $_REQUEST['itemname'];
+        $_SESSION['itemname'] = $itemname;
+        
+        if ($itemname != "") {
+            if (isset($_REQUEST['category'])) {
+                $listBarang = $conn -> query("SELECT * FROM barang WHERE nama_barang LIKE '%$itemname%' AND id_kategori in (SELECT id_kategori FROM kategori WHERE nama_kategori LIKE '%$category%') LIMIT $start, $dataPerHalaman") -> fetch_all(MYSQLI_ASSOC);
+            } else {
+                $listBarang = $conn -> query("SELECT * FROM barang WHERE nama_barang LIKE '%$itemname%' LIMIT $start, $dataPerHalaman") -> fetch_all(MYSQLI_ASSOC);
+            }
+        }
+    }
+
     if (isset($_REQUEST['search'])) {
         $itemname = $_REQUEST['itemname'];
+        $_SESSION['itemname'] = $itemname;
 
         if (isset($_REQUEST['category'])) {
             $category = $_REQUEST['category'];
-            header("Location: search.php?category=".$category."&itemname=".$itemname);
+            header("Location: ?page=1&category=".$category."&itemname=".$itemname);
         } else {
-            header("Location: search.php?itemname=$itemname");
+            header("Location: ?page=1&itemname=$itemname");
         }
     }
 
@@ -110,15 +152,15 @@
                 </div>
 
                 <div class="c ">
-                    <a href="search.php?category=Rackets" id="Rackets">Rackets</a>
-                    <a href="search.php?category=Shoes" id="Shoes">Shoes</a>
-                    <a href="search.php?category=Shuttlecocks" id="Cocks">Shuttlecocks</a>
-                    <a href="search.php?category=Nets" id="Nets">Nets</a>
+                    <a href="?page=1&category=Rackets<?=(isset($_SESSION['itemname'])) ? '&itemname='.$_SESSION['itemname'] : '';?>" id="Rackets">Rackets</a>
+                    <a href="?page=1&category=Shoes<?=(isset($_SESSION['itemname'])) ? '&itemname='.$_SESSION['itemname'] : '';?>" id="Shoes">Shoes</a>
+                    <a href="?page=1&category=Shuttlecocks<?=(isset($_SESSION['itemname'])) ? '&itemname='.$_SESSION['itemname'] : '';?>" id="Cocks">Shuttlecocks</a>
+                    <a href="?page=1&category=Nets<?=(isset($_SESSION['itemname'])) ? '&itemname='.$_SESSION['itemname'] : '';?>" id="Nets">Nets</a>
                 </div>
 
                 <div class="b">
                     <form action="" method="post">
-                        <input type="search" id="search" name="itemname" placeholder="Search Item Name">
+                        <input type="search" id="search" name="itemname" placeholder="Search Item Name" value='<?=$_SESSION['itemname']?>'>
                         <button name="search">Search</button>
                         <button onclick="location.href = 'search.php';">Clear</button>
                     </form>
@@ -153,21 +195,39 @@
             <div class="page">
                 <nav aria-label="Page navigation example">
                     <ul class="pagination">
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Previous">
-                                <span aria-hidden="true">&laquo;</span>
-                                <span class="sr-only">Previous</span>
-                            </a>
-                        </li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Next">
-                                <span aria-hidden="true">&raquo;</span>
-                                <span class="sr-only">Next</span>
-                            </a>
-                        </li>
+                        <?php
+                            if ($pageAktif > 1) {
+                        ?>
+                            <li class="page-item">
+                                <a class="page-link" href="?page=1<?=(isset($_SESSION['category'])) ? '&category='.$_SESSION['category']: '';?><?=(isset($_SESSION['itemname'])) ? '&itemname='.$_SESSION['itemname'] : '';?>" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                            </li>
+                        <?php
+                            }
+                            for ($i = $start_num; $i <= $end_num; $i++) {
+                                if ($i == $pageAktif) {
+                        ?>
+                            <li class="page-item"><a style="background-color: red;" class="page-link" href="?page=<?=$i?><?=(isset($_SESSION['category'])) ? '&category='.$_SESSION['category']: '';?><?=(isset($_SESSION['itemname'])) ? '&itemname='.$_SESSION['itemname'] : '';?>"><?=$i?></a></li>
+                        <?php
+                                } else {
+                        ?>
+                            <li class="page-item"><a class="page-link" href="?page=<?=$i?><?=(isset($_SESSION['category'])) ? '&category='.$_SESSION['category']: '';?><?=(isset($_SESSION['itemname'])) ? '&itemname='.$_SESSION['itemname'] : '';?>"><?=$i?></a></li>
+                        <?php
+                                }
+                            }
+                            if ($pageAktif < $totalHalaman) {
+                        ?>
+                            <li class="page-item">
+                                <a class="page-link" href="?page=<?=$totalHalaman?><?=(isset($_SESSION['category'])) ? '&category='.$_SESSION['category']: '';?><?=(isset($_SESSION['itemname'])) ? '&itemname='.$_SESSION['itemname'] : '';?>" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </li>
+                        <?php
+                            }
+                        ?>
                     </ul>
                 </nav>
             </div>
