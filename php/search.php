@@ -1,22 +1,38 @@
 <?php
-require_once("connection.php");
+    require_once('connection.php');
 
-$category = "";
-$itemname = "";
-
-if (isset($_REQUEST['category'])) {
-    $category = $_GET['category'];
-    $listBarang = $conn -> query("SELECT * FROM barang WHERE id_kategori in (SELECT id_kategori FROM kategori WHERE nama_kategori LIKE '%$category%')") -> fetch_all(MYSQLI_ASSOC);
-}
-
-if (isset($_REQUEST['itemname'])) {
-    $itemname = $_GET['itemname'];
     if (isset($_REQUEST['category'])) {
-        $listBarang = $conn -> query("SELECT * FROM barang WHERE nama_barang LIKE '%$itemname%' OR id_kategori in (SELECT id_kategori FROM kategori WHERE nama_kategori LIKE '%$category%')") -> fetch_all(MYSQLI_ASSOC);
-    } else {
-        $listBarang = $conn -> query("SELECT * FROM barang WHERE nama_barang LIKE '%$itemname%'") -> fetch_all(MYSQLI_ASSOC);
+        $category = $_REQUEST['category'];
+        $listBarang = $conn -> query("SELECT * FROM barang WHERE id_kategori in (SELECT id_kategori FROM kategori WHERE nama_kategori LIKE '%$category%')") -> fetch_all(MYSQLI_ASSOC);
     }
-}
+
+    foreach ($listBarang as $key => $value) {
+        if (isset($_REQUEST['addToCart-'.$value['id_barang']])) {
+            if (!isset($_SESSION['user'])) {
+                header("Location: login.php");
+            } else {
+                $idUser = $_SESSION['user'] + 1;
+                $idBarang = $value['id_barang'];
+                $jumlahOrder = 1;
+    
+                //TAMBAHKAN KE CART
+                $sql = "INSERT INTO `cart`(`id_users`, `id_barang`, `jumlah`) VALUES (?,?,?)";
+                $stmt = $conn->prepare($sql);
+                $stmt->bind_param("iii", $idUser, $idBarang, $jumlahOrder);
+                $stmt->execute();
+
+                //KURANGI STOK ITEM
+                $stokBarang = $value['stok_barang'];
+                $stokBaru = $stokBarang - $jumlahOrder;
+                $sql = "UPDATE `barang` SET `stok_barang`=? WHERE `id_barang`='$idBarang'";
+                $stmt = $conn->prepare($sql);
+                $stmt->bind_param("i", $stokBaru);
+                $stmt->execute();
+
+                header("Location: cart.php");
+            }
+        }
+    }
 ?>
 
 <!DOCTYPE html>
@@ -59,8 +75,9 @@ if (isset($_REQUEST['itemname'])) {
                 </div>
 
                 <div class="b">
-                    <input type="search" id="search">
+                    <input type="search" id="search" placeholder="Search Item Name">
                     <button onclick="search(<?=$category?>);">Search</button>
+                    <button onclick="location.href = 'search.php';">Clear</button>
                 </div>
             </div>
 
@@ -77,7 +94,12 @@ if (isset($_REQUEST['itemname'])) {
                             <h3 style="text-align: center;"><?= $value['nama_barang'] ?></h3>
                             <div style="margin-bottom: 10px;">Rp. <?= number_format($value['harga_barang'], 0, '', '.') ?>,-</div>
                             <div style="margin-bottom: 10px;">Stok : <?= number_format($value['stok_barang'], 0, '', '.') ?> </div>
-                            <button style="margin-bottom: 10px;">Add to Cart</button>
+                            <?php
+                                if ($value['stok_barang'] >= 1)
+                                    echo "<button class='btn' name='addToCart-".$value['id_barang']."'>Add to Cart</button>";
+                                else
+                                    echo "<button class='btn' name='addToCart' disabled>Add to Cart</button>";
+                            ?>
                         </div>
                     <?php
                     }
@@ -123,21 +145,20 @@ if (isset($_REQUEST['itemname'])) {
     <script>
         function search(category) {
             $itemname = $("#search").val();
-            let newLocation = "";
-        
-            if (category != undefined) {
-                newLocation += "?category=" + category;
-            }
+            $category = category.id;
 
-            if ($itemname != "") {
-                if (category != undefined) {
-                    newLocation += "&";
-                } else {
-                    newLocation += "?";
+            $.ajax({
+                type:"get",
+                url:"./controller.php",
+                data:{
+                    'action':'search',
+                    'category':$category,
+                    'itemname':$itemname
+                },
+                success:function(response){
+                    $(".content").html(response);
                 }
-                newLocation += "itemname=" + $itemname;
-            }
-            window.location.pathname += newLocation;
+            });
         }
 
         function detail(id) {

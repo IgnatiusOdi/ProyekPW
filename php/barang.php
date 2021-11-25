@@ -10,12 +10,19 @@
             $idUser = $_SESSION['user'] + 1;
             $idBarang = $barangNow['id_barang'];
             $jumlahOrder = $_REQUEST['order'];
-            $kondisi = 1;
 
             //TAMBAHKAN KE CART
-            $sql = "INSERT INTO `cart`(`id_users`, `id_barang`, `jumlah`, `kondisi`) VALUES (?,?,?,?)";
+            $sql = "INSERT INTO `cart`(`id_users`, `id_barang`, `jumlah`) VALUES (?,?,?)";
             $stmt = $conn->prepare($sql);
-            $stmt->bind_param("iiii", $idUser, $idBarang, $jumlahOrder, $kondisi);
+            $stmt->bind_param("iii", $idUser, $idBarang, $jumlahOrder);
+            $stmt->execute();
+
+            //KURANGI STOK ITEM
+            $stokBarang = $barangNow['stok_barang'];
+            $stokBaru = $stokBarang - $jumlahOrder;
+            $sql = "UPDATE `barang` SET `stok_barang`=? WHERE `id_barang`='$idBarang'";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("i", $stokBaru);
             $stmt->execute();
 
             header("Location: cart.php");
@@ -52,7 +59,7 @@
             </div>
 
             <div class="b">
-                <input type="search" id="search" placeholder="Nama Item">
+                <input type="search" id="search" placeholder="Search Item Name">
                 <button onclick="search();">Search</button>
             </div>
         </div>

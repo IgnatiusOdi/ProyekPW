@@ -56,8 +56,6 @@
     
     <input type="text" name="username" placeholder="Username" />
     <input type="password" name="password" placeholder="Password" />
-    <input type="checkbox" name="remember" value="checked"> Remember Me
-        <br>
         <input type="submit" name="login" value="Login">
         <br>
         <br>
