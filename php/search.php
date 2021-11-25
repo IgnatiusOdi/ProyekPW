@@ -6,6 +6,29 @@
         $listBarang = $conn -> query("SELECT * FROM barang WHERE id_kategori in (SELECT id_kategori FROM kategori WHERE nama_kategori LIKE '%$category%')") -> fetch_all(MYSQLI_ASSOC);
     }
 
+    if (isset($_REQUEST['itemname'])) {
+        $itemname = $_REQUEST['itemname'];
+        
+        if ($itemname != "") {
+            if (isset($_REQUEST['category'])) {
+                $listBarang = $conn -> query("SELECT * FROM barang WHERE nama_barang LIKE '%$itemname%' AND id_kategori in (SELECT id_kategori FROM kategori WHERE nama_kategori LIKE '%$category%')") -> fetch_all(MYSQLI_ASSOC);
+            } else {
+                $listBarang = $conn -> query("SELECT * FROM barang WHERE nama_barang LIKE '%$itemname%'") -> fetch_all(MYSQLI_ASSOC);
+            }
+        }
+    }
+
+    if (isset($_REQUEST['search'])) {
+        $itemname = $_REQUEST['itemname'];
+
+        if (isset($_REQUEST['category'])) {
+            $category = $_REQUEST['category'];
+            header("Location: search.php?category=".$category."&itemname=".$itemname);
+        } else {
+            header("Location: search.php?itemname=$itemname");
+        }
+    }
+
     foreach ($listBarang as $key => $value) {
         if (isset($_REQUEST['addToCart-'.$value['id_barang']])) {
             if (!isset($_SESSION['user'])) {
@@ -75,9 +98,11 @@
                 </div>
 
                 <div class="b">
-                    <input type="search" id="search" placeholder="Search Item Name">
-                    <button onclick="search(<?=$category?>);">Search</button>
-                    <button onclick="location.href = 'search.php';">Clear</button>
+                    <form action="" method="post">
+                        <input type="search" id="search" name="itemname" placeholder="Search Item Name">
+                        <button name="search">Search</button>
+                        <button onclick="location.href = 'search.php';">Clear</button>
+                    </form>
                 </div>
             </div>
 
@@ -143,24 +168,6 @@
     <script src="js/jquery.zoom.min.js"></script>
     <script src="js/main.js"></script> -->
     <script>
-        function search(category) {
-            $itemname = $("#search").val();
-            $category = category.id;
-
-            $.ajax({
-                type:"get",
-                url:"./controller.php",
-                data:{
-                    'action':'search',
-                    'category':$category,
-                    'itemname':$itemname
-                },
-                success:function(response){
-                    $(".content").html(response);
-                }
-            });
-        }
-
         function detail(id) {
             location.href = 'barang.php?id_barang=' + (id-1);
         }

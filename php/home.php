@@ -1,13 +1,44 @@
 <?php
-require_once('connection.php');
+	require_once('connection.php');
 
-if (isset($_REQUEST['logout'])) {
-	unset($_SESSION['user']);
-	header("Location: home.php");
-}
-if (isset($_POST['catalogg'])) {
-	header("Location: search.php");
-}
+	if (isset($_REQUEST['logout'])) {
+		unset($_SESSION['user']);
+		header("Location: home.php");
+	}
+
+	if (isset($_POST['catalogg'])) {
+		header("Location: search.php");
+	}
+
+	if (isset($_REQUEST['search'])) {
+		$category = $_REQUEST['category'];
+		$itemname = $_REQUEST['itemname'];
+
+		$nextLocation = "search.php";
+
+		if ($category != 0) {
+			if ($category == 1) {
+				$category = "Rackets";
+			} else if ($category == 2) {
+				$category = "Shoes";
+			} else if ($category == 3) {
+				$category = "Shuttlecocks";
+			} else {
+				$category = "Nets";
+			}
+			$nextLocation .= "?category=$category";
+		}
+
+		if ($itemname != "") {
+			if ($category != 0) {
+				$nextLocation .= "&itemname=$itemname";
+			} else {
+				$nextLocation .= "?itemname=$itemname";
+			}
+		}
+		
+		header("Location: $nextLocation");
+	}
 ?>
 
 <!DOCTYPE html>
@@ -46,16 +77,16 @@ if (isset($_POST['catalogg'])) {
 
 				<div class="col-md-6" style="margin-top: 17px; margin-left: 20px;">
 					<div class="header-search">
-						<form>
-							<select class="input-select">
+						<form action="" method="post">
+							<select class="input-select" name="category">
 								<option value="0">All Categories</option>
 								<option value="1">Rackets</option>
 								<option value="2">Shoes</option>
 								<option value="3">Shuttlecocks</option>
 								<option value="4">Nets</option>
 							</select>
-							<input class="input" placeholder="Search here">
-							<button class="search-btn">Search</button>
+							<input class="input" name="itemname" placeholder="Search here">
+							<button class="search-btn" name="search">Search</button>
 						</form>
 					</div>
 				</div>
@@ -64,7 +95,7 @@ if (isset($_POST['catalogg'])) {
 					<form action="" method="post">
 						<?php
 						if (isset($_SESSION['user'])) {
-							echo "<button class='btn' name='logout'>Logout</button>";
+							echo "<button class='btn btn-danger' name='logout'>Logout</button>";
 						} else {
 							echo "<button class='btn'><a href='login.php'>Sign in</a></button>";
 						}
@@ -246,16 +277,16 @@ if (isset($_POST['catalogg'])) {
 	<script>
 		$(() => {
 			$("#rackets").on("click", function() {
-				window.location.href = 'search.php?keyword=Rackets';
+				window.location.href = 'search.php?category=Rackets';
 			});
 			$("#shoes").on("click", function() {
-				window.location.href = 'search.php?keyword=Shoes';
+				window.location.href = 'search.php?category=Shoes';
 			});
 			$("#cocks").on("click", function() {
-				window.location.href = 'search.php?keyword=Shuttlecocks';
+				window.location.href = 'search.php?category=Shuttlecocks';
 			});
 			$("#nets").on("click", function() {
-				window.location.href = 'search.php?keyword=Nets';
+				window.location.href = 'search.php?category=Nets';
 			});
 		});
 	</script>
