@@ -1,8 +1,8 @@
 <?php
     require_once('connection.php');
-
-    $barangNow = $listBarang[$_REQUEST['id_barang']];
-
+    
+    $barangNow = $listBarang[$_REQUEST['id_barang'] - 1];
+    
     if (isset($_REQUEST['addToCart'])) {
         if (!isset($_SESSION['user'])) {
             header("Location: login.php");
@@ -11,21 +11,40 @@
             $idBarang = $barangNow['id_barang'];
             $jumlahOrder = $_REQUEST['order'];
 
-            //TAMBAHKAN KE CART
-            $sql = "INSERT INTO `cart`(`id_users`, `id_barang`, `jumlah`) VALUES (?,?,?)";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("iii", $idUser, $idBarang, $jumlahOrder);
-            $stmt->execute();
-
-            //KURANGI STOK ITEM
+            //KURANGI DARI STOK
             $stokBarang = $barangNow['stok_barang'];
-            $stokBaru = $stokBarang - $jumlahOrder;
+            $sisa = $stokBarang - $jumlahOrder;
             $sql = "UPDATE `barang` SET `stok_barang`=? WHERE `id_barang`='$idBarang'";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("i", $stokBaru);
-            $stmt->execute();
+            $q = $conn -> prepare($sql);
+            $q -> bind_param("i", $sisa);
+            $q -> execute();
+            
+            //CARI DI CART BARANG YANG SAMA
+            $sql = "SELECT id_barang FROM cart WHERE id_users='$idUser' AND id_barang='$idBarang'";
+            $stmt = $conn -> query($sql) -> fetch_assoc();
+            if (isset($stmt)) {
+                //JIKA ADA
+                $sql = "SELECT jumlah FROM cart WHERE id_users='$idUser' AND id_barang='$idBarang'";
+                $q = $conn -> query($sql) -> fetch_assoc();
+                $jumlah = $q['jumlah'];
+                $total = $jumlah + $jumlahOrder;
 
-            header("Location: cart.php");
+                //UPDATE CART
+                $sql = "UPDATE `cart` SET `jumlah`=? WHERE id_users='$idUser' AND id_barang='$idBarang'";
+                $q = $conn -> prepare($sql);
+                $q -> bind_param("i", $total);
+                $q -> execute();
+            } else {
+                //JIKA TIDAK ADA
+                //TAMBAHKAN KE CART
+                $sql = "INSERT INTO `cart`(`id_users`, `id_barang`, `jumlah`) VALUES (?,?,?)";
+                $stmt = $conn->prepare($sql);
+                $stmt->bind_param("iii", $idUser, $idBarang, $jumlahOrder);
+                $stmt->execute();
+            }
+
+            echo "<script>alert('Barang berhasil ditambahkan')</script>";
+            header("Refresh:0");
         }
     }
 ?>

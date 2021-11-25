@@ -38,21 +38,40 @@
                 $idBarang = $value['id_barang'];
                 $jumlahOrder = 1;
     
-                //TAMBAHKAN KE CART
-                $sql = "INSERT INTO `cart`(`id_users`, `id_barang`, `jumlah`) VALUES (?,?,?)";
-                $stmt = $conn->prepare($sql);
-                $stmt->bind_param("iii", $idUser, $idBarang, $jumlahOrder);
-                $stmt->execute();
-
-                //KURANGI STOK ITEM
+                //KURANGI DARI STOK
                 $stokBarang = $value['stok_barang'];
-                $stokBaru = $stokBarang - $jumlahOrder;
+                $sisa = $stokBarang - $jumlahOrder;
                 $sql = "UPDATE `barang` SET `stok_barang`=? WHERE `id_barang`='$idBarang'";
-                $stmt = $conn->prepare($sql);
-                $stmt->bind_param("i", $stokBaru);
-                $stmt->execute();
-
-                header("Location: cart.php");
+                $q = $conn -> prepare($sql);
+                $q -> bind_param("i", $sisa);
+                $q -> execute();
+                
+                //CARI DI CART BARANG YANG SAMA
+                $sql = "SELECT id_barang FROM cart WHERE id_users='$idUser' AND id_barang='$idBarang'";
+                $stmt = $conn -> query($sql) -> fetch_assoc();
+                if (isset($stmt)) {
+                    //JIKA ADA
+                    $sql = "SELECT jumlah FROM cart WHERE id_users='$idUser' AND id_barang='$idBarang'";
+                    $q = $conn -> query($sql) -> fetch_assoc();
+                    $jumlah = $q['jumlah'];
+                    $total = $jumlah + $jumlahOrder;
+    
+                    //UPDATE CART
+                    $sql = "UPDATE `cart` SET `jumlah`=? WHERE id_users='$idUser' AND id_barang='$idBarang'";
+                    $q = $conn -> prepare($sql);
+                    $q -> bind_param("i", $total);
+                    $q -> execute();
+                } else {
+                    //JIKA TIDAK ADA
+                    //TAMBAHKAN KE CART
+                    $sql = "INSERT INTO `cart`(`id_users`, `id_barang`, `jumlah`) VALUES (?,?,?)";
+                    $stmt = $conn->prepare($sql);
+                    $stmt->bind_param("iii", $idUser, $idBarang, $jumlahOrder);
+                    $stmt->execute();
+                }
+    
+                echo "<script>alert('Barang berhasil ditambahkan')</script>";
+                header("Refresh:0");
             }
         }
     }
@@ -85,7 +104,7 @@
         <div class="topnav">
             <div class="row">
                 <div class="a">
-                    <a href="home.php">Back To Home</a>
+                    <a href="home.php">Home</a>
                     <a href="cart.php">Cart</a>
                     <a href="history.php">History</a>
                 </div>
@@ -169,7 +188,7 @@
     <script src="js/main.js"></script> -->
     <script>
         function detail(id) {
-            location.href = 'barang.php?id_barang=' + (id-1);
+            location.href = 'barang.php?id_barang='+id;
         }
     </script>
 </body>

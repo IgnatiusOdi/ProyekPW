@@ -10,12 +10,68 @@
     $hargaTotal = 0;
 
     foreach ($listCart as $key => $value) {
-        if (isset($_REQUEST['delete-'.$value['id_cart']])) {
+        $idCart = $value['id_cart'];
+        if (isset($_REQUEST['delete-'.$idCart])) {
+            $idBarang = $value['id_barang'];
+            $jumlahPesan = $value['jumlah'];
+
+            $barang = $listBarang[$idBarang - 1];
+            $stokBarang = $barang['stok_barang'];
+
             //RETURN STOK
+            $total = $stokBarang + $jumlahPesan;
+            $sql = "UPDATE `barang` SET `stok_barang`=? WHERE `id_barang`='$idBarang'";
+            $q = $conn -> prepare($sql);
+            $q -> bind_param("i", $total);
+            $q -> execute();
 
             //DELETE FROM CART
+            $sql = "DELETE FROM `cart` WHERE id_cart='$idCart'";
+            $q = $conn -> prepare($sql);
+            $q -> execute();
 
+            echo "<script>alert('Barang telah dibatalkan')</script>";
+            header("Refresh:0");
+        }
+    }
 
+    if (isset($_REQUEST['clearAll'])) {
+        $ada = false;
+
+        //CLEAR CART
+        foreach ($listCart as $key => $value) {
+            $idCart = $value['id_cart'];
+
+            $idBarang = $value['id_barang'];
+            $jumlahPesan = $value['jumlah'];
+
+            $barang = $listBarang[$idBarang - 1];
+            $stokBarang = $barang['stok_barang'];
+
+            //RETURN STOK
+            $total = $stokBarang + $jumlahPesan;
+            $sql = "UPDATE `barang` SET `stok_barang`=? WHERE `id_barang`='$idBarang'";
+            $q = $conn -> prepare($sql);
+            $q -> bind_param("i", $total);
+            $q -> execute();
+
+            //DELETE FROM CART
+            $sql = "DELETE FROM `cart` WHERE id_cart='$idCart'";
+            $q = $conn -> prepare($sql);
+            $q -> execute();
+
+            $ada = true;
+        }
+
+        if ($ada) {
+            echo "<script>alert('Semua Barang Dibatalkan')</script>";
+            header("Refresh:0");
+        }
+    }
+
+    if (isset($_REQUEST['checkout'])) {
+        if (count($listCart) > 0) {
+            echo "<script>alert('Hello')</script>";
         }
     }
 ?>
@@ -79,34 +135,30 @@
                 foreach ($listCart as $key => $value) {
                     echo "<tr>";
                         echo "<td>".($key + 1).".</td>";
+                        $id = $value['id_barang'];
                         $barang = $listBarang[$value['id_barang'] - 1];
-                        echo "<td><img src=".$barang['foto_barang']."><br>".$barang['nama_barang']."</td>";
+                        echo "<td><img style='width: 150px; cursor: pointer;' onclick='detail($id)' src=".$barang['foto_barang']."><br>".$barang['nama_barang']."</td>";
                         echo "<td>".$value['jumlah']."</td>";
-                        echo "<td>Rp. ".number_format($barang['harga_barang'],0,'','.').",-</td>";
+                        echo "<td>Rp. ".number_format($barang['harga_barang'] * $value['jumlah'],0,'','.').",-</td>";
+                        echo "<form action='' method='post'>";
                         echo "<td><button name='delete-".$value['id_cart']."'>Cancel</button></td>";
+                        echo "</form>";
                     echo "</tr>";
                     $hargaTotal += $value['jumlah'] * $barang['harga_barang'];
                 }
             ?>
         </div>
     </table>
-    <h3 style="float: right;">Total: Rp. <?=number_format($hargaTotal,0,'','.')?>,-</h3>
-    <br><br>
-    <button style="float: right;" class="btn btn-primary">Checkout</button>
+    <form action="" method="post">
+        <button name="clearAll" style="float: left;" class="btn btn-danger" <?= count($listCart) == 0 ? "hidden" : ""?>>Clear All</button>
+        <h3 style="float: right;">Total: Rp. <?=number_format($hargaTotal,0,'','.')?>,-</h3>
+        <br><br>
+        <button name="checkout" style="float: right;" class="btn btn-primary" <?= count($listCart) == 0 ? "hidden" : ""?>>Checkout</button>
+    </form>
 
     <script>
-        function delete(id) {
-            $.ajax({
-                type:"get",
-                url:"./controller.php",
-                data:{
-                    'action':'deleteFromCart',
-                    'id_cart':id
-                },
-                success:function(response){
-                    $(".cart").html(response);
-                }
-            });
+        function detail(id) {
+            location.href = "barang.php?id_barang="+id;
         }
     </script>
 </body>
