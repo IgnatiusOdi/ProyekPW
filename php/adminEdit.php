@@ -7,10 +7,7 @@
 
     $barangNow = $listBarang[$_SESSION['edit']];
 
-    $id = $barangNow['id_barang'];
-    $kategori = $conn -> query("SELECT * FROM kategori_barang WHERE id_barang = $id") -> fetch_assoc();
-
-    $id = $kategori['id_kategori'];
+    $id = $barangNow['id_kategori'];
     $namaKategori = $conn -> query("SELECT * FROM kategori WHERE id_kategori = $id") -> fetch_assoc();
     $namaKategori = $namaKategori['nama_kategori'];
 
@@ -110,7 +107,7 @@
                 <td>Foto Barang</td>
                 <td>:</td>
                 <td>
-                    <img src="../barang/<?=$barangNow['foto_barang']?>" style="width: 50px; height: 50px;">
+                    <img src="<?=$barangNow['foto_barang']?>" style="width: 150px; height: 150px;">
                     <br>
                     <input type="file" name="fotoBarang">
                 </td>

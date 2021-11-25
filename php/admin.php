@@ -1,72 +1,45 @@
 <?php
     require_once('connection.php');
 
-    $dataPerHalaman = 15;
-    $totalData = count($listBarang);
-    $totalHalaman = ceil($totalData/$dataPerHalaman);
-    $pageAktif = isset($_REQUEST['page']) ? $_REQUEST['page'] : 1;
-    $start = ( $dataPerHalaman * $pageAktif ) - $dataPerHalaman;
-
-    $listBarang = $conn -> query("SELECT * FROM barang LIMIT $start, $dataPerHalaman") -> fetch_all(MYSQLI_ASSOC);
-
     if (!isset($_SESSION['admin'])){
         header("Location: login.php");
     }
 
-    $countBarang = count($listBarang);
-    $nextId = $countBarang + 1;
-
     if (isset($_REQUEST['logout'])){
         unset($_SESSION['admin']);
+        unset($_SESSION['keyword']);
         header("Location: login.php");
     }
 
-    if (isset($_REQUEST['addBarang'])) {
-        $nama = $_REQUEST['namaBarang'];
-        $desc = $_REQUEST['descBarang'];
-        $harga = $_REQUEST['hargaBarang'];
-        $stok = $_REQUEST['stokBarang'];
-        $kategori = $_REQUEST['kategoriBarang'];
-        $foto = $_FILES['fotoBarang'];
-
-        if ($nama == "") {
-            echo "<script>alert('Nama masih kosong')</script>";
-        } else if ($harga < 0) {
-            echo "<script>alert('Harga tidak boleh < 0')</script>";
-        } else if ($stok < 0) {
-            echo "<script>alert('Stok tidak boleh < 0')</script>";
-        } else if ($kategori == "") {
-            echo "<script>alert('Kategori harus diisi')</script>";
-        } else if ($foto['error'] == 4) {
-            echo "<script>alert('Sertakan foto juga')</script>";
-        } else if ($foto['size'] > 200000) {
-            echo "<script>alert('Size File terlalu besar, MAKS. 200KB')</script>";
-        }  else {
-            // SAVE FOTO
-            $lokasi = "../barang/";
-            if (!file_exists($lokasi)) {
-                @mkdir($lokasi);
-            }
-            $namafoto = $nextId;
-            $temp = $foto['tmp_name'];
-            $lokasi .= $namafoto;
-            move_uploaded_file($temp, $lokasi);
-
-            //ADD TO BARANG
-            $sql = "INSERT INTO `barang`(`nama_barang`, `desc_barang`, `harga_barang`, `stok_barang`, `foto_barang`) VALUES (?,?,?,?,?)";
-            $stmt = $conn -> prepare($sql);
-            $stmt -> bind_param("ssiis", $nama, $desc, $harga, $stok, $lokasi);
-            $stmt -> execute();
-
-            //ADD TO KATEGORI_BARANG
-            $sql = "INSERT INTO `kategori_barang` (`id_barang`, `id_kategori`) VALUES (?,?)";
-            $stmt = $conn -> prepare($sql);
-            $stmt -> bind_param("ii", $nextId, $kategori);
-            $stmt -> execute();
-
-            header("Location: admin.php");
-        }
+    if (isset($_REQUEST['search'])) {
+        header("Location: ?page=1");
+        $keyword = $_REQUEST['keyword'];
+        $_SESSION['keyword'] = $keyword;
+    } else {
+        $keyword = $_SESSION['keyword'];
     }
+
+    $listBarangPage = $conn -> query("SELECT * FROM barang WHERE nama_barang LIKE '%$keyword%' OR id_kategori IN (SELECT id_kategori FROM kategori WHERE nama_kategori LIKE '%$keyword%')") -> fetch_all(MYSQLI_ASSOC);
+
+    $dataPerHalaman = 10;
+    $totalData = count($listBarangPage);
+    $totalHalaman = ceil($totalData/$dataPerHalaman);
+    $pageAktif = isset($_REQUEST['page']) ? $_REQUEST['page'] : 1;
+    $start = ( $dataPerHalaman * $pageAktif ) - $dataPerHalaman;
+
+    $jumlahTampil = 1;
+    if ($pageAktif > $jumlahTampil) {
+        $start_num = $pageAktif - $jumlahTampil;
+    } else {
+        $start_num = 1;
+    }
+    if ($pageAktif < ($totalHalaman - $jumlahTampil)) {
+        $end_num = $pageAktif + $jumlahTampil;
+    } else {
+        $end_num = $totalHalaman;
+    }
+
+    $listBarangPage = $conn -> query("SELECT * FROM barang WHERE nama_barang LIKE '%$keyword%' OR id_kategori IN (SELECT id_kategori FROM kategori WHERE nama_kategori LIKE '%$keyword%') LIMIT $start, $dataPerHalaman") -> fetch_all(MYSQLI_ASSOC);
 
     foreach ($listBarang as $key => $value) {
         if (isset($_REQUEST[$value['id_barang']])) {
@@ -82,84 +55,27 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin</title>
+    <title>Home</title>
     <script src="../js/jquery.min.js"></script>
 </head>
 <body>
-    <form action="" method="post" enctype="multipart/form-data">
-        <h1>Admin Page</h1>
-        <button name="logout">Logout</button>
+    <form action="" method="post">
+        <h1>Admin Home</h1>
+        Home
+        <a href="adminAdd.php">Add Barang</a>
+        <a href="adminTransaksi.php">Transaksi</a>
+        <button name="logout">Logout</button><br>
 
-        <h2>Item</h2>
-        <table>
-            <tr>
-                <td>Nama Barang</td>
-                <td>:</td>
-                <td>
-                    <input type="text" name="namaBarang" placeholder="Nama Barang" style="width: 500px;">
-                </td>
-            </tr>
-            <tr>
-                <td>Deskripsi Barang</td>
-                <td>:</td>
-                <td>
-                    <textarea name="descBarang" cols="100" rows="10" placeholder="Deskripsi Barang" style="resize: none;"></textarea>
-                </td>
-            </tr>
-            <tr>
-                <td>Harga Barang</td>
-                <td>:</td>
-                <td>
-                    Rp. <input type="text" name="hargaBarang" maxlength="9" onkeypress="return onlyNumberKey(event)" placeholder="999.999.999" style="text-align: right; width: 100px;"> ,-
-                </td>
-            </tr>
-            <tr>
-                <td>Stok Barang</td>
-                <td>:</td>
-                <td>
-                    <input type="text" name="stokBarang" maxlength="9" onkeypress="return onlyNumberKey(event)" placeholder="123456789" style="text-align: right; width: 100px;">
-                </td>
-            </tr>
-            <tr>
-                <td>Kategori Barang</td>
-                <td>:</td>
-                <td>
-                    <?php
-                        foreach($listKategori as $key => $value) {
-                    ?>
-                        <input type="radio" name="kategoriBarang" value=<?=$value['id_kategori']?>><?=$value['nama_kategori']?>
-                        <br>
-                    <?php
-                        }
-                    ?>
-                    
-                </td>
-            </tr>
-            <tr>
-                <td>Foto Barang</td>
-                <td>:</td>
-                <td><input type="file" name="fotoBarang"></td>
-            </tr>
-        </table>
-        <button name="addBarang">Add Barang</button>
-
-        <h2>Bulk Item</h2>
-        <table>
-            <tr>
-                <td>CSV Barang</td>
-                <td>:</td>
-                <td><input type="file" name="csv"></td>
-            </tr>
-        </table>
-
+        <span>Total Barang Yang Ada: <?=$totalData?></span>
         <h2>LIST BARANG</h2>
-        <input type="text" name="search" id="search" autocomplete="off" placeholder="Search" autofocus>
-        <span>Total Barang Yang Ada: <?=$totalData?></span><br>
+        <input type="text" name="keyword" id="keyword" placeholder="Search here..." autofocus>
+        <button name="search">Search</button><br>
         <?php
             if ($pageAktif > 1) {
+                echo "<a href='?page=1'>&laquo</a>";
                 echo "<a href='?page=".($pageAktif - 1)."'>&lt</a>";
             }
-            for ($i = 1; $i <= $totalHalaman; $i++) {
+            for ($i = $start_num; $i <= $end_num; $i++) {
                 if ($i == $pageAktif) {
                     echo "<a href='?page=$i' style='font-weight: bold; color: red;'>$i</a>";
                 } else {
@@ -168,8 +84,9 @@
             }
             if ($pageAktif < $totalHalaman) {
                 echo "<a href='?page=".($pageAktif + 1)."'>&gt</a>";
+                echo "<a href='?page=".$totalHalaman."'>&raquo</a>";
             }
-            if ($listBarang != null) {
+            if ($listBarangPage != null) {
         ?>
             <div id="container">
                 <table border=1>
@@ -183,7 +100,7 @@
                         <th>ACTION</th>
                     </tr>
                     <?php
-                        foreach ($listBarang as $key => $value) :
+                        foreach ($listBarangPage as $key => $value) :
                     ?>
                             <tr>
                                 <td><?=$value['id_barang']?></td>
@@ -208,14 +125,28 @@
             }
         ?>
     </form>
+    <script>
+        function onlyNumberKey(key) {
+            var ascii = (key.which) ? key.which : key.keyCode
+            if (ascii > 31 && (ascii < 48 || ascii > 57))
+                return false;
+            return true;
+        }
+
+        function search() {
+            keyword = $("#keyword").val();
+            $.ajax({
+                type:"get",
+                url:"./controller.php",
+                data:{
+                    'action':'searchAdmin',
+                    'keyword':keyword
+                },
+                success:function(response){
+                    $("#container").html(response);
+                }
+            });
+        }
+    </script>
 </body>
-<script src="../js/script.js"></script>
-<script>
-    function onlyNumberKey(key) {
-        var ascii = (key.which) ? key.which : key.keyCode
-        if (ascii > 31 && (ascii < 48 || ascii > 57))
-            return false;
-        return true;
-    }
-</script>
 </html>
