@@ -63,7 +63,7 @@
 	<div id="header">
 		<div class="container">
 			<div class="row">
-				<div class="col-md-3">
+				<div class=" col-md-3 col-xs-12">
 					<div class="header-logo col-md-12">
 						<a href="#" class="logo">
 							<img style="margin-left: 0px; margin-top: 10px; width: 100%;" src="../img/truelogo.png" alt="hai">
@@ -75,7 +75,7 @@
 					</div> -->
 				</div>
 
-				<div class="col-md-6" style="margin-top: 17px; margin-left: 20px;">
+				<div class="col-md-5 col-xs-12" style="margin-top: 17px; margin-left: 20px;">
 					<div class="header-search">
 						<form action="" method="post">
 							<select class="input-select" name="category">
@@ -91,7 +91,7 @@
 					</div>
 				</div>
 
-				<div class="" style="margin-top: 17px; margin-left: 1000px;">
+				<div class="col-md-3 col-xs-12" style="margin-top: 20px; float: right;">
 					<form action="" method="post">
 						<?php
 						if (isset($_SESSION['user'])) {
@@ -107,17 +107,19 @@
 	</div>
 	</header>
 
-	<div class="section" style=" background-image: url(../img/catalog.jpg); background-size: cover; background-repeat: no-repeat; height: 700px; display: flex; align-items: center; justify-content:center;">
-		<div class="row" style=" width: 100%; height: 100px;  display: flex; margin-left: 200px; ">
-			<div class="col-" style="font-weight: 500; color: white; margin-top: -200px; font-size: 50px;">
+	<div class="section col-md-12 col-xs-6" style=" background-image: url(../img/catalog.jpg); background-size: cover; background-repeat: no-repeat; height: 700px; display: flex; align-items: center; justify-content:center;">
+		<div class="row col-xl-12" style="flex-wrap: wrap; width: 100%; height: 100px;  display: flex; ">
+			<div class="col-lg-12 col-md-12 col-xs-6" style="font-weight: 500; color: white; margin-top: -200px; font-size: 50px; ">
 				<span>MAKE YOU </span>
 				<br>
 				<span>BE THE CHAMPION</span>
 			</div>
-
+			
+			<div class="COL-lg-12 col-md-12 col-xs-6">
 			<form action="" method="POST">
-				<button name="catalogg" style="border-radius: 10px; padding: 10px; margin-left: -500px; background-color: transparent; border: 4px solid white;"> <span style="color: white;font-weight: 500; text-transform: uppercase; font-size: 20px;">Shop Now</span></button>
+				<button name="catalogg"  class="" style="width:200px; height: 10vh; border-radius: 10px; padding: 10px; background-color: transparent; border: 4px solid white;"> <span style="color: white;font-weight: 500; text-transform: uppercase; font-size: 20px;">Shop Now</span></button>
 			</form>
+			</div>
 
 		</div>
 	</div>

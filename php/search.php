@@ -83,14 +83,14 @@
     <section>
 
         <div class="topnav">
-            <div>
+            <div class="row">
                 <div class="a">
                     <a href="home.php">Back To Home</a>
                     <a href="cart.php">Cart</a>
                     <a href="history.php">History</a>
                 </div>
 
-                <div class="c">
+                <div class="c ">
                     <a href="search.php?category=Rackets" id="Rackets">Rackets</a>
                     <a href="search.php?category=Shoes" id="Shoes">Shoes</a>
                     <a href="search.php?category=Shuttlecocks" id="Cocks">Shuttlecocks</a>
