@@ -78,9 +78,10 @@
     <link rel="stylesheet" href="../css/register.css">
 </head>
 <body>
-    <div class="h1">Create Account</div>
-    <div class="center">
+    
+    <div class="center" style="margin-top: 50px ; margin-bottom: 200px;" >
         <form action="" method="post">
+        <div class="h1">Create Account</div>
             <input type="text" name="username" placeholder="Username"><br>
             <input type="text" name="nama" placeholder="Nama"><br>
             <input type="password" name="password" placeholder="Password"><br>
@@ -94,7 +95,7 @@
             <input type="date" class="date" name="tanggal"><br>
             <input type="text" name="kota" placeholder="Surabaya"><br>
             <input type="file" name="foto"><br>
-            <button name="register">Register</button><br>
+            <button name="register" style="font-size: 20px;">Register</button><br>
             <label>Already have account? <a href="login.php">Let's Login!</a></label>
         </form>
     </div>

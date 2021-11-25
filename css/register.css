@@ -1,10 +1,10 @@
-*{
+body,html{
     margin: 0;
     padding: 0;
 }
 
 body{
-    background: rgba(43, 26, 26, 0.5) url(../img/back.jpg);
+    background: rgba(43, 26, 26, 0.5) url(../img/backk.jpg);
     background-blend-mode: darken;
     background-size: cover;
     font-family: 'Montserrat', sans-serif;
@@ -12,7 +12,7 @@ body{
 
 .center{
     text-align: center;
-    position: fixed;
+    position: absolute;
     top: 47%;
     left: 50%;
     padding: 1% 5%;
@@ -24,7 +24,7 @@ body{
 
 .h1{
     color: white;
-    font-size: 3.5em;
+    font-size: 3em;
     margin-top: 1%;
     text-align: center;
 }
