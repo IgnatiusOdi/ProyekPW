@@ -4,9 +4,7 @@
     if (isset($_REQUEST['login'])) {
         $username = $_REQUEST['username'];
         $password = $_REQUEST['password'];
-        if (isset($_REQUEST['remember'])) {
-            $check = $_REQUEST['remember'];
-        }
+        
         if ($username == "" && $password == "") {
             echo "<script>alert('Field tidak boleh kosong')</script>";
         } else {

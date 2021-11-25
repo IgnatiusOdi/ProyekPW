@@ -1,6 +1,14 @@
 <?php
     require_once('connection.php');
 
+    $dataPerHalaman = 15;
+    $totalData = count($listBarang);
+    $totalHalaman = ceil($totalData/$dataPerHalaman);
+    $pageAktif = isset($_REQUEST['page']) ? $_REQUEST['page'] : 1;
+    $start = ( $dataPerHalaman * $pageAktif ) - $dataPerHalaman;
+
+    $listBarang = $conn -> query("SELECT * FROM barang LIMIT $start, $dataPerHalaman") -> fetch_all(MYSQLI_ASSOC);
+
     if (!isset($_SESSION['admin'])){
         header("Location: login.php");
     }
@@ -134,18 +142,39 @@
             </tr>
         </table>
         <button name="addBarang">Add Barang</button>
-        <br>
 
-        <h2>TABEL BARANG</h2>
+        <h2>Bulk Item</h2>
+        <table>
+            <tr>
+                <td>CSV Barang</td>
+                <td>:</td>
+                <td><input type="file" name="csv"></td>
+            </tr>
+        </table>
+
+        <h2>LIST BARANG</h2>
         <input type="text" name="search" id="search" autocomplete="off" placeholder="Search" autofocus>
-        <span>Jumlah Barang: <?=$nextId - 1?></span>
+        <span>Total Barang Yang Ada: <?=$totalData?></span><br>
         <?php
+            if ($pageAktif > 1) {
+                echo "<a href='?page=".($pageAktif - 1)."'>&lt</a>";
+            }
+            for ($i = 1; $i <= $totalHalaman; $i++) {
+                if ($i == $pageAktif) {
+                    echo "<a href='?page=$i' style='font-weight: bold; color: red;'>$i</a>";
+                } else {
+                    echo "<a href='?page=$i'>$i</a>";
+                }
+            }
+            if ($pageAktif < $totalHalaman) {
+                echo "<a href='?page=".($pageAktif + 1)."'>&gt</a>";
+            }
             if ($listBarang != null) {
         ?>
             <div id="container">
                 <table border=1>
                     <tr>
-                        <th>NO.</th>
+                        <th>ID</th>
                         <th>NAMA</th>
                         <th>HARGA</th>
                         <th>STOK</th>
@@ -157,15 +186,12 @@
                         foreach ($listBarang as $key => $value) :
                     ?>
                             <tr>
-                                <td><?=$key + 1?>.</td>
+                                <td><?=$value['id_barang']?></td>
                                 <td><?=$value['nama_barang']?></td>
                                 <td style="text-align: right;">Rp. <?=number_format($value['harga_barang'],0,'','.')?>,-</td>
                                 <td style="text-align: left;"><?=$value['stok_barang']?></td>
                                 <?php
-                                    $id = $value['id_barang'];
-                                    $kategori = $conn -> query("SELECT * FROM kategori_barang WHERE id_barang = $id") -> fetch_assoc();
-
-                                    $id = $kategori['id_kategori'];
+                                    $id = $value['id_kategori'];
                                     $namaKategori = $conn -> query("SELECT * FROM kategori WHERE id_kategori = $id") -> fetch_assoc();
                                     $namaKategori = $namaKategori['nama_kategori'];
                                 ?>
