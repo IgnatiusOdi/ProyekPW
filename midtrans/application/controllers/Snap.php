@@ -155,10 +155,10 @@ class Snap extends CI_Controller {
 		$idUser = $_SESSION['user'] + 1;
 
 		//ADD HTRANS
-		$sql = "SELECT id, transaction_time FROM payment ORDER BY id DESC LIMIT 1";
+		$sql = "SELECT id, transaction_time, gross_amount FROM payment ORDER BY id DESC LIMIT 1";
 		$q = $conn -> query($sql) -> fetch_assoc();
 		$tanggal = $q['transaction_time'];
-		$total = $this->input->post('amount');
+		$total = $q['gross_amount'];
 		$id_payment = $q['id'];
 
 		$sql = "INSERT INTO `htrans`(`tanggal_transaksi`, `id_users`, `total`, `id_payment`) VALUES (?,?,?,?)";
