@@ -150,10 +150,35 @@ class Snap extends CI_Controller {
 		$simpan = $this->db->insert('payment', $data);
 		
 		$user = json_decode($this->input->post('user'), TRUE);
-		
-		//HAPUS CART
+
 		require_once('connection.php');
 		$idUser = $_SESSION['user'] + 1;
+
+		//ADD HTRANS
+		$sql = "SELECT id, transaction_time FROM payment ORDER BY id DESC LIMIT 1";
+		$q = $conn -> query($sql) -> fetch_assoc();
+		$tanggal = $q['transaction_time'];
+		$total = $this->input->post('amount');
+		$id_payment = $q['id'];
+
+		$sql = "INSERT INTO `htrans`(`tanggal_transaksi`, `id_users`, `total`, `id_payment`) VALUES (?,?,?,?)";
+		$q = $conn -> prepare($sql);
+		$q -> bind_param("siii", $tanggal, $idUser, $total, $id_payment);
+		$q -> execute();
+
+		//ADD DTRANS
+		$sql = "SELECT * FROM cart WHERE id_users='$idUser'";
+		$listCart = $conn -> query($sql) -> fetch_all(MYSQLI_ASSOC);
+		foreach ($listCart as $key => $value) {
+			$idBarang = $value['id_barang'];
+			$jumlah = $value['jumlah'];
+			$sql = "INSERT INTO `dtrans`(`id_htrans`, `id_barang`, `jumlah`, `id_users`) VALUES (?,?,?,?)";
+			$q = $conn -> prepare($sql);
+			$q -> bind_param("iiii", $id_payment, $idBarang, $jumlah, $idUser);
+			$q -> execute();
+		}
+		
+		//HAPUS CART
 		$sql = "DELETE FROM `cart` WHERE id_users='$idUser'";
 		$q = $conn -> prepare($sql);
 		$q -> execute();
