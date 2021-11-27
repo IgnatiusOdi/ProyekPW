@@ -147,7 +147,7 @@
             <div class="row">
                 <div class="a">
                     <a href="home.php">Home</a>
-                    <a href="cart.php">Cart</a>
+                    <a href="../midtrans/index.php/snap">Cart</a>
                     <a href="history.php">History</a>
                 </div>
 
@@ -160,7 +160,7 @@
 
                 <div class="b">
                     <form action="" method="post">
-                        <input type="search" id="search" name="itemname" placeholder="Search Item Name" value='<?=$_SESSION['itemname']?>'>
+                        <input type="search" id="search" name="itemname" placeholder="Search Item Name" value='<?=(isset($_SESSION['itemname'])) ? $_SESSION['itemname'] : "" ?>'>
                         <button name="search">Search</button>
                         <button onclick="location.href = 'search.php';">Clear</button>
                     </form>

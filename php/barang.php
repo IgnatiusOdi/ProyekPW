@@ -74,7 +74,7 @@
         <div>
             <div class="a">
                 <a href="search.php">Back</a>
-                <a href="cart.php">Cart</a>
+                <a href="../midtrans/index.php/snap">Cart</a>
                 <a href="history.php">History</a>
             </div>
 

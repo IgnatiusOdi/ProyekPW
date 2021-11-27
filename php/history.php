@@ -36,7 +36,7 @@
     <div class="header">
         <a href="home.php">Home</a>
         <a href="search.php">Search</a>
-        <a href="cart.php">Cart</a>
+        <a href="../midtrans/index.php/snap">Cart</a>
     </div>
 </body>
 </html>
