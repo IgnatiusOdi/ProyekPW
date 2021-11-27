@@ -1,20 +1,17 @@
 <?php
     require_once('connection.php');
 
-    $idUser = $_SESSION['user'] + 1;
-    $listTransaksi = $conn -> query("SELECT * FROM htrans WHERE id_users='$idUser'") -> fetch_all(MYSQLI_ASSOC);
+    // $idUser = $_SESSION['user'] + 1;
+    // $listTransaksi = $conn -> query("SELECT * FROM htrans WHERE id_users='$idUser'") -> fetch_all(MYSQLI_ASSOC);
 
-    foreach ($listTransaksi as $key => $value) {
-        if (isset($_REQUEST['cancel-'.$value['id_htrans']])) {
-            $id = $value['id_htrans'];
-            $sql = "UPDATE `payment` SET `status_code`='999',`transaction_status`='canceled' WHERE id='$id'";
-            $q = $conn -> prepare($sql);
-            $q -> execute();
-        } else if (isset($_REQUEST['detail-'.$value['id_htrans']])) {
-            echo "<script>alert('Hello')</script>";
-            header("Location: detailHistory.php?id_transaksi=".$value['id_htrans']);
-        }
-    }
+    // foreach ($listTransaksi as $key => $value) {
+    //     if (isset($_REQUEST['cancel-'.$value['id_htrans']])) {
+    //         $id = $value['id_htrans'];
+    //         $sql = "UPDATE `payment` SET `status_code`='999',`transaction_status`='canceled' WHERE id='$id'";
+    //         $q = $conn -> prepare($sql);
+    //         $q -> execute();
+    //     }
+    // }
 ?>
 
 <!DOCTYPE html>
@@ -60,7 +57,7 @@
         <a href="../midtrans/index.php/snap">Cart</a>
     </div>
 
-    <h1>History Transaksi</h1>
+    <!-- <h1>History Transaksi</h1>
     <table class="table" border=1>
         <tr>
             <td>No.</td>
@@ -84,18 +81,16 @@
                         echo "<td>";
                             if ($payment['status_code'] == 201) {
                                 echo "<a href='https://simulator.sandbox.midtrans.com/bca/va/index' target='_blank'><button>Pay</button></a>";
-                                echo "<form action='' method='post'>";
-                                echo "<button name='cancel-".$value['id_htrans']."'>Cancel</button>";
-                                echo "</form>";
-                            }
                         echo "<form action='' method='post'>";
+                                echo "<button name='cancel-".$value['id_htrans']."'>Cancel</button>";
+                            }
                             echo "<button name='detail-".$value['id_htrans']."'>Detail</button>";
-                        echo "</form>";
                         echo "</td>";
+                        echo "</form>";
                     echo "</tr>";
                 }
             ?>
         </div>
-    </table>
+    </table> -->
 </body>
 </html>

@@ -1,8 +1,12 @@
 <?php
     session_start();
+    // $host = 'localhost';
+    // $user = 'badmint2_admin';
+    // $password = 'opoikiair123';
+    // $database = 'badmint2_proyekpw';
     $host = 'localhost';
-    $user = 'badmint2_admin';
-    $password = 'opoikiair123';
+    $user = 'root';
+    $password = '';
     $database = 'badmint2_proyekpw';
     $conn = new mysqli($host, $user, $password, $database);
     if ($conn->connect_errno) {

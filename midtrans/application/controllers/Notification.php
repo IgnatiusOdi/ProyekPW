@@ -37,19 +37,25 @@ class Notification extends CI_Controller {
 
 		$order_id = $result['order_id'];
 
-		if ($result['status_code'] == 200){
-			$data = [
-				'status_code' => $result['status_code'],
-				'transaction_status' => "settlement"
-			];
-			$this->db->update('payment', $data, array('order_id'=>$order_id));
-		}
-		else if ($result['status_code'] == 202){
-			$data = [
-				'status_code' => $result['status_code'],
-				'transaction_status' => "expire"
-			];
-			$this->db->update('payment', $data, array('order_id'=>$order_id));
+		require_once('connection.php');
+		$payment = $conn -> query("SELECT * FROM payment WHERE order_id='$order_id'") -> fetch_assoc();
+
+		if ($payment['status_code'] != 999) {
+			if ($result['status_code'] == 200){
+				//
+				$data = [
+					'status_code' => $result['status_code'],
+					'transaction_status' => "settlement"
+				];
+				$this->db->update('payment', $data, array('order_id'=>$order_id));
+			}
+			else if ($result['status_code'] == 202){
+				$data = [
+					'status_code' => $result['status_code'],
+					'transaction_status' => "expire"
+				];
+				$this->db->update('payment', $data, array('order_id'=>$order_id));
+			}
 		}
 
 	}
