@@ -152,7 +152,11 @@ class Snap extends CI_Controller {
 		$user = json_decode($this->input->post('user'), TRUE);
 		
 		//HAPUS CART
-		//unset(CART);
+		require_once('connection.php');
+		$idUser = $_SESSION['user'] + 1;
+		$sql = "DELETE FROM `cart` WHERE id_users='$idUser'";
+		$q = $conn -> prepare($sql);
+		$q -> execute();
 
     	$this->data['finish'] = json_decode($this->input->post('result_data')); 
 		// $this->load->view('transaction');

@@ -33,48 +33,70 @@ class Notification extends CI_Controller {
 	{
 		echo 'test notification handler';
 		$json_result = file_get_contents('php://input');
-		$result = json_decode($json_result);
+		$result = json_decode($json_result, 'true');
 
-		if($result){
-		$notif = $this->veritrans->status($result->order_id);
+		$order_id = $result['order_id'];
+
+		if ($result['status_code'] == 200){
+			$data = [
+				'status_code' => $result['status_code'],
+				'transaction_status' => "settlement"
+			];
+			$this->db->update('payment', $data, array('order_id'=>$order_id));
+			// $_SESSION['notif'] = [
+			// 	'status' => 'success',
+			// 	'order_id' => $order_id
+			// ];
+			require_once("../controller/connection.php");
+
+			$stmt = $conn->prepare("SELECT * FROM payment WHERE order_id=$order_id");
+			$stmt->execute();
+			$payment = $stmt->get_result()->fetch_assoc();
+
+			$id_payment = $payment['id'];
+
+			$stmt = $conn->prepare("SELECT * FROM order_details WHERE payment_id=$id_payment");
+			$stmt->execute();
+			$od = $stmt->get_result()->fetch_assoc();
+
+			$id_user = $od['user_id'];
+			
+            $active = 1;
+            $transaction_status = "settlement";
+			$stmt = $conn->prepare("INSERT INTO notification_handler(status, order_id, id_user, active) VALUES(?,?,?,?)");
+			$stmt->bind_param("siii", $transaction_status, $order_id, $id_user, $active);
+			$return = $stmt->execute();
 		}
+		else if ($result['status_code'] == 202){
+			$data = [
+				'status_code' => $result['status_code'],
+				'transaction_status' => "expire"
+			];
+			$this->db->update('payment', $data, array('order_id'=>$order_id));
+			// $_SESSION['notif'] = [
+			// 	'status' => 'expired',
+			// 	'order_id' => $order_id
+			// ];
+			require_once("../controller/connection.php");
 
-		error_log(print_r($result,TRUE));
+			$stmt = $conn->prepare("SELECT * FROM payment WHERE order_id=$order_id");
+			$stmt->execute();
+			$payment = $stmt->get_result()->fetch_assoc();
 
-		//notification handler sample
+			$id_payment = $payment['id'];
 
-		/*
-		$transaction = $notif->transaction_status;
-		$type = $notif->payment_type;
-		$order_id = $notif->order_id;
-		$fraud = $notif->fraud_status;
+			$stmt = $conn->prepare("SELECT * FROM order_details WHERE payment_id=$id_payment");
+			$stmt->execute();
+			$od = $stmt->get_result()->fetch_assoc();
 
-		if ($transaction == 'capture') {
-		  // For credit card transaction, we need to check whether transaction is challenge by FDS or not
-		  if ($type == 'credit_card'){
-		    if($fraud == 'challenge'){
-		      // TODO set payment status in merchant's database to 'Challenge by FDS'
-		      // TODO merchant should decide whether this transaction is authorized or not in MAP
-		      echo "Transaction order_id: " . $order_id ." is challenged by FDS";
-		      } 
-		      else {
-		      // TODO set payment status in merchant's database to 'Success'
-		      echo "Transaction order_id: " . $order_id ." successfully captured using " . $type;
-		      }
-		    }
-		  }
-		else if ($transaction == 'settlement'){
-		  // TODO set payment status in merchant's database to 'Settlement'
-		  echo "Transaction order_id: " . $order_id ." successfully transfered using " . $type;
-		  } 
-		  else if($transaction == 'pending'){
-		  // TODO set payment status in merchant's database to 'Pending'
-		  echo "Waiting customer to finish transaction order_id: " . $order_id . " using " . $type;
-		  } 
-		  else if ($transaction == 'deny') {
-		  // TODO set payment status in merchant's database to 'Denied'
-		  echo "Payment using " . $type . " for transaction order_id: " . $order_id . " is denied.";
-		}*/
+			$id_user = $od['user_id'];
+			
+            $active = 1;
+            $transaction_status = "expire";
+			$stmt = $conn->prepare("INSERT INTO notification_handler(status, order_id, id_user, active) VALUES(?,?,?,?)");
+			$stmt->bind_param("siii", $transaction_status, $order_id, $id_user, $active);
+			$return = $stmt->execute();
+		}
 
 	}
 }

@@ -1,8 +1,8 @@
 <?php
     session_start();
     $host = 'localhost';
-    $user = 'root';
-    $password = '';
+    $user = 'badmint2_admin';
+    $password = 'opoikiair123';
     $database = 'badmint2_proyekpw';
     $conn = new mysqli($host, $user, $password, $database);
     if ($conn->connect_errno) {
