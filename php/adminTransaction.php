@@ -16,14 +16,12 @@
         header("Location: ?from=$fromDate&to=$toDate");
     }
 
-    if (isset($_REQUEST['from'])) {
-        $fromDate = $_REQUEST['from'];
-        $toDate = $_REQUEST['to'];
-        $listTransaksi = $conn -> query("SELECT * FROM htrans WHERE tanggal_transaksi>='$fromDate' AND tanggal_transaksi<='$toDate'");
-    } else {
+    if (!isset($_REQUEST['from']) && !isset($_REQUEST['to'])) {
         $fromDate = date('Y-m-d');
+        $_SESSION['from'] = $fromDate;
         $toDate = date('Y-m-d');
-        header("Location: ?from=$fromDate&to=$toDate");
+        $_SESSION['to'] = $toDate;
+        $listTransaksi = $conn -> query("SELECT * FROM htrans WHERE DATE(tanggal_transaksi) >= '$fromDate' AND DATE(tanggal_transaksi) <= '$toDate'");
     }
 ?>
 <!DOCTYPE html>
@@ -58,14 +56,14 @@
                     echo "<tr>";
                         echo "<td>".($key+1).".</td>";
                         echo "<td>".$value['tanggal_transaksi']."</td>";
-                        $user = $listUser[$value['id_user'] - 1];
+                        $user = $listUser[$value['id_users'] - 1];
                         echo "<td>".$user['nama_user']."</td>";
-                        echo "<td>".$value['total']."</td>";
-                        echo "<td><button name='detail-".$value['id_htrans']."'></button></td>";
+                        echo "<td>Rp. ".number_format($value['total'],0,'','.').",-</td>";
+                        echo "<td><button name='detail-".$value['id_htrans']."'>Detail</button></td>";
                     echo "</tr>";
                     $total += $value['total'];
                 }
-                ?>
+            ?>
         </table>
         <h1>Total: Rp. <?=number_format($total,0,'','.')?>,-</h1>
     </form>
