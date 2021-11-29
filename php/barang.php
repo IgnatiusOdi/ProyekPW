@@ -58,6 +58,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detail Barang</title>
     <link rel="stylesheet" href="../css/detailbarang.css">
+    <link rel="stylesheet" href="../css/search.css">
     <link type="text/css" rel="stylesheet" href="../css/bootstrap.min.css" />
     <link type="text/css" rel="stylesheet" href="../css/slick.css" />
     <link type="text/css" rel="stylesheet" href="../css/slick-theme.css" />
@@ -66,11 +67,16 @@
     <link type="text/css" rel="stylesheet" href="../css/style.css" />
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
     <script src="../js/jquery.min.js"></script>
+<style>
+    .row{
+        margin:0;
+    }
+</style>
 </head>
 
 <body>
     
-    <div class="topnav">
+    <!-- <div class="topnav">
         <div>
             <div class="a">
                 <a href="search.php">Back</a>
@@ -83,7 +89,27 @@
                 <button onclick="search();">Search</button>
             </div>
         </div>
-    </div>
+    </div> -->
+
+    <div class="topnav">
+            <div class="row">
+                <div class="a">
+                    <a href="home.php">Home</a>
+                    <a href="../midtrans/index.php/snap">Search</a>
+                    <a href="../midtrans/index.php/snap">Cart</a>
+                    <a href="history.php">History</a>
+                </div>
+
+                <div class="b">
+                    <form action="" method="post">
+                        <input type="search" id="search" name="itemname" placeholder="Search Item Name" value='<?=(isset($_SESSION['itemname'])) ? $_SESSION['itemname'] : "" ?>'>
+                        <button name="search">Search</button>
+                        <button onclick="location.href = 'search.php';">Clear</button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
 
 
     <div class="container">
