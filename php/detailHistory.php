@@ -1,17 +1,15 @@
 <?php
     require_once('connection.php');
 
-    // $idUser = $_SESSION['user'] + 1;
-    // $listTransaksi = $conn -> query("SELECT * FROM htrans WHERE id_users='$idUser'") -> fetch_all(MYSQLI_ASSOC);
+    if (!isset($_SESSION['user'])) {
+        header("Location: login.php");
+    }
 
-    // foreach ($listTransaksi as $key => $value) {
-    //     if (isset($_REQUEST['cancel-'.$value['id_htrans']])) {
-    //         $id = $value['id_htrans'];
-    //         $sql = "UPDATE `payment` SET `status_code`='999',`transaction_status`='canceled' WHERE id='$id'";
-    //         $q = $conn -> prepare($sql);
-    //         $q -> execute();
-    //     }
-    // }
+    $idUser = $_SESSION['user'] + 1;
+    $id_htrans = $_REQUEST['id_transaksi'];
+    $listHistory = $conn -> query("SELECT * FROM dtrans WHERE id_htrans='$id_htrans'") -> fetch_all(MYSQLI_ASSOC);
+
+
 ?>
 
 <!DOCTYPE html>
@@ -57,7 +55,7 @@
         <a href="../midtrans/index.php/snap">Cart</a>
     </div>
 
-    <!-- <h1>History Transaksi</h1>
+    <h1>Transaction ID: <?=$id_htrans?></h1>
     <table class="table" border=1>
         <tr>
             <td>No.</td>
@@ -91,6 +89,6 @@
                 }
             ?>
         </div>
-    </table> -->
+    </table>
 </body>
 </html>

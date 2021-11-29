@@ -1,7 +1,7 @@
 <?php
   require_once('./application/controllers/connection.php');
   if (!isset($_SESSION['user'])) {
-      header("Location: login.php");
+      header("Location: ../../php/login.php");
   }
   $userNow = $listUser[$_SESSION['user']];
   $idUser = $userNow['id_users'];

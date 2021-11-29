@@ -1,6 +1,10 @@
 <?php
     require_once('connection.php');
 
+    if (!isset($_SESSION['user'])) {
+        header("Location: login.php");
+    }
+
     $idUser = $_SESSION['user'] + 1;
     $listTransaksi = $conn -> query("SELECT * FROM htrans WHERE id_users='$idUser'") -> fetch_all(MYSQLI_ASSOC);
 
@@ -64,8 +68,8 @@
     <table class="table" border=1>
         <tr>
             <td>No.</td>
-            <td>Tanggal Transaksi</td>
-            <td>Jumlah</td>
+            <td>Transaction Date</td>
+            <td>Total Price</td>
             <td>Status</td>
             <td colspan=2>Action</td>
         </tr>
@@ -88,9 +92,11 @@
                                 echo "<button name='cancel-".$value['id_htrans']."'>Cancel</button>";
                                 echo "</form>";
                             }
-                        echo "<form action='' method='post'>";
-                            echo "<button name='detail-".$value['id_htrans']."'>Detail</button>";
-                        echo "</form>";
+                            if ($payment['status_code'] != 999) {
+                                echo "<form action='' method='post'>";
+                                    echo "<button name='detail-".$value['id_htrans']."'>Detail</button>";
+                                echo "</form>";
+                            }
                         echo "</td>";
                     echo "</tr>";
                 }
