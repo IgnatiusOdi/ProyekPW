@@ -2,6 +2,18 @@
     require_once('connection.php');
     
     $barangNow = $listBarang[$_REQUEST['id_barang'] - 1];
+
+    if (isset($_REQUEST['search'])) {
+        $itemname = $_REQUEST['itemname'];
+        $_SESSION['itemname'] = $itemname;
+
+        if (isset($_REQUEST['category'])) {
+            $category = $_REQUEST['category'];
+            header("Location: search.php?page=1&category=".$category."&itemname=".$itemname);
+        } else {
+            header("Location: search.php?page=1&itemname=$itemname");
+        }
+    }
     
     if (isset($_REQUEST['addToCart'])) {
         if (!isset($_SESSION['user'])) {
@@ -77,17 +89,9 @@
         <div class="row">
             <div class="a">
                 <a href="home.php">Home</a>
-                <a href="../midtrans/index.php/snap">Search</a>
+                <a href=<?="search.php?page=1&category=".$_SESSION['category']."&itemname=".$_SESSION['itemname']?>>Search</a>
                 <a href="../midtrans/index.php/snap">Cart</a>
                 <a href="history.php">History</a>
-            </div>
-
-            <div class="b">
-                <form action="" method="post">
-                    <input type="search" id="search" name="itemname" placeholder="Search Item Name" value='<?=(isset($_SESSION['itemname'])) ? $_SESSION['itemname'] : "" ?>'>
-                    <button name="search">Search</button>
-                    <button onclick="location.href = 'search.php';">Clear</button>
-                </form>
             </div>
         </div>
     </div>

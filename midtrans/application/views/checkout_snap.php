@@ -95,7 +95,7 @@
         <div class="row">
             <div class="a">
                 <a href="../../php/home.php" class="">Home</a>
-                <a href="../../php/search.php">Search</a>
+                <a href=<?="../../php/search.php?page=1&category=".$_SESSION['category']."&itemname=".$_SESSION['itemname']?>>Search</a>
                 <a href="" class="active">Cart</a>
                 <a href="../../php/history.php">History</a>
             </div>

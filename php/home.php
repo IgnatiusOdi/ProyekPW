@@ -3,41 +3,22 @@
 
 	if (isset($_REQUEST['logout'])) {
 		unset($_SESSION['user']);
-		header("Location: home.php");
+		header("Location: login.php");
 	}
 
 	if (isset($_POST['catalogg'])) {
+		$_SESSION['category'] = '';
+		$_SESSION['itemname'] = '';
 		header("Location: search.php");
 	}
 
 	if (isset($_REQUEST['search'])) {
 		$category = $_REQUEST['category'];
+		$_SESSION['category'] = $category;
 		$itemname = $_REQUEST['itemname'];
+		$_SESSION['itemname'] = $itemname;
 
-		$nextLocation = "search.php";
-
-		if ($category != 0) {
-			if ($category == 1) {
-				$category = "Rackets";
-			} else if ($category == 2) {
-				$category = "Shoes";
-			} else if ($category == 3) {
-				$category = "Shuttlecocks";
-			} else {
-				$category = "Nets";
-			}
-			$nextLocation .= "?category=$category";
-		}
-
-		if ($itemname != "") {
-			if ($category != 0) {
-				$nextLocation .= "&itemname=$itemname";
-			} else {
-				$nextLocation .= "?itemname=$itemname";
-			}
-		}
-		
-		header("Location: $nextLocation");
+		header("Location: search.php?page=1&category=$category&itemname=$itemname");
 	}
 ?>
 
@@ -79,11 +60,11 @@
 					<div class="header-search">
 						<form action="" method="post">
 							<select class="input-select" name="category">
-								<option value="0">All Categories</option>
-								<option value="1">Rackets</option>
-								<option value="2">Shoes</option>
-								<option value="3">Shuttlecocks</option>
-								<option value="4">Nets</option>
+								<option value="">All Categories</option>
+								<option value="Rackets">Rackets</option>
+								<option value="Shoes">Shoes</option>
+								<option value="Shuttlecocks">Shuttlecocks</option>
+								<option value="Nets">Nets</option>
 							</select>
 							<input class="input" name="itemname" placeholder="Search here">
 							<button class="search-btn" name="search">Search</button>
@@ -139,13 +120,6 @@
 						<div class="product-body">
 							<p class="product-category">Category</p>
 							<h3 class="product-name">Rackets</h3>
-							<!-- <div class="product-rating">
-								<i class="fa fa-star"></i>
-								<i class="fa fa-star"></i>
-								<i class="fa fa-star"></i>
-								<i class="fa fa-star"></i>
-								<i class="fa fa-star"></i>
-							</div> -->
 						</div>
 					</div>
 				</div>
@@ -159,13 +133,6 @@
 						<div class="product-body">
 							<p class="product-category">Category</p>
 							<h3 class="product-name">Shoes</h3>
-							<!-- <div class="product-rating">
-								<i class="fa fa-star"></i>
-								<i class="fa fa-star"></i>
-								<i class="fa fa-star"></i>
-								<i class="fa fa-star"></i>
-								<i class="fa fa-star"></i>
-							</div> -->
 						</div>
 					</div>
 				</div>
@@ -178,13 +145,6 @@
 						<div class="product-body">
 							<p class="product-category">Category</p>
 							<h3 class="product-name">Shuttlecocks</h3>
-							<!-- <div class="product-rating">
-								<i class="fa fa-star"></i>
-								<i class="fa fa-star"></i>
-								<i class="fa fa-star"></i>
-								<i class="fa fa-star"></i>
-								<i class="fa fa-star"></i>
-							</div> -->
 						</div>
 					</div>
 				</div>
@@ -197,13 +157,6 @@
 						<div class="product-body">
 							<p class="product-category">Category</p>
 							<h3 class="product-name">Nets</h3>
-							<!-- <div class="product-rating">
-								<i class="fa fa-star"></i>
-								<i class="fa fa-star"></i>
-								<i class="fa fa-star"></i>
-								<i class="fa fa-star"></i>
-								<i class="fa fa-star"></i>
-							</div> -->
 						</div>
 					</div>
 				</div>
@@ -279,16 +232,20 @@
 	<script>
 		$(() => {
 			$("#rackets").on("click", function() {
-				window.location.href = 'search.php?category=Rackets';
+				sessionStorage.removeItem('itemname');
+				window.location.href = 'search.php?page=1&category=Rackets&itemname=';
 			});
 			$("#shoes").on("click", function() {
-				window.location.href = 'search.php?category=Shoes';
+				sessionStorage.removeItem('itemname');
+				window.location.href = 'search.php?page=1&category=Shoes&itemname=';
 			});
 			$("#cocks").on("click", function() {
-				window.location.href = 'search.php?category=Shuttlecocks';
+				sessionStorage.removeItem('itemname');
+				window.location.href = 'search.php?page=1&category=Shuttlecocks&itemname=';
 			});
 			$("#nets").on("click", function() {
-				window.location.href = 'search.php?category=Nets';
+				sessionStorage.removeItem('itemname');
+				window.location.href = 'search.php?page=1&category=Nets&itemname=';
 			});
 		});
 	</script>

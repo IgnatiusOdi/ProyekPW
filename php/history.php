@@ -48,7 +48,7 @@
         <div class="row">
             <div class="a">
                 <a href="home.php" class="">Home</a>
-                <a href="search.php">Search</a>
+                <a href=<?="search.php?page=1&category=".$_SESSION['category']."&itemname=".$_SESSION['itemname']?>>Search</a>
                 <a href="../midtrans/index.php/snap" >Cart</a>
                 <a href="" class="active">History</a>
             </div>

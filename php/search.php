@@ -59,16 +59,26 @@
         }
     }
 
+    if (!isset($_SESSION['category']) && !isset($_SESSION['itemname'])) {
+        $_SESSION['category'] = '';
+        $_SESSION['itemname'] = '';
+        header("Location: search.php?page=1&category=&itemname=");
+    }
+
     if (isset($_REQUEST['search'])) {
+        $category = $_REQUEST['kategori'];
+        $_SESSION['category'] = $category;
+
         $itemname = $_REQUEST['itemname'];
         $_SESSION['itemname'] = $itemname;
 
-        if (isset($_REQUEST['category'])) {
-            $category = $_REQUEST['category'];
-            header("Location: ?page=1&category=".$category."&itemname=".$itemname);
-        } else {
-            header("Location: ?page=1&itemname=$itemname");
-        }
+        header("Location: ?page=1&category=".$category."&itemname=".$itemname);
+    }
+
+    if (isset($_REQUEST['clear'])) {
+        $_SESSION['category'] = '';
+        $_SESSION['itemname'] = '';
+        header("Location: search.php");
     }
 
     foreach ($listBarang as $key => $value) {
@@ -150,22 +160,44 @@
                     <a href="../midtrans/index.php/snap">Cart</a>
                     <a href="history.php">History</a>
                 </div>
-
-                <div class="b">
-                    <form action="" method="post">
-                        <input type="search" id="search" name="itemname" placeholder="Search Item Name" value='<?=(isset($_SESSION['itemname'])) ? $_SESSION['itemname'] : "" ?>'>
-                        <button name="search">Search</button>
-                        <button onclick="location.href = 'search.php';">Clear</button>
-                    </form>
-                </div>
             </div>
+        </div>
+
+        <div class="kategori">
+            <form action="" method="post">
+                Category
+                <select name="kategori">
+                    <option value="" <?=$_SESSION['category'] == '' ? 'selected' : ''?>>All</option>
+                    <option value="Rackets" <?=$_SESSION['category'] == 'Rackets' ? 'selected' : ''?>>Rackets</option>
+                    <option value="Shoes" <?=$_SESSION['category'] == 'Shoes' ? 'selected' : ''?>>Shoes</option>
+                    <option value="Shuttlecocks" <?=$_SESSION['category'] == 'Shuttlecocks' ? 'selected' : ''?>>Shuttlecocks</option>
+                    <option value="Nets" <?=$_SESSION['category'] == 'Nets' ? 'selected' : ''?>>Nets</option>
+                </select>
+                <input type="search" id="search" name="itemname" placeholder="Search Item Name" value='<?=(isset($_SESSION['itemname'])) ? $_SESSION['itemname'] : "" ?>'>
+                <button name="search">Search</button>
+                <button name="clear">Clear</button>
+                <!-- <br>
+                Sort
+                <select name="filter">
+                    <option value=""></option>
+                    <option value="Nama">Nama</option>
+                    <option value="Harga">Harga</option>
+                    <option value="Stok">Stok</option>
+                </select>
+                <select name="ascdesc">
+                    <option value=""></option>
+                    <option value="ASC">Ascending</option>
+                    <option value="DESC">Descending</option>
+                </select> -->
+            </form>
         </div>
 
         <div class="isi">
             <form action="" method="post">
                 <div class="content" style="width: 100%; height: 50%;">
                     <?php
-                    foreach ($listBarang as $key => $value) {
+                    if (count($listBarang) > 0) {
+                        foreach ($listBarang as $key => $value) {
                     ?>
                         <div class="card col" onclick=detail(<?= $value['id_barang'] ?>)>
                             <img src=<?= $value['foto_barang'] ?>>
@@ -180,6 +212,9 @@
                             ?>
                         </div>
                     <?php
+                        }
+                    } else {
+                        echo "<h1 style='text-align:center;'>Item Not Found!</h1>";
                     }
                     ?>
                 </div>
