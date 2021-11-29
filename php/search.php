@@ -150,7 +150,7 @@
             <div class="row">
                 <div class="a">
                     <a href="home.php">Home</a>
-                    <a href="../midtrans/index.php/snap" class="active">Search</a>
+                    <a href="" class="active">Search</a>
                     <a href="../midtrans/index.php/snap">Cart</a>
                     <a href="history.php">History</a>
                 </div>

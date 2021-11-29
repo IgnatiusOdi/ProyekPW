@@ -48,9 +48,9 @@
         <div class="row">
             <div class="a">
                 <a href="home.php" class="">Home</a>
-                <a href="../midtrans/index.php/snap">Search</a>
+                <a href="search.php">Search</a>
                 <a href="../midtrans/index.php/snap" >Cart</a>
-                <a href="history.php" class="active">History</a>
+                <a href="" class="active">History</a>
             </div>
         </div>
 
