@@ -51,7 +51,6 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -73,44 +72,25 @@
     }
 </style>
 </head>
-
 <body>
-    
-    <!-- <div class="topnav">
-        <div>
+    <div class="topnav">
+        <div class="row">
             <div class="a">
-                <a href="search.php">Back</a>
+                <a href="home.php">Home</a>
+                <a href="../midtrans/index.php/snap">Search</a>
                 <a href="../midtrans/index.php/snap">Cart</a>
                 <a href="history.php">History</a>
             </div>
 
             <div class="b">
-                <input type="search" id="search" placeholder="Search Item Name">
-                <button onclick="search();">Search</button>
+                <form action="" method="post">
+                    <input type="search" id="search" name="itemname" placeholder="Search Item Name" value='<?=(isset($_SESSION['itemname'])) ? $_SESSION['itemname'] : "" ?>'>
+                    <button name="search">Search</button>
+                    <button onclick="location.href = 'search.php';">Clear</button>
+                </form>
             </div>
         </div>
-    </div> -->
-
-    <div class="topnav">
-            <div class="row">
-                <div class="a">
-                    <a href="home.php">Home</a>
-                    <a href="../midtrans/index.php/snap">Search</a>
-                    <a href="../midtrans/index.php/snap">Cart</a>
-                    <a href="history.php">History</a>
-                </div>
-
-                <div class="b">
-                    <form action="" method="post">
-                        <input type="search" id="search" name="itemname" placeholder="Search Item Name" value='<?=(isset($_SESSION['itemname'])) ? $_SESSION['itemname'] : "" ?>'>
-                        <button name="search">Search</button>
-                        <button onclick="location.href = 'search.php';">Clear</button>
-                    </form>
-                </div>
-            </div>
-
-        </div>
-
+    </div>
 
     <div class="container">
         <div class="gambar">
@@ -153,7 +133,5 @@
             location.href = "search.php?itemname=" + $itemname;
         }
     </script>
-
 </body>
-
 </html>

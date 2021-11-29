@@ -26,7 +26,7 @@
     $pageAktif = isset($_REQUEST['page']) ? $_REQUEST['page'] : 1;
     $start = ( $dataPerHalaman * $pageAktif ) - $dataPerHalaman;
 
-    $jumlahTampil = 1;
+    $jumlahTampil = 2;
     if ($pageAktif > $jumlahTampil) {
         $start_num = $pageAktif - $jumlahTampil;
     } else {
@@ -121,7 +121,6 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -141,11 +140,8 @@
     <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script> -->
 </head>
-
 <body>
-
     <section>
-
         <div class="topnav">
             <div class="row">
                 <div class="a">
@@ -163,16 +159,7 @@
                     </form>
                 </div>
             </div>
-
         </div>
-
-   <!-- <div class="c ">
-                    <a href="?page=1&category=Rackets<?=(isset($_SESSION['itemname'])) ? '&itemname='.$_SESSION['itemname'] : '';?>" id="Rackets">Rackets</a>
-                    <a href="?page=1&category=Shoes<?=(isset($_SESSION['itemname'])) ? '&itemname='.$_SESSION['itemname'] : '';?>" id="Shoes">Shoes</a>
-                    <a href="?page=1&category=Shuttlecocks<?=(isset($_SESSION['itemname'])) ? '&itemname='.$_SESSION['itemname'] : '';?>" id="Cocks">Shuttlecocks</a>
-                    <a href="?page=1&category=Nets<?=(isset($_SESSION['itemname'])) ? '&itemname='.$_SESSION['itemname'] : '';?>" id="Nets">Nets</a>
-                </div> -->
-
 
         <div class="isi">
             <form action="" method="post">
@@ -205,6 +192,10 @@
                         ?>
                             <li class="page-item">
                                 <a class="page-link" href="?page=1<?=(isset($_SESSION['category'])) ? '&category='.$_SESSION['category']: '';?><?=(isset($_SESSION['itemname'])) ? '&itemname='.$_SESSION['itemname'] : '';?>" aria-label="Previous">
+                                    <span aria-hidden="true">First</span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                                <a class="page-link" href="?page=<?=($pageAktif - 1)?><?=(isset($_SESSION['category'])) ? '&category='.$_SESSION['category']: '';?><?=(isset($_SESSION['itemname'])) ? '&itemname='.$_SESSION['itemname'] : '';?>" aria-label="Previous">
                                     <span aria-hidden="true">&laquo;</span>
                                     <span class="sr-only">Previous</span>
                                 </a>
@@ -225,8 +216,12 @@
                             if ($pageAktif < $totalHalaman) {
                         ?>
                             <li class="page-item">
-                                <a class="page-link" href="?page=<?=$totalHalaman?><?=(isset($_SESSION['category'])) ? '&category='.$_SESSION['category']: '';?><?=(isset($_SESSION['itemname'])) ? '&itemname='.$_SESSION['itemname'] : '';?>" aria-label="Next">
+                                <a class="page-link" href="?page=<?=($pageAktif + 1)?><?=(isset($_SESSION['category'])) ? '&category='.$_SESSION['category']: '';?><?=(isset($_SESSION['itemname'])) ? '&itemname='.$_SESSION['itemname'] : '';?>" aria-label="Next">
                                     <span aria-hidden="true">&raquo;</span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                                <a class="page-link" href="?page=<?=$totalHalaman?><?=(isset($_SESSION['category'])) ? '&category='.$_SESSION['category']: '';?><?=(isset($_SESSION['itemname'])) ? '&itemname='.$_SESSION['itemname'] : '';?>" aria-label="Next">
+                                    <span aria-hidden="true">Last</span>
                                     <span class="sr-only">Next</span>
                                 </a>
                             </li>
@@ -236,21 +231,8 @@
                     </ul>
                 </nav>
             </div>
-            
         </div>
-
-
-
-
     </section>
-
-
-    <!-- <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/slick.min.js"></script>
-    <script src="js/nouislider.min.js"></script>
-    <script src="js/jquery.zoom.min.js"></script>
-    <script src="js/main.js"></script> -->
     <script>
         function detail(id) {
             location.href = 'barang.php?id_barang='+id;

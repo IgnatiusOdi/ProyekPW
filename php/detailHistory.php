@@ -9,7 +9,12 @@
     $id_htrans = $_REQUEST['id_transaksi'];
     $listHistory = $conn -> query("SELECT * FROM dtrans WHERE id_htrans='$id_htrans'") -> fetch_all(MYSQLI_ASSOC);
 
+    $q = $conn -> query("SELECT tanggal_transaksi FROM htrans WHERE id_htrans='$id_htrans'") -> fetch_assoc();
+    $tanggal = $q['tanggal_transaksi'];
 
+    if (isset($_REQUEST['back'])) {
+        header("Location: history.php");
+    }
 ?>
 
 <!DOCTYPE html>
@@ -55,40 +60,38 @@
         <a href="../midtrans/index.php/snap">Cart</a>
     </div>
 
-    <h1>Transaction ID: <?=$id_htrans?></h1>
+    <form action="" method="post">
+        <button name="back">Back</button>
+    </form>
+    <h1><u>Transaction</u></h1>
+    <h4>ID: <?=$id_htrans?></h4>
+    <h4>Date-time : <?=date('d F Y-H:i:s', strtotime($tanggal)); ?></h4>
     <table class="table" border=1>
         <tr>
             <td>No.</td>
-            <td>Tanggal Transaksi</td>
+            <td>Barang</td>
             <td>Jumlah</td>
-            <td>Status</td>
-            <td colspan=2>Action</td>
+            <td>Subtotal</td>
         </tr>
         <div class="cart">
             <?php
-                foreach ($listTransaksi as $key => $value) {
-                    $idPayment = $value['id_payment'];
-                    $sql = "SELECT status_code, transaction_status FROM payment WHERE id='$idPayment'";
-                    $payment = $conn -> query($sql) -> fetch_assoc();
-
+                $total = 0;
+                foreach ($listHistory as $key => $value) {
+                    $barang = $listBarang[$value['id_barang'] - 1];
+                    $foto = $barang['foto_barang'];
                     echo "<tr>";
                         echo "<td>".($key + 1).".</td>";
-                        echo "<td>".$value['tanggal_transaksi']."</td>";
-                        echo "<td>Rp. ".number_format($value['total'],0,'','.').",-</td>";
-                        echo "<td>".$payment['transaction_status']."</td>";
-                        echo "<td>";
-                            if ($payment['status_code'] == 201) {
-                                echo "<a href='https://simulator.sandbox.midtrans.com/bca/va/index' target='_blank'><button>Pay</button></a>";
-                        echo "<form action='' method='post'>";
-                                echo "<button name='cancel-".$value['id_htrans']."'>Cancel</button>";
-                            }
-                            echo "<button name='detail-".$value['id_htrans']."'>Detail</button>";
-                        echo "</td>";
-                        echo "</form>";
+                        echo "<td><img src='".$foto."'><br>".$barang['nama_barang']."</td>";
+                        echo "<td>".$value['jumlah']."</td>";
+                        $harga = $barang['harga_barang'] * $value['jumlah'];
+                        echo "<td>Rp. ".number_format($harga,0,'','.').",-</td>";
                     echo "</tr>";
+
+                    $total += $harga;
                 }
             ?>
         </div>
     </table>
+    <h2>Total: Rp.<?=number_format($total,0,'','.')?>,-</h2>
 </body>
 </html>

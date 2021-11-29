@@ -56,7 +56,7 @@
 
     </div>
 
-    <h1>History Transaksi</h1>
+    <h1>Transaction History</h1>
     <table class="table" border=1 style="font-size: 20px;">
         <tr>
             <td>No.</td>

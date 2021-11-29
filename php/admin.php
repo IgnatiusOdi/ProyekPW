@@ -62,12 +62,12 @@
     <form action="" method="post">
         <h1>Admin Home</h1>
         Home
-        <a href="adminAdd.php">Add Barang</a>
-        <a href="adminTransaksi.php">Transaksi</a>
+        <a href="adminAdd.php">Add</a>
+        <a href="adminTransaction.php">Transaction</a>
         <button name="logout">Logout</button><br>
 
-        <span>Total Barang Yang Ada: <?=$totalData?></span>
-        <h2>LIST BARANG</h2>
+        <span>Total Item: <?=$totalData?></span>
+        <h2>List Item</h2>
         <input type="text" name="keyword" id="keyword" placeholder="Search here..." autofocus>
         <button name="search">Search</button><br>
         <?php

@@ -7,7 +7,9 @@
 
         if ($username == "jlairlangga@gmail.com" && $password == "opoikiair123") {
             $_SESSION['admin'] = true;
-            header("Location: admin.php");
+            $keyword = $_REQUEST['keyword'];
+            $_SESSION['keyword'] = $keyword;
+            header("Location: admin.php?page=1");
         }
     }
 ?>

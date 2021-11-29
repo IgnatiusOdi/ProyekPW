@@ -67,14 +67,14 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Barang</title>
+    <title>Add</title>
 </head>
 <body>
     <form action="" method="post" enctype="multipart/form-data">
-        <h1>Admin Add Barang</h1>
+        <h1>Admin Add</h1>
         <a href="admin.php">Home</a>
-        Add Barang
-        <a href="adminTransaksi.php">Transaksi</a>
+        Add
+        <a href="adminTransaction.php">Transaction</a>
         <button name="logout">Logout</button><br>
 
         <h2>Item</h2>
