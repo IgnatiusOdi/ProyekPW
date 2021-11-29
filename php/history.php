@@ -30,42 +30,34 @@
     <title>History</title>
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="../css/style.css" />
-    <style>
-        body{
-            margin: 0;
-            padding: 0;
-        }
-        .header a {
-            justify-content: center;
-            margin-right: 10px;
-            float: left;
-            color: #f2f2f2;
-            text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
-            font-size: 17px;
-        }
-
-        .header {
-            background-color: #333;
-            overflow: hidden;
-            display: flex;
-            position: sticky;
-            /* margin-left: 100px; */
-        }
-    </style>
+    <link type="text/css" rel="stylesheet" href="../css/search.css" />
+    <link type="text/css" rel="stylesheet" href="../css/bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet" href="../css/slick.css" />
+    <link type="text/css" rel="stylesheet" href="../css/slick-theme.css" />
+    <link type="text/css" rel="stylesheet" href="../css/nouislider.min.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <style>
+        .topnav .a{
+        width: auto;
+        }
+    </style>
 </head>
 <body>
-    <div class="header">
-        <a href="home.php">Home</a>
-        <a href="search.php">Search</a>
-        <a href="../midtrans/index.php/snap">Cart</a>
+<div class="topnav">
+        <div class="row">
+            <div class="a">
+                <a href="home.php" class="">Home</a>
+                <a href="../midtrans/index.php/snap">Search</a>
+                <a href="../midtrans/index.php/snap" >Cart</a>
+                <a href="history.php" class="active">History</a>
+            </div>
+        </div>
+
     </div>
 
     <h1>History Transaksi</h1>
-    <table class="table" border=1>
+    <table class="table" border=1 style="font-size: 20px;">
         <tr>
             <td>No.</td>
             <td>Transaction Date</td>

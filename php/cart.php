@@ -1,79 +1,79 @@
 <?php
-    require_once('connection.php');
+require_once('connection.php');
 
-    if (!isset($_SESSION['user'])) {
-        header("Location: login.php");
+if (!isset($_SESSION['user'])) {
+    header("Location: login.php");
+}
+
+$idUser = $_SESSION['user'] + 1;
+$listCart = $conn->query("SELECT * FROM cart WHERE id_users='$idUser'")->fetch_all(MYSQLI_ASSOC);
+$hargaTotal = 0;
+
+foreach ($listCart as $key => $value) {
+    $idCart = $value['id_cart'];
+    if (isset($_REQUEST['delete-' . $idCart])) {
+        $idBarang = $value['id_barang'];
+        $jumlahPesan = $value['jumlah'];
+
+        $barang = $listBarang[$idBarang - 1];
+        $stokBarang = $barang['stok_barang'];
+
+        //RETURN STOK
+        $total = $stokBarang + $jumlahPesan;
+        $sql = "UPDATE `barang` SET `stok_barang`=? WHERE `id_barang`='$idBarang'";
+        $q = $conn->prepare($sql);
+        $q->bind_param("i", $total);
+        $q->execute();
+
+        //DELETE FROM CART
+        $sql = "DELETE FROM `cart` WHERE id_cart='$idCart'";
+        $q = $conn->prepare($sql);
+        $q->execute();
+
+        echo "<script>alert('Barang telah dibatalkan')</script>";
+        header("Refresh:0");
     }
+}
 
-    $idUser = $_SESSION['user'] + 1;
-    $listCart = $conn -> query("SELECT * FROM cart WHERE id_users='$idUser'") -> fetch_all(MYSQLI_ASSOC);
-    $hargaTotal = 0;
+if (isset($_REQUEST['clearAll'])) {
+    $ada = false;
 
+    //CLEAR CART
     foreach ($listCart as $key => $value) {
         $idCart = $value['id_cart'];
-        if (isset($_REQUEST['delete-'.$idCart])) {
-            $idBarang = $value['id_barang'];
-            $jumlahPesan = $value['jumlah'];
 
-            $barang = $listBarang[$idBarang - 1];
-            $stokBarang = $barang['stok_barang'];
+        $idBarang = $value['id_barang'];
+        $jumlahPesan = $value['jumlah'];
 
-            //RETURN STOK
-            $total = $stokBarang + $jumlahPesan;
-            $sql = "UPDATE `barang` SET `stok_barang`=? WHERE `id_barang`='$idBarang'";
-            $q = $conn -> prepare($sql);
-            $q -> bind_param("i", $total);
-            $q -> execute();
+        $barang = $listBarang[$idBarang - 1];
+        $stokBarang = $barang['stok_barang'];
 
-            //DELETE FROM CART
-            $sql = "DELETE FROM `cart` WHERE id_cart='$idCart'";
-            $q = $conn -> prepare($sql);
-            $q -> execute();
+        //RETURN STOK
+        $total = $stokBarang + $jumlahPesan;
+        $sql = "UPDATE `barang` SET `stok_barang`=? WHERE `id_barang`='$idBarang'";
+        $q = $conn->prepare($sql);
+        $q->bind_param("i", $total);
+        $q->execute();
 
-            echo "<script>alert('Barang telah dibatalkan')</script>";
-            header("Refresh:0");
-        }
+        //DELETE FROM CART
+        $sql = "DELETE FROM `cart` WHERE id_cart='$idCart'";
+        $q = $conn->prepare($sql);
+        $q->execute();
+
+        $ada = true;
     }
 
-    if (isset($_REQUEST['clearAll'])) {
-        $ada = false;
-
-        //CLEAR CART
-        foreach ($listCart as $key => $value) {
-            $idCart = $value['id_cart'];
-
-            $idBarang = $value['id_barang'];
-            $jumlahPesan = $value['jumlah'];
-
-            $barang = $listBarang[$idBarang - 1];
-            $stokBarang = $barang['stok_barang'];
-
-            //RETURN STOK
-            $total = $stokBarang + $jumlahPesan;
-            $sql = "UPDATE `barang` SET `stok_barang`=? WHERE `id_barang`='$idBarang'";
-            $q = $conn -> prepare($sql);
-            $q -> bind_param("i", $total);
-            $q -> execute();
-
-            //DELETE FROM CART
-            $sql = "DELETE FROM `cart` WHERE id_cart='$idCart'";
-            $q = $conn -> prepare($sql);
-            $q -> execute();
-
-            $ada = true;
-        }
-
-        if ($ada) {
-            echo "<script>alert('Semua Barang Dibatalkan')</script>";
-            header("Refresh:0");
-        }
+    if ($ada) {
+        echo "<script>alert('Semua Barang Dibatalkan')</script>";
+        header("Refresh:0");
     }
+}
 
-    if (isset($_REQUEST['checkout'])) {
-        if (count($listCart) > 0) {
-            echo "<script>alert('Hello')</script>";
-        }
+if (isset($_REQUEST['checkout'])) {
+    if (count($listCart) > 0) {
+        echo "<script>alert('Hello')</script>";
     }
+}
 ?>
 
 <!DOCTYPE html>
@@ -85,41 +85,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cart</title>
     <script src="../js/jquery.min.js"></script>
-    <style>
-        body{
-            margin: 0;
-            padding: 0;
-        }
-        .header a {
-            justify-content: center;
-            margin-right: 10px;
-            float: left;
-            color: #f2f2f2;
-            text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
-            font-size: 17px;
-        }
-
-        .header {
-            background-color: #333;
-            overflow: hidden;
-            display: flex;
-            position: sticky;
-            /* margin-left: 100px; */
-        }
-    </style>
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+   
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="../css/bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet" href="../css/slick.css" />
+    <link type="text/css" rel="stylesheet" href="../css/slick-theme.css" />
+    <link type="text/css" rel="stylesheet" href="../css/nouislider.min.css" />
+    <!-- <link rel="stylesheet" href="../css/font-awesome.min.css">a -->
+    <link type="text/css" rel="stylesheet" href="../css/style.css" />
+
+    <link rel="stylesheet" href="../css/search.css">
 </head>
 
 <body>
-    <div class="header">
-        <a href="home.php">Home</a>
-        <a href="search.php">Search</a>
-        <a href="history.php">History</a>
-    </div>
 
+    <div class="topnav">
+        <div class="row">
+            <div class="a">
+                <a href="home.php" class="">Home</a>
+                <a href="../midtrans/index.php/snap">Search</a>
+                <a href="../midtrans/index.php/snap" class="active">Cart</a>
+                <a href="history.php">History</a>
+            </div>
+        </div>
+
+    </div>
     <!-- <br> -->
 
     <table class="table" border=1>
@@ -132,33 +125,33 @@
         </tr>
         <div class="cart">
             <?php
-                foreach ($listCart as $key => $value) {
-                    echo "<tr>";
-                        echo "<td>".($key + 1).".</td>";
-                        $id = $value['id_barang'];
-                        $barang = $listBarang[$value['id_barang'] - 1];
-                        echo "<td><img style='width: 150px; cursor: pointer;' onclick='detail($id)' src=".$barang['foto_barang']."><br>".$barang['nama_barang']."</td>";
-                        echo "<td>".$value['jumlah']."</td>";
-                        echo "<td>Rp. ".number_format($barang['harga_barang'] * $value['jumlah'],0,'','.').",-</td>";
-                        echo "<form action='' method='post'>";
-                        echo "<td><button name='delete-".$value['id_cart']."'>Cancel</button></td>";
-                        echo "</form>";
-                    echo "</tr>";
-                    $hargaTotal += $value['jumlah'] * $barang['harga_barang'];
-                }
+            foreach ($listCart as $key => $value) {
+                echo "<tr>";
+                echo "<td>" . ($key + 1) . ".</td>";
+                $id = $value['id_barang'];
+                $barang = $listBarang[$value['id_barang'] - 1];
+                echo "<td><img style='width: 150px; cursor: pointer;' onclick='detail($id)' src=" . $barang['foto_barang'] . "><br>" . $barang['nama_barang'] . "</td>";
+                echo "<td>" . $value['jumlah'] . "</td>";
+                echo "<td>Rp. " . number_format($barang['harga_barang'] * $value['jumlah'], 0, '', '.') . ",-</td>";
+                echo "<form action='' method='post'>";
+                echo "<td><button name='delete-" . $value['id_cart'] . "'>Cancel</button></td>";
+                echo "</form>";
+                echo "</tr>";
+                $hargaTotal += $value['jumlah'] * $barang['harga_barang'];
+            }
             ?>
         </div>
     </table>
     <form action="" method="post">
-        <button name="clearAll" style="float: left;" class="btn btn-danger" <?= count($listCart) == 0 ? "hidden" : ""?>>Clear All</button>
-        <h3 style="float: right;">Total: Rp. <?=number_format($hargaTotal,0,'','.')?>,-</h3>
+        <button name="clearAll" style="float: left;" class="btn btn-danger" <?= count($listCart) == 0 ? "hidden" : "" ?>>Clear All</button>
+        <h3 style="float: right;">Total: Rp. <?= number_format($hargaTotal, 0, '', '.') ?>,-</h3>
         <br><br>
-        <button name="checkout" style="float: right;" class="btn btn-primary" <?= count($listCart) == 0 ? "hidden" : ""?>>Checkout</button>
+        <button name="checkout" style="float: right;" class="btn btn-primary" <?= count($listCart) == 0 ? "hidden" : "" ?>>Checkout</button>
     </form>
 
     <script>
         function detail(id) {
-            location.href = "barang.php?id_barang="+id;
+            location.href = "barang.php?id_barang=" + id;
         }
     </script>
 </body>

@@ -132,11 +132,14 @@
     <link type="text/css" rel="stylesheet" href="../css/slick.css" />
     <link type="text/css" rel="stylesheet" href="../css/slick-theme.css" />
     <link type="text/css" rel="stylesheet" href="../css/nouislider.min.css" />
-    <link rel="stylesheet" href="../css/font-awesome.min.css">
+    <!-- <link rel="stylesheet" href="../css/font-awesome.min.css">a -->
     <link type="text/css" rel="stylesheet" href="../css/style.css" />
 
     <link rel="stylesheet" href="../css/search.css">
     <script src="../js/jquery.min.js"></script>
+
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script> -->
 </head>
 
 <body>
@@ -147,15 +150,9 @@
             <div class="row">
                 <div class="a">
                     <a href="home.php">Home</a>
+                    <a href="../midtrans/index.php/snap" class="active">Search</a>
                     <a href="../midtrans/index.php/snap">Cart</a>
                     <a href="history.php">History</a>
-                </div>
-
-                <div class="c ">
-                    <a href="?page=1&category=Rackets<?=(isset($_SESSION['itemname'])) ? '&itemname='.$_SESSION['itemname'] : '';?>" id="Rackets">Rackets</a>
-                    <a href="?page=1&category=Shoes<?=(isset($_SESSION['itemname'])) ? '&itemname='.$_SESSION['itemname'] : '';?>" id="Shoes">Shoes</a>
-                    <a href="?page=1&category=Shuttlecocks<?=(isset($_SESSION['itemname'])) ? '&itemname='.$_SESSION['itemname'] : '';?>" id="Cocks">Shuttlecocks</a>
-                    <a href="?page=1&category=Nets<?=(isset($_SESSION['itemname'])) ? '&itemname='.$_SESSION['itemname'] : '';?>" id="Nets">Nets</a>
                 </div>
 
                 <div class="b">
@@ -168,6 +165,14 @@
             </div>
 
         </div>
+
+   <!-- <div class="c ">
+                    <a href="?page=1&category=Rackets<?=(isset($_SESSION['itemname'])) ? '&itemname='.$_SESSION['itemname'] : '';?>" id="Rackets">Rackets</a>
+                    <a href="?page=1&category=Shoes<?=(isset($_SESSION['itemname'])) ? '&itemname='.$_SESSION['itemname'] : '';?>" id="Shoes">Shoes</a>
+                    <a href="?page=1&category=Shuttlecocks<?=(isset($_SESSION['itemname'])) ? '&itemname='.$_SESSION['itemname'] : '';?>" id="Cocks">Shuttlecocks</a>
+                    <a href="?page=1&category=Nets<?=(isset($_SESSION['itemname'])) ? '&itemname='.$_SESSION['itemname'] : '';?>" id="Nets">Nets</a>
+                </div> -->
+
 
         <div class="isi">
             <form action="" method="post">
