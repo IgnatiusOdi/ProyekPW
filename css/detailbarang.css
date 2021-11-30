@@ -7,18 +7,21 @@ body{
     width: 100%;  
     display: flex;
     padding-top: 5%;
+    flex-wrap: wrap;
 }
 
 .gambar{
     /* background-color: red; */
-    width: 50%;
+    /* width: 50%; */
     height: 500px;
 }
 .isi{
     /* background-color: blue; */
-    width: 50%;
-    height: 500px;
+    /* width: 50%; */
+    justify-content: flex-end;
+    
 }
+
 
 .cart input[type=number] {
     border: 1px solid black;
