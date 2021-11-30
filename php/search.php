@@ -203,10 +203,10 @@ foreach ($listBarang as $key => $value) {
                     if (count($listBarang) > 0) {
                         foreach ($listBarang as $key => $value) {
                     ?>
-                            <div class="card col" style="text-align: center; margin: 1% 3%" onclick=detail(<?= $value['id_barang'] ?>)>
+                            <div class="card col" style="text-align: center; margin: 1% 3%; display: flex; flex-direction: column; align-items: center;" onclick=detail(<?= $value['id_barang'] ?>)>
                                 <img style="max-width: 90%;" src=<?= $value['foto_barang'] ?>>
                                 
-                                <div style='display: flex; justify-content: space-between; flex-direction: column'>
+                                <div style='display: flex; justify-content: space-between; flex-direction: column; flex-grow: 1;'>
                                     <h3 style="text-align: center;"><?= $value['nama_barang'] ?></h3>
                                     <div class="w-100" style="padding: 0 10px ; ">
                                         <div style="margin-bottom: 10px;">Rp. <?= number_format($value['harga_barang'], 0, '', '.') ?>,-</div>
