@@ -48,6 +48,22 @@ class Notification extends CI_Controller {
 					'transaction_status' => "settlement"
 				];
 				$this->db->update('payment', $data, array('order_id'=>$order_id));
+
+				$idHtrans = $payment['id'];
+				$dtrans = $conn -> query("SELECT * FROM dtrans WHERE id_htrans='$idHtrans'") -> fetch_all(MYSQLI_ASSOC);
+
+				foreach ($dtrans as $key => $value) {
+					$jumlahOrder = $value['jumlah'];
+					$idBarang = $value['id_barang'];
+					$barang = $conn -> query("SELECT * FROM barang WHERE id_barang='$idBarang'") -> fetch_assoc();
+					$stokBarang = $barang['stok_barang'];
+					$sisa = $stokBarang - $jumlahOrder;
+
+					$sql = "UPDATE `barang` SET `stok_barang`=? WHERE `id_barang`='$idBarang'";
+					$q = $conn->prepare($sql);
+					$q -> bind_param("i", $sisa);
+					$q -> execute();
+				}
 			}
 			else if ($result['status_code'] == 202){
 				$data = [
