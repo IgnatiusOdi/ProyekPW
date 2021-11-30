@@ -187,7 +187,7 @@ if (isset($_REQUEST['checkout'])) {
         <button id="pay-button" name="checkout" style="float: right;" class="btn btn-primary" <?= count($listCart) == 0 ? "hidden" : "" ?>>Checkout</button>
     </form>
 
-
+    <button style='display:none;' id='thankyoubtn'></button>
 
     <form id="payment-form" method="post" action="./snap/finish">
         <input type="hidden" name="result_type" id="result-type" value=""></div>
@@ -238,7 +238,8 @@ if (isset($_REQUEST['checkout'])) {
                         onSuccess: function(result) {
                             changeResult('success', result);
                             console.log(result.status_message);
-                            $.confirm({
+                            $('#thankyoubtn').click(function(){
+                                $.confirm({
                                 title: 'Thank You!',
                                 content: 'We Hope To See You Again In The Future. Thank you for entrusting us.',
                                 autoClose: 'Ok|8000',
@@ -247,6 +248,7 @@ if (isset($_REQUEST['checkout'])) {
                                         $("#payment-form").submit();
                                     }
                                 }
+                                });
                             });
                         },
                         onPending: function(result) {
