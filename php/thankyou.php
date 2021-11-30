@@ -1,3 +1,11 @@
+<?php
+    require_once('connection.php');
+
+    if (!isset($_SESSION['thx'])) {
+        header("Location: search.php");
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,10 +31,12 @@
             }, 1000);
             $("#backShopping").click(function(){
                 clearInterval(timer);
+                sessionStorage.removeItem('thx'); 
                 window.location = "search.php";
             });
             $("#proceedPay").click(function(){
                 clearInterval(timer);
+                sessionStorage.removeItem('thx'); 
                 window.location = "history.php";
             });
         });

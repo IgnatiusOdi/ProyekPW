@@ -185,6 +185,7 @@ class Snap extends CI_Controller {
 
     	$this->data['finish'] = json_decode($this->input->post('result_data')); 
 		// $this->load->view('transaction');
+		$_SESSION['thx'] = 'ok';
 		echo "<script>window.location = '../../../php/thankyou.php';</script>";
     }
 }
