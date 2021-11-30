@@ -73,17 +73,12 @@ if (isset($_REQUEST['checkout'])) {
     <script src="../../js/jquery.min.js"></script>
     <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="<SB-Mid-client-F2b6MIp1NQP2CrFm>"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-
    
     <link type="text/css" rel="stylesheet" href="../../css/style.css" />
     <link type="text/css" rel="stylesheet" href="../../css/search.css">
     <link type="text/css" rel="stylesheet" href="../../css/bootstrap.min.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="../../js/jquery-confirm.min.css">
-    <script src="../../js/jquery-confirm.min.js"></script>
 
     <styLe>
         .row>* {
@@ -243,18 +238,7 @@ if (isset($_REQUEST['checkout'])) {
                         onPending: function(result) {
                             changeResult('pending', result);
                             console.log(result.status_message);
-                            $('#thankyoubtn').click(function(){
-                                $.confirm({
-                                title: 'Thank You!<i class="fa-solid fa-face-grin-wide"></i>',
-                                content: 'We Hope To See You Again In The Future. Thank you for entrusting us.',
-                                autoClose: 'Ok|8000',
-                                buttons: {
-                                    Ok: function () {
-                                        $("#payment-form").submit();
-                                    }
-                                }
-                                });
-                            });
+                            $("#payment-form").submit();
                         },
                         onError: function(result) {
                             changeResult('error', result);
