@@ -24,12 +24,12 @@ if (isset($_REQUEST['addToCart'])) {
         $jumlahOrder = $_REQUEST['order'];
 
         //KURANGI DARI STOK
-        $stokBarang = $barangNow['stok_barang'];
-        $sisa = $stokBarang - $jumlahOrder;
-        $sql = "UPDATE `barang` SET `stok_barang`=? WHERE `id_barang`='$idBarang'";
-        $q = $conn->prepare($sql);
-        $q->bind_param("i", $sisa);
-        $q->execute();
+        // $stokBarang = $barangNow['stok_barang'];
+        // $sisa = $stokBarang - $jumlahOrder;
+        // $sql = "UPDATE `barang` SET `stok_barang`=? WHERE `id_barang`='$idBarang'";
+        // $q = $conn->prepare($sql);
+        // $q->bind_param("i", $sisa);
+        // $q->execute();
 
         //CARI DI CART BARANG YANG SAMA
         $sql = "SELECT id_barang FROM cart WHERE id_users='$idUser' AND id_barang='$idBarang'";
@@ -106,17 +106,17 @@ if (isset($_REQUEST['addToCart'])) {
 
     <div style="position: relative;">
         <div>
-            <a href=<?= "search.php?page=1&category=" . $_SESSION['category'] . "&itemname=" . $_SESSION['itemname'] ?> class="btn btn-primary" style=" display: flex;
-        width: 100px;
-        height: 40px;
-        justify-content: center;
-        align-items: center;
-        position: absolute;
-        top: 20px;
-        border-radius: 10px;
-        color: black;
-        z-index: 10;
-        ">Back</a>
+            <a href=<?= "search.php?page=1&category=" . $_SESSION['category'] . "&itemname=" . $_SESSION['itemname'] ?> class="btn btn-primary" style="display: flex;
+            width: 100px;
+            height: 40px;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            top: 20px;
+            border-radius: 10px;
+            color: black;
+            z-index: 10;
+            ">Back</a>
         </div>
 
         <div class="container">
@@ -154,8 +154,6 @@ if (isset($_REQUEST['addToCart'])) {
             </div>
         </div>
     </div>
-
-
 
     <script>
         function search() {

@@ -16,5 +16,4 @@
     $listUser = $conn -> query("SELECT * FROM users") -> fetch_all(MYSQLI_ASSOC);
     $listBarang = $conn -> query("SELECT * FROM barang") -> fetch_all(MYSQLI_ASSOC);
     $listKategori = $conn -> query("SELECT * FROM kategori") -> fetch_all(MYSQLI_ASSOC);
-
 ?>

@@ -27,7 +27,7 @@
     $pageAktif = isset($_REQUEST['page']) ? $_REQUEST['page'] : 1;
     $start = ( $dataPerHalaman * $pageAktif ) - $dataPerHalaman;
 
-    $jumlahTampil = 1;
+    $jumlahTampil = 2;
     if ($pageAktif > $jumlahTampil) {
         $start_num = $pageAktif - $jumlahTampil;
     } else {
@@ -72,8 +72,8 @@
         <button name="search">Search</button><br>
         <?php
             if ($pageAktif > 1) {
-                echo "<a href='?page=1'>&laquo</a>";
-                echo "<a href='?page=".($pageAktif - 1)."'>&lt</a>";
+                echo "<a href='?page=1'>First</a>";
+                echo "<a href='?page=".($pageAktif - 1)."'>&laquo</a>";
             }
             for ($i = $start_num; $i <= $end_num; $i++) {
                 if ($i == $pageAktif) {
@@ -83,8 +83,8 @@
                 }
             }
             if ($pageAktif < $totalHalaman) {
-                echo "<a href='?page=".($pageAktif + 1)."'>&gt</a>";
-                echo "<a href='?page=".$totalHalaman."'>&raquo</a>";
+                echo "<a href='?page=".($pageAktif + 1)."'>&raquo</a>";
+                echo "<a href='?page=".$totalHalaman."'>Last</a>";
             }
             if ($listBarangPage != null) {
         ?>

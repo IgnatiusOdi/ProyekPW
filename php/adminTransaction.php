@@ -23,6 +23,12 @@
         $_SESSION['to'] = $toDate;
         $listTransaksi = $conn -> query("SELECT * FROM htrans WHERE DATE(tanggal_transaksi) >= '$fromDate' AND DATE(tanggal_transaksi) <= '$toDate'");
     }
+
+    foreach($listTransaksi as $key => $value) {
+        if (isset($_REQUEST['detail-'.$value['id_htrans']])) {
+            header("Location: transactionDetail.php?id=".$value['id_htrans']);
+        }
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">

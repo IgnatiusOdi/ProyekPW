@@ -91,12 +91,12 @@ foreach ($listBarang as $key => $value) {
             $jumlahOrder = 1;
 
             //KURANGI DARI STOK
-            $stokBarang = $value['stok_barang'];
-            $sisa = $stokBarang - $jumlahOrder;
-            $sql = "UPDATE `barang` SET `stok_barang`=? WHERE `id_barang`='$idBarang'";
-            $q = $conn->prepare($sql);
-            $q->bind_param("i", $sisa);
-            $q->execute();
+            // $stokBarang = $value['stok_barang'];
+            // $sisa = $stokBarang - $jumlahOrder;
+            // $sql = "UPDATE `barang` SET `stok_barang`=? WHERE `id_barang`='$idBarang'";
+            // $q = $conn->prepare($sql);
+            // $q->bind_param("i", $sisa);
+            // $q->execute();
 
             //CARI DI CART BARANG YANG SAMA
             $sql = "SELECT id_barang FROM cart WHERE id_users='$idUser' AND id_barang='$idBarang'";

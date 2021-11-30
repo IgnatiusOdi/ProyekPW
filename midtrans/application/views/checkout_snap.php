@@ -10,17 +10,17 @@ $idUser = $userNow['id_users'];
 $listCart = $conn->query("SELECT * FROM cart WHERE id_users='$idUser'")->fetch_all(MYSQLI_ASSOC);
 foreach ($listCart as $key => $value) {
     $idCart = $value['id_cart'];
-    if (isset($_REQUEST['delete-' . $idCart])) {
+    if (isset($_REQUEST['cancel-' . $idCart])) {
         $idBarang = $value['id_barang'];
         $jumlahPesan = $value['jumlah'];
         $barang = $listBarang[$idBarang - 1];
         $stokBarang = $barang['stok_barang'];
         //RETURN STOK
-        $total = $stokBarang + $jumlahPesan;
-        $sql = "UPDATE `barang` SET `stok_barang`=? WHERE `id_barang`='$idBarang'";
-        $q = $conn->prepare($sql);
-        $q->bind_param("i", $total);
-        $q->execute();
+        // $total = $stokBarang + $jumlahPesan;
+        // $sql = "UPDATE `barang` SET `stok_barang`=? WHERE `id_barang`='$idBarang'";
+        // $q = $conn->prepare($sql);
+        // $q->bind_param("i", $total);
+        // $q->execute();
         //DELETE FROM CART
         $sql = "DELETE FROM `cart` WHERE id_cart='$idCart'";
         $q = $conn->prepare($sql);
@@ -39,11 +39,11 @@ if (isset($_REQUEST['clearAll'])) {
         $barang = $listBarang[$idBarang - 1];
         $stokBarang = $barang['stok_barang'];
         //RETURN STOK
-        $total = $stokBarang + $jumlahPesan;
-        $sql = "UPDATE `barang` SET `stok_barang`=? WHERE `id_barang`='$idBarang'";
-        $q = $conn->prepare($sql);
-        $q->bind_param("i", $total);
-        $q->execute();
+        // $total = $stokBarang + $jumlahPesan;
+        // $sql = "UPDATE `barang` SET `stok_barang`=? WHERE `id_barang`='$idBarang'";
+        // $q = $conn->prepare($sql);
+        // $q->bind_param("i", $total);
+        // $q->execute();
         //DELETE FROM CART
         $sql = "DELETE FROM `cart` WHERE id_cart='$idCart'";
         $q = $conn->prepare($sql);
@@ -157,7 +157,7 @@ if (isset($_REQUEST['checkout'])) {
                 echo "<td>" . $value['jumlah'] . "</td>";
                 echo "<td>Rp. " . number_format($barang['harga_barang'] * $value['jumlah'], 0, '', '.') . ",-</td>";
                 echo "<form action='' method='post'>";
-                echo "<td><button name='delete-" . $value['id_cart'] . "'>Cancel</button></td>";
+                echo "<td><button name='cancel-" . $value['id_cart'] . "'>Cancel</button></td>";
                 echo "</form>";
                 echo "</tr>";
                 $hargaTotal += $value['jumlah'] * $barang['harga_barang'];

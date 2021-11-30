@@ -15,7 +15,6 @@
             $q = $conn -> prepare($sql);
             $q -> execute();
         } else if (isset($_REQUEST['detail-'.$value['id_htrans']])) {
-            echo "<script>alert('Hello')</script>";
             header("Location: detailHistory.php?id_transaksi=".$value['id_htrans']);
         }
     }
@@ -42,11 +41,10 @@
         .row{
             justify-content:center;
         }
-
     </style>
 </head>
 <body>
-<div class="topnav">
+    <div class="topnav">
         <div class="row">
             <div class="a">
                 <a href="home.php" class="">Home</a>
@@ -55,7 +53,6 @@
                 <a href="" class="active">History</a>
             </div>
         </div>
-
     </div>
 
     <h1>Transaction History</h1>
@@ -78,7 +75,15 @@
                         echo "<td>".($key + 1).".</td>";
                         echo "<td>".$value['tanggal_transaksi']."</td>";
                         echo "<td>Rp. ".number_format($value['total'],0,'','.').",-</td>";
-                        echo "<td>".$payment['transaction_status']."</td>";
+                        echo "<td>";
+                        if ($payment['transaction_status'] == 'pending') {
+                            echo "Pending";
+                        } else if ($payment['transaction_status'] == 'canceled') {
+                            echo "Canceled";
+                        } else if ($payment['transaction_status'] == 'settlement') {
+                            echo "Success";
+                        }
+                        echo "</td>";
                         echo "<td>";
                             if ($payment['status_code'] == 201) {
                                 echo "<a href='https://simulator.sandbox.midtrans.com/bca/va/index' target='_blank'><button>Pay</button></a>";
@@ -86,11 +91,9 @@
                                 echo "<button name='cancel-".$value['id_htrans']."'>Cancel</button>";
                                 echo "</form>";
                             }
-                            if ($payment['status_code'] != 999) {
-                                echo "<form action='' method='post'>";
-                                    echo "<button name='detail-".$value['id_htrans']."'>Detail</button>";
-                                echo "</form>";
-                            }
+                        echo "<form action='' method='post'>";
+                            echo "<button name='detail-".$value['id_htrans']."'>Detail</button>";
+                        echo "</form>";
                         echo "</td>";
                     echo "</tr>";
                 }

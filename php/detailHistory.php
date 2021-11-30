@@ -11,10 +11,6 @@
 
     $q = $conn -> query("SELECT tanggal_transaksi FROM htrans WHERE id_htrans='$id_htrans'") -> fetch_assoc();
     $tanggal = $q['tanggal_transaksi'];
-
-    if (isset($_REQUEST['back'])) {
-        header("Location: history.php");
-    }
 ?>
 
 <!DOCTYPE html>
@@ -24,8 +20,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>History</title>
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
+
     <link type="text/css" rel="stylesheet" href="../css/style.css" />
+    <link type="text/css" rel="stylesheet" href="../css/search.css" />
+    <link type="text/css" rel="stylesheet" href="../css/bootstrap.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <style>
         body{
             margin: 0;
@@ -49,49 +49,75 @@
             position: sticky;
             /* margin-left: 100px; */
         }
+
+        .topnav .a{
+        width: auto;
+        }
+        .row{
+            justify-content:center;
+        }
     </style>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </head>
 <body>
-    <div class="header">
-        <a href="home.php">Home</a>
-        <a href="search.php">Search</a>
-        <a href="../midtrans/index.php/snap">Cart</a>
+    <div class="topnav">
+        <div class="row">
+            <div class="a">
+                <a href="home.php" class="">Home</a>
+                <a href=<?="search.php?page=1&category=".$_SESSION['category']."&itemname=".$_SESSION['itemname']?>>Search</a>
+                <a href="../midtrans/index.php/snap" >Cart</a>
+                <a href="history.php">History</a>
+            </div>
+        </div>
     </div>
 
-    <form action="" method="post">
-        <button name="back">Back</button>
-    </form>
-    <h1><u>Transaction</u></h1>
-    <h4>ID: <?=$id_htrans?></h4>
-    <h4>Date-time : <?=date('d F Y-H:i:s', strtotime($tanggal)); ?></h4>
-    <table class="table" border=1>
-        <tr>
-            <td>No.</td>
-            <td>Barang</td>
-            <td>Jumlah</td>
-            <td>Subtotal</td>
-        </tr>
-        <div class="cart">
-            <?php
-                $total = 0;
-                foreach ($listHistory as $key => $value) {
-                    $barang = $listBarang[$value['id_barang'] - 1];
-                    $foto = $barang['foto_barang'];
-                    echo "<tr>";
-                        echo "<td>".($key + 1).".</td>";
-                        echo "<td><img src='".$foto."'><br>".$barang['nama_barang']."</td>";
-                        echo "<td>".$value['jumlah']."</td>";
-                        $harga = $barang['harga_barang'] * $value['jumlah'];
-                        echo "<td>Rp. ".number_format($harga,0,'','.').",-</td>";
-                    echo "</tr>";
-
-                    $total += $harga;
-                }
-            ?>
+    <div style="position: relative;">
+        <div>
+            <a href="history.php" class="btn btn-primary" style="display: flex;
+            width: 100px;
+            height: 40px;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            top: 20px;
+            border-radius: 10px;
+            font-size: 20px;
+            color: black;
+            z-index: 10;
+            ">Back</a>
         </div>
-    </table>
-    <h2>Total: Rp.<?=number_format($total,0,'','.')?>,-</h2>
+
+        <div class="container">
+            <h1><u>Transaction</u></h1>
+            <h4>ID: <?=$id_htrans?></h4>
+            <h4>Date-time : <?=date('d F Y - H:i:s', strtotime($tanggal)); ?></h4>
+            <table class="table" border=1 style="font-size: 20px;">
+                <tr>
+                    <td>No.</td>
+                    <td>Barang</td>
+                    <td>Jumlah</td>
+                    <td>Subtotal</td>
+                </tr>
+                <div class="cart">
+                    <?php
+                        $total = 0;
+                        foreach ($listHistory as $key => $value) {
+                            $barang = $listBarang[$value['id_barang'] - 1];
+                            $foto = $barang['foto_barang'];
+                            echo "<tr>";
+                                echo "<td>".($key + 1).".</td>";
+                                echo "<td><img src='".$foto."'><br>".$barang['nama_barang']."</td>";
+                                echo "<td>".$value['jumlah']."</td>";
+                                $harga = $barang['harga_barang'] * $value['jumlah'];
+                                echo "<td>Rp. ".number_format($harga,0,'','.').",-</td>";
+                            echo "</tr>";
+
+                            $total += $harga;
+                        }
+                    ?>
+                </div>
+            </table>
+            <h2>Total: Rp.<?=number_format($total,0,'','.')?>,-</h2>
+        </div>
+    </div>
 </body>
 </html>
