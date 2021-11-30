@@ -183,7 +183,6 @@ class Snap extends CI_Controller {
 		$q = $conn -> prepare($sql);
 		$q -> execute();
 
-		echo "<script>alert('Your Item has been ordered. Please Proceed to Pay')</script>";
     	$this->data['finish'] = json_decode($this->input->post('result_data')); 
 		// $this->load->view('transaction');
 		echo "<script>window.location = '../../../php/history.php';</script>";
