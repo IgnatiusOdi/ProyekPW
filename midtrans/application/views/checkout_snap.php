@@ -244,12 +244,10 @@ if (isset($_REQUEST['checkout'])) {
                                 autoClose: 'Ok|8000',
                                 buttons: {
                                     Ok: function () {
-
+                                        $("#payment-form").submit();
                                     }
                                 }
                             });
-                            
-                            $("#payment-form").submit();
                         },
                         onPending: function(result) {
                             changeResult('pending', result);
