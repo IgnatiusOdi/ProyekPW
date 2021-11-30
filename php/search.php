@@ -205,21 +205,25 @@ foreach ($listBarang as $key => $value) {
                     ?>
                             <div class="card col" style="text-align: center; margin: 1% 3%" onclick=detail(<?= $value['id_barang'] ?>)>
                                 <img style="max-width: 90%;" src=<?= $value['foto_barang'] ?>>
-                                <h3 style="text-align: center;"><?= $value['nama_barang'] ?></h3>
+                                
+                                <div style='display: flex; justify-content: space-between; flex-direction: column'>
+                                    <h3 style="text-align: center;"><?= $value['nama_barang'] ?></h3>
+                                    <div class="w-100" style="padding: 0 10px ; ">
+                                        <div style="margin-bottom: 10px;">Rp. <?= number_format($value['harga_barang'], 0, '', '.') ?>,-</div>
+                                        <div style="margin-bottom: 10px;">Stok : <?= number_format($value['stok_barang'], 0, '', '.') ?> </div>
 
-                                <div class="w-100" style="padding: 0 10px ; ">
-                                    <div style="margin-bottom: 10px;">Rp. <?= number_format($value['harga_barang'], 0, '', '.') ?>,-</div>
-                                    <div style="margin-bottom: 10px;">Stok : <?= number_format($value['stok_barang'], 0, '', '.') ?> </div>
-
-                                    <div class="w-100" style="justify-content: center; display: flex; ">
-                                        <?php
-                                        if ($value['stok_barang'] >= 1)
-                                            echo "<button class='btn w-100' name='addToCart-" . $value['id_barang'] . "'>Add to Cart</button>";
-                                        else
-                                            echo "<button class='btn w-100' name='addToCart' disabled>Add to Cart</button>";
-                                        ?>
+                                        <div class="w-100" style="justify-content: center; display: flex; ">
+                                            <?php
+                                            if ($value['stok_barang'] >= 1)
+                                                echo "<button class='btn w-100' name='addToCart-" . $value['id_barang'] . "'>Add to Cart</button>";
+                                            else
+                                                echo "<button class='btn w-100' name='addToCart' disabled>Add to Cart</button>";
+                                            ?>
+                                        </div>
                                     </div>
                                 </div>
+
+                                
 
 
                             </div>
