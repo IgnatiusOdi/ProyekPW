@@ -82,6 +82,8 @@
                             echo "Canceled";
                         } else if ($payment['transaction_status'] == 'settlement') {
                             echo "Success";
+                        } else if ($payment['transaction_status'] == 'expire') {
+                            echo "Expired";
                         }
                         echo "</td>";
                         echo "<td>";
