@@ -165,11 +165,7 @@ foreach ($listBarang as $key => $value) {
             </div>
         </div>
 
-
-
-
         <div class="isi">
-
             <div class="kategori">
                 <form action="" method="post" style="display: flex; justify-content: space-between; align-items: center;">
                     <div>
@@ -204,8 +200,6 @@ foreach ($listBarang as $key => $value) {
                 </select> -->
                 </form>
             </div>
-
-
 
             <form action="" method="post">
                 <div class="content" style="width: 100%; height: 50%; display: flex;">
