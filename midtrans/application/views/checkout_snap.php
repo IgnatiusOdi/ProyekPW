@@ -1,6 +1,10 @@
 <?php
 require_once('./application/controllers/connection.php');
 
+if (isset($_SESSION['thx'])) {
+    unset($_SESSION['thx']);
+}
+
 if (!isset($_SESSION['user'])) {
     header("Location: ../../php/login.php");
 }

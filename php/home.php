@@ -1,6 +1,10 @@
 <?php
 	require_once('connection.php');
 
+	if (isset($_SESSION['thx'])) {
+        unset($_SESSION['thx']);
+    }
+
 	if (isset($_REQUEST['logout'])) {
 		unset($_SESSION['user']);
 		header("Location: login.php");

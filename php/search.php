@@ -197,7 +197,7 @@ foreach ($listBarang as $key => $value) {
                 </form>
             </div>
 
-            <form action="" method="post">
+            <form action="" method="post" style="height: fit-content;">
                 <div class="content" style="width: 100%; height: 50%; display: flex;">
                     <?php
                     if (count($listBarang) > 0) {
