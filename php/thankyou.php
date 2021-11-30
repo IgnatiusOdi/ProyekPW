@@ -9,19 +9,26 @@
 </head>
 <body>
     <h1>Thank You</h1>
-    <button id='backShopping'>Back To Shopping</button>
+    <button id='backShopping'>Back To Shopping(8)</button>
     <button id='proceedPay'>Proceed To Pay</button>
     <script>
         $(() => {
+            let time = 8;
+            let timer = setInterval(() => {
+                time--;
+                $('#backShopping').html('Back To Shopping('+time+')');
+                if (time == 0) {
+                    window.location = "search.php";
+                }
+            }, 1000);
             $("#backShopping").click(function(){
+                clearInterval(timer);
                 window.location = "search.php";
             });
             $("#proceedPay").click(function(){
+                clearInterval(timer);
                 window.location = "history.php";
             });
-            let time = setTimeout(() => {
-                window.location = "search.php";
-            }, 8000);
         });
     </script>
 </body>
