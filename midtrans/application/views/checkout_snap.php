@@ -95,7 +95,8 @@ if (isset($_REQUEST['checkout'])) {
             color: #fff;
             background-color: #d9534f;
             border-color: #d43f3a;
-            margin-top: 40px;
+            margin-top: 30px; 
+            font-size: 20px;
         }
 
         .btn-danger:hover {
@@ -108,6 +109,7 @@ if (isset($_REQUEST['checkout'])) {
             color: #fff;
             background-color: #337ab7;
             border-color: #2e6da4;
+            font-size: 20px;
         }
 
         .btn-primary:hover {
@@ -134,7 +136,7 @@ if (isset($_REQUEST['checkout'])) {
 
     <!-- <br> -->
 
-    <table class="table" border=1>
+    <table class="table" border=1 style="font-size: 20px;">
         <tr>
             <td>No.</td>
             <td>Nama Barang</td>
