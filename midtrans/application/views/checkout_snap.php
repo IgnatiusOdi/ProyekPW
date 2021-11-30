@@ -238,9 +238,14 @@ if (isset($_REQUEST['checkout'])) {
                         onSuccess: function(result) {
                             changeResult('success', result);
                             console.log(result.status_message);
+                            $("#payment-form").submit();
+                        },
+                        onPending: function(result) {
+                            changeResult('pending', result);
+                            console.log(result.status_message);
                             $('#thankyoubtn').click(function(){
                                 $.confirm({
-                                title: 'Thank You!',
+                                title: 'Thank You!<i class="fa-solid fa-face-grin-wide"></i>',
                                 content: 'We Hope To See You Again In The Future. Thank you for entrusting us.',
                                 autoClose: 'Ok|8000',
                                 buttons: {
@@ -250,11 +255,6 @@ if (isset($_REQUEST['checkout'])) {
                                 }
                                 });
                             });
-                        },
-                        onPending: function(result) {
-                            changeResult('pending', result);
-                            console.log(result.status_message);
-                            $("#payment-form").submit();
                         },
                         onError: function(result) {
                             changeResult('error', result);
