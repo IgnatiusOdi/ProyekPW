@@ -208,12 +208,12 @@ foreach ($listBarang as $key => $value) {
 
 
             <form action="" method="post">
-                <div class="content" style="width: 100%; height: 50%; display: flex; justify-content: space-between;">
+                <div class="content" style="width: 100%; height: 50%; display: flex;">
                     <?php
                     if (count($listBarang) > 0) {
                         foreach ($listBarang as $key => $value) {
                     ?>
-                            <div class="card col" style="text-align: center; " onclick=detail(<?= $value['id_barang'] ?>)>
+                            <div class="card col" style="text-align: center; margin: 1% 3%" onclick=detail(<?= $value['id_barang'] ?>)>
                                 <img style="max-width: 90%;" src=<?= $value['foto_barang'] ?>>
                                 <h3 style="text-align: center;"><?= $value['nama_barang'] ?></h3>
 
