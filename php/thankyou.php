@@ -31,12 +31,10 @@
             }, 1000);
             $("#backShopping").click(function(){
                 clearInterval(timer);
-                sessionStorage.removeItem('thx'); 
                 window.location = "search.php";
             });
             $("#proceedPay").click(function(){
                 clearInterval(timer);
-                sessionStorage.removeItem('thx'); 
                 window.location = "history.php";
             });
         });

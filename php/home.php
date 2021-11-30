@@ -78,7 +78,7 @@
 						if (isset($_SESSION['user'])) {
 							echo "<button class='btn btn-danger' name='logout'>Logout</button>";
 						} else {
-							echo "<button class='btn'><a href='login.php'>Sign in</a></button>";
+							echo "<a href='login.php'><button class='btn'>Sign in</button></a>";
 						}
 						?>
 					</form>
