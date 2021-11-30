@@ -11,7 +11,7 @@
     $namaKategori = $conn -> query("SELECT * FROM kategori WHERE id_kategori = $id") -> fetch_assoc();
     $namaKategori = $namaKategori['nama_kategori'];
 
-    if (isset($_REQUEST['cancel'])) {
+    if (isset($_REQUEST['back'])) {
         unset($_SESSION['edit']);
         header("Location: admin.php");
     }
@@ -63,7 +63,7 @@
 </head>
 <body>
     <form action="" method="post" enctype="multipart/form-data">
-        <button name="cancel">Cancel Edit</button>
+        <button name="back">Back</button>
 
         <h1>EDIT BARANG</h1>
         <table>

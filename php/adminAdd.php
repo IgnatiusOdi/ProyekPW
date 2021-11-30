@@ -88,11 +88,11 @@
 </head>
 <body>
     <form action="" method="post" enctype="multipart/form-data">
-        <h1>Admin Add</h1>
         <a href="admin.php">Home</a>
         Add
         <a href="adminTransaction.php">Transaction</a>
-        <button name="logout">Logout</button><br>
+        <button name="logout">Logout</button>
+        <h1>Admin Add</h1>
 
         <h2>Item</h2>
             <table>

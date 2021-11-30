@@ -7,21 +7,43 @@
 
     if (isset($_REQUEST['logout'])){
         unset($_SESSION['admin']);
+
+        unset($_SESSION['from']);
+        unset($_SESSION['to']);
+        unset($_SESSION['namaUser']);
+
         header("Location: login.php");
     }
 
     if (isset($_REQUEST['search'])) {
         $fromDate = $_REQUEST['fromDate'];
+        $_SESSION['from'] = $fromDate;
         $toDate = $_REQUEST['toDate'];
-        header("Location: ?from=$fromDate&to=$toDate");
+        $_SESSION['to'] = $toDate;
+        if (isset($_REQUEST['namaUser'])) {
+            $namaUser = $_REQUEST['namaUser'];
+            $_SESSION['namaUser'] = $namaUser;
+            header("Location: ?from=$fromDate&to=$toDate&user=$namaUser");
+        } else {
+            header("Location: ?from=$fromDate&to=$toDate");
+        }
     }
 
     if (!isset($_REQUEST['from']) && !isset($_REQUEST['to'])) {
         $fromDate = date('Y-m-d');
-        $_SESSION['from'] = $fromDate;
+        $_SESSION['from'] = $fromDate;  
         $toDate = date('Y-m-d');
         $_SESSION['to'] = $toDate;
         $listTransaksi = $conn -> query("SELECT * FROM htrans WHERE DATE(tanggal_transaksi) >= '$fromDate' AND DATE(tanggal_transaksi) <= '$toDate'");
+    } else {
+        $fromDate = $_SESSION['from'];
+        $toDate = $_SESSION['to'];
+        if (isset($_SESSION['namaUser'])) {
+            $namaUser = $_SESSION['namaUser'];
+            $listTransaksi = $conn -> query("SELECT * FROM htrans WHERE DATE(tanggal_transaksi) >= '$fromDate' AND DATE(tanggal_transaksi) <= '$toDate' AND id_users IN (SELECT id_users FROM users WHERE username LIKE '%$namaUser%')");
+        } else {
+            $listTransaksi = $conn -> query("SELECT * FROM htrans WHERE DATE(tanggal_transaksi) >= '$fromDate' AND DATE(tanggal_transaksi) <= '$toDate'");
+        }
     }
 
     foreach($listTransaksi as $key => $value) {
@@ -40,20 +62,23 @@
 </head>
 <body>
     <form action="" method="post">
-        <h1>Admin Transaction</h1>
         <a href="admin.php">Home</a>
         <a href="adminAdd.php">Add</a>
         Transaction
-        <button name="logout">Logout</button><br>
-        From: <input type="date" name="fromDate" value="<?=date('Y-m-d')?>">
-        to <input type="date" name="toDate" value="<?=date('Y-m-d')?>">
+        <button name="logout">Logout</button>
+        <h1>Admin Transaction</h1>
+
+        From: <input type="date" name="fromDate" value="<?=$_SESSION['from']?>">
+        to <input type="date" name="toDate" value="<?=$_SESSION['to']?>"><br>
+        Nama User: <input type="text" name="namaUser" placeholder="Search User" value="<?=$_SESSION['namaUser']?>">
         <button name="search">Search</button>
         <table border=1>
             <tr>
                 <td>No.</td>
                 <td>Transaction Date</td>
-                <td>User</td>
+                <td>Username</td>
                 <td>Total</td>
+                <td>Status</td>
                 <td>Action</td>
             </tr>
             <?php
@@ -63,15 +88,28 @@
                         echo "<td>".($key+1).".</td>";
                         echo "<td>".$value['tanggal_transaksi']."</td>";
                         $user = $listUser[$value['id_users'] - 1];
-                        echo "<td>".$user['nama_user']."</td>";
+                        echo "<td>".$user['username']."</td>";
                         echo "<td>Rp. ".number_format($value['total'],0,'','.').",-</td>";
+                        $idPayment = $value['id_payment'];
+                        $payment = $conn -> query("SELECT * FROM payment WHERE id='$idPayment'") -> fetch_assoc();
+                        echo "<td>";
+                        if ($payment['transaction_status'] == 'pending') {
+                            echo "Pending";
+                        } else if ($payment['transaction_status'] == 'canceled') {
+                            echo "Canceled";
+                        } else if ($payment['transaction_status'] == 'settlement') {
+                            echo "Success";
+                            $total += $value['total'];
+                        } else if ($payment['transaction_status'] == 'expire') {
+                            echo "Expired";
+                        }
+                        echo "</td>";
                         echo "<td><button name='detail-".$value['id_htrans']."'>Detail</button></td>";
                     echo "</tr>";
-                    $total += $value['total'];
                 }
             ?>
         </table>
-        <h1>Total: Rp. <?=number_format($total,0,'','.')?>,-</h1>
+        <h1>Income: Rp. <?=number_format($total,0,'','.')?>,-</h1>
     </form>
 </body>
 </html>

@@ -60,11 +60,11 @@
 </head>
 <body>
     <form action="" method="post">
-        <h1>Admin Home</h1>
         Home
         <a href="adminAdd.php">Add</a>
         <a href="adminTransaction.php">Transaction</a>
-        <button name="logout">Logout</button><br>
+        <button name="logout">Logout</button>
+        <h1>Admin Home</h1>
 
         <span>Total Item: <?=$totalData?></span>
         <h2>List Item</h2>
