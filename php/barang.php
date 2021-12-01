@@ -92,6 +92,21 @@ if (isset($_REQUEST['addToCart'])) {
         body{
             background: #d1e6ed;
         }
+
+        @media (max-width: 480px) {
+            .gambar{
+                display: flex;
+                margin-left: 16px;
+                justify-content: center;
+                align-items: center;
+                /* flex-direction: column; */
+            }
+            .gambarr{
+                height: 400px !important;
+                width: 400px !important;
+                
+            }
+        }
     </style>
 </head>
 
@@ -124,7 +139,7 @@ if (isset($_REQUEST['addToCart'])) {
 
         <div class="container">
             <div class="gambar col-lg-6 col-md-12 col-sm-12">
-                <img style="height: 500px; width: 500px;" src=<?= $barangNow['foto_barang'] ?>>
+                <img class="gambarr"style="height: 500px; width: 500px;" src=<?= $barangNow['foto_barang'] ?>>
             </div>
             <div class="isi col-lg-6 col-md-12 col-sm-12">
                 <div class="judul">

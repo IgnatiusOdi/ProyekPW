@@ -123,6 +123,12 @@ if (isset($_REQUEST['checkout'])) {
         body{
             background-color: #d1e6ed;
         }
+        @media (max-width: 480px) {
+            .gambarr{
+                height: 100px;
+                width: 100px !important;
+            }
+        }
         
     </styLe>
 </head>
@@ -158,7 +164,7 @@ if (isset($_REQUEST['checkout'])) {
                 echo "<td>" . ($key + 1) . ".</td>";
                 $id = $value['id_barang'];
                 $barang = $listBarang[$value['id_barang'] - 1];
-                echo "<td><img style='width: 150px; cursor: pointer;' onclick='detail($id)' src=" . $barang['foto_barang'] . "><br>" . $barang['nama_barang'] . "</td>";
+                echo "<td><img class='gambarr' style='width: 150px; cursor: pointer;' onclick='detail($id)' src=" . $barang['foto_barang'] . "><br>" . $barang['nama_barang'] . "</td>";
                 echo "<td>" . $value['jumlah'] . "</td>";
                 echo "<td>Rp. " . number_format($barang['harga_barang'] * $value['jumlah'], 0, '', '.') . ",-</td>";
                 echo "<form action='' method='post'>";

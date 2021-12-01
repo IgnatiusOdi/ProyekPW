@@ -59,6 +59,13 @@
         .row{
             justify-content:center;
         }
+
+        @media (max-width: 480px) {
+            .gambar {
+                height: 100px;
+                width: 100px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -111,7 +118,7 @@
                             $foto = $barang['foto_barang'];
                             echo "<tr>";
                                 echo "<td>".($key + 1).".</td>";
-                                echo "<td><img src='".$foto."'><br>".$barang['nama_barang']."</td>";
+                                echo "<td><img class='gambar' src='".$foto." '><br>".$barang['nama_barang']."</td>";
                                 echo "<td>".$value['jumlah']."</td>";
                                 $harga = $barang['harga_barang'] * $value['jumlah'];
                                 echo "<td>Rp. ".number_format($harga,0,'','.').",-</td>";
