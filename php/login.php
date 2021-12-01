@@ -2,33 +2,33 @@
     require_once("connection.php");
 
     if (isset($_REQUEST['login'])) {
-        $username = $_REQUEST['username'];
-        $password = $_REQUEST['password'];
-        
-        if ($username == "" && $password == "") {
-            echo "<script>alert('Field tidak boleh kosong')</script>";
-        } else {
-            $index = -1;
-            foreach ($listUser as $key => $value) {
-                if ($username == $value['username']) {
-                    $index = $key;
-                    break;
-                }
-            }
+      $username = $_REQUEST['username'];
+      $password = $_REQUEST['password'];
+      
+      if ($username == "" && $password == "") {
+          echo "<script>alert('Field tidak boleh kosong')</script>";
+      } else {
+          $index = -1;
+          foreach ($listUser as $key => $value) {
+              if ($username == $value['username']) {
+                  $index = $key;
+                  break;
+              }
+          }
 
-            if ($index == -1) {
-                echo "<script>alert('Username belum pernah terdaftar')</script>";
-            } else {
-                $hashed_password = $listUser[$index]['password'];
-                $verify = password_verify($password, $hashed_password);
-                if (!$verify) {
-                    echo "<script>alert('Password Salah!')</script>";
-                } else {
-                    $_SESSION['user'] = $index;
-                    header("Location: home.php");
-                }
-            }
-        }
+          if ($index == -1) {
+              echo "<script>alert('Username belum pernah terdaftar')</script>";
+          } else {
+              $hashed_password = $listUser[$index]['password'];
+              $verify = password_verify($password, $hashed_password);
+              if (!$verify) {
+                  echo "<script>alert('Password Salah!')</script>";
+              } else {
+                  $_SESSION['user'] = $index;
+                  header("Location: home.php");
+              }
+          }
+      }
     }
 ?>
 
@@ -77,27 +77,28 @@
 
         <div class="px-5 ms-xl-4" style="margin-left:0 ; margin-top: 10px; ">
           <i class="fas fa-crow fa-2x me-3 pt-5 mt-xl-4" style="color: #709085;"></i>
-          <span class="h1 fw-bold mb-0" >Sign In</span>
+          <!-- <span class="h1 fw-bold mb-0" >Sign In</span>   -->
         </div>
 
         <div class="d-flex align-items-center h-custom-2 px-5 ms-xl-4 mt-5 pt-5 pt-xl-0 mt-xl-n5">
 
-          <form action="" method="post" style="width: 23rem; ">
+          <form action="" method="post" style="width: 23rem;">
 
-            <h3 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Log in</h3>
+            <h1 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Log in</h2>
 
             <div class="form-outline mb-4">
-              <input type="email" id="form2Example18" name="username" class="form-control form-control-lg" />
-              <label class="form-label" for="form2Example18">Username</label>
+              <input type="text" id="form2Example18" name="username" class="form-control form-control-lg" placeholder="Username"/>
+              <!-- <label class="form-label" for="form2Example18">Username</label> -->
             </div>
 
             <div class="form-outline mb-4">
-              <input type="password" id="form2Example28"  name="password" class="form-control form-control-lg" />
-              <label class="form-label" for="form2Example28">Password</label>
+              <input type="password" id="form2Example28"  name="password" class="form-control form-control-lg" placeholder="Password"/>
+              <br>
+              <!-- <label class="form-label" for="form2Example28">Password</label> -->
             </div>
 
             <div class="pt-1 mb-4">
-              <button class="btn btn-info btn-lg btn-block" type="button" name="login" value="login" style="width: 350px;">Login</button>
+              <button class="btn btn-info btn-lg btn-block" type="submit" name="login" value="login" style="width: 350px;">Login</button>
             </div>
 
             <p class="mb-5 pb-lg-2"><a class="text-muted" href="home.php">Back to Home</a></p>
