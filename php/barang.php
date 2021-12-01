@@ -89,6 +89,9 @@ if (isset($_REQUEST['addToCart'])) {
             margin-top: 0;
             color: black;
         }
+        body{
+            background: #d1e6ed;
+        }
     </style>
 </head>
 
@@ -145,9 +148,9 @@ if (isset($_REQUEST['addToCart'])) {
                         <input type="number" name="order" value="<?= $barangNow['stok_barang'] >= 1 ? 1 : 0 ?>" min="<?= $barangNow['stok_barang'] >= 1 ? 1 : 0 ?>" max="<?= $barangNow['stok_barang'] ?>">
                         <?php
                         if ($barangNow['stok_barang'] >= 1)
-                            echo "<button class='btn' name='addToCart'>Add to Cart</button>";
+                            echo "<button class='btn' style='background-color:#78b845; color:white;' name='addToCart'>Add to Cart</button>";
                         else
-                            echo "<button class='btn' name='addToCart' disabled>Add to Cart</button>";
+                            echo "<button class='btn' style='background-color:#78b845; color:white; ' name='addToCart' disabled>Add to Cart</button>";
                         ?>
                     </form>
                 </div>

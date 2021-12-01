@@ -144,6 +144,7 @@ foreach ($listBarang as $key => $value) {
         .row {
             justify-content: center;
         }
+       
     </style>
    
 </head>
@@ -161,7 +162,7 @@ foreach ($listBarang as $key => $value) {
             </div>
         </div>
 
-        <div class="isi">
+        <div class="isi" style="background-color: lightblue;">
             <div class="kategori">
                 <form action="" method="post" style="display: flex; justify-content: space-between; align-items: center;">
                     <div>
@@ -203,7 +204,7 @@ foreach ($listBarang as $key => $value) {
                     if (count($listBarang) > 0) {
                         foreach ($listBarang as $key => $value) {
                     ?>
-                            <div class="card col" style="text-align: center; margin: 1% 3%; display: flex; flex-direction: column; align-items: center;" onclick=detail(<?= $value['id_barang'] ?>)>
+                            <div class="card col" style="text-align: center; margin: 1% 2%; display: flex; flex-direction: column; align-items: center;" onclick=detail(<?= $value['id_barang'] ?>)>
                                 <img style="max-width: 90%;" src=<?= $value['foto_barang'] ?>>
                                 
                                 <div style='display: flex; justify-content: space-between; flex-direction: column; flex-grow: 1;'>

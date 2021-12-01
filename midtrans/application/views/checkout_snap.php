@@ -92,7 +92,7 @@ if (isset($_REQUEST['checkout'])) {
         .row{
             justify-content:center;
         }
-
+        
         /* background-color: #d9534f; */
         .btn-danger {
             color: #fff;
@@ -120,7 +120,9 @@ if (isset($_REQUEST['checkout'])) {
             background-color: #0b5ed7;
             border-color: #0a58ca;
         }
-
+        body{
+            background-color: #d1e6ed;
+        }
         
     </styLe>
 </head>

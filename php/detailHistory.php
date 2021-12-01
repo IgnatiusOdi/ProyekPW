@@ -49,7 +49,10 @@
             position: sticky;
             /* margin-left: 100px; */
         }
-
+        body{
+            /* background-color: 209, 230, 237; */
+            background: #d1e6ed;
+        }
         .topnav .a{
         width: auto;
         }
@@ -70,8 +73,7 @@
         </div>
     </div>
 
-    <div style="position: relative;">
-        <div>
+    <div>
             <a href="history.php" class="btn btn-primary" style="display: flex;
             width: 100px;
             height: 40px;
@@ -83,10 +85,14 @@
             font-size: 20px;
             color: black;
             z-index: 10;
+            margin-top: 75px;
             ">Back</a>
         </div>
+        
+    <div style="position: relative; ">
+        
 
-        <div class="container">
+        <div class="container" style="margin-top: 100px;">
             <h1><u>Transaction</u></h1>
             <h4>ID: <?=$id_htrans?></h4>
             <h4>Date-time : <?=date('d F Y - H:i:s', strtotime($tanggal)); ?></h4>

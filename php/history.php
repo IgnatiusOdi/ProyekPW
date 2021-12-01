@@ -45,6 +45,9 @@
         .row{
             justify-content:center;
         }
+        body{
+            background-color:  #d1e6ed;
+        }
     </style>
 </head>
 <body>

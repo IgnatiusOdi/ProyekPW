@@ -42,10 +42,13 @@
 	<link rel="stylesheet" href="../css/font-awesome.min.css">
 	<link type="text/css" rel="stylesheet" href="../css/style.css" />
 	<script src="../js/jquery.min.js"></script>
+	<style>
+		
+	</style>
 </head>
 
 <body>
-	<div id="header">
+	<div id="header" style="background-color: black;">
 		<div class="container">
 			<div class="row">
 				<div class=" col-md-3 col-xs-12">
@@ -76,11 +79,11 @@
 					</div>
 				</div>
 
-				<div class="col-md-3 col-xs-12" style="margin-top: 20px; float: right;">
+				<div class="col-md-3 col-xs-12" style="margin-top: 20px; float: right; ">
 					<form action="" method="post">
 						<?php
 						if (isset($_SESSION['user'])) {
-							echo "<button class='btn btn-danger' name='logout'>Logout</button>";
+							echo "<button class='btn btn-danger' style='background-color: red;' name='logout'>Logout</button>";
 						} else {
 							echo "<a href='login.php'><button class='btn'>Sign in</button></a>";
 						}
@@ -216,7 +219,7 @@
 							<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 							Copyright &copy;<script>
 								document.write(new Date().getFullYear());
-							</script> All rights reserved
+							</script> All rights reserved | This website made by Odi and Airlangga
 							<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 						</span>
 					</div>

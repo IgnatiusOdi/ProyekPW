@@ -41,7 +41,7 @@
     <title>Sign In</title>
     <link rel="stylesheet" href="../css/style.css">
 </head>
-<body class="img" style="background-image: url(../img/BG.jpg);">
+<body class="img" style="background-image: url(../img/bglogin.jpg);">
     <div class="left">
         <form action="" method="post">
             <h1>Sign In</h1><br>
