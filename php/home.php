@@ -183,11 +183,25 @@
 
 			</div>
 			<h1>About Badminton Kuy</h1>
-
-			Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cumque rem exercitationem debitis tempora laboriosam doloribus sit voluptates facere neque deleniti quos facilis iure reiciendis libero quod tenetur, magnam omnis ratione labore? Quam itaque architecto autem quis molestiae nesciunt. Magni eveniet voluptatibus quaerat aperiam voluptatum asperiores iusto beatae quisquam, sequi placeat quibusdam voluptate veniam animi illum? Beatae porro perspiciatis exercitationem. Non.
+			Badminton Kuy is a badminton store selling badminton gear from rackets, shoes, shuttlecocks, and nets. We offer high quality gear for best performance for badminton lovers out there.<br><br>
+			
+			We focus on only high quality badminton gear - because quality is key to win the game. We really appreciate badminton lovers because our goal is to make badminton great again.
 		</div>
 	</section>
-	<br>
+	<br><br>
+	<section>
+		<div class="container">
+			<div class="newsletter">
+
+			</div>
+			<h1>About Us</h1>
+			We intend to make this website for project purpose only. We don't sell real things in here by the way. Both of us are doing this project for 3 weeks so we're really sorry if there is some broken things happening. We hope to develop ourself better in the future. Thank you for coming to our website.<br><br>
+			Made by:<br>
+			220116919 - Ignatius Odi<br>
+			220116921 - John Louis Airlangga Wijaya Jazulie
+		</div>
+	</section>
+	<br><br>
 	<section>
 		<div class="newsletter">
 			<h1 style="text-align:center;">Follow Us Now!!!</h1>
