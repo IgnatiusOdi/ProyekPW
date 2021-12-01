@@ -48,6 +48,9 @@
         body{
             background-color:  #d1e6ed;
         }
+        tr{
+            border: 10px;
+        }
     </style>
 </head>
 <body>
@@ -63,7 +66,7 @@
     </div>
 
     <h1>Transaction History</h1>
-    <table class="table" border=1 style="font-size: 20px;">
+    <table class="table" border=2 style="font-size: 20px;">
         <tr>
             <td>No.</td>
             <td>Transaction Date</td>

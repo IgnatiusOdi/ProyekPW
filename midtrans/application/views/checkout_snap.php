@@ -141,8 +141,8 @@ if (isset($_REQUEST['checkout'])) {
 
     <!-- <br> -->
 
-    <table class="table" border=1 style="font-size: 20px;">
-        <tr>
+    <table class="table" border=3 style="font-size: 20px; ">
+        <tr style="border-bottom: 10px;">
             <td>No.</td>
             <td>Nama Barang</td>
             <td>Jumlah</td>
