@@ -19,7 +19,7 @@
         $harga = $_REQUEST['hargaBarang'];
         $stok = $_REQUEST['stokBarang'];
         $kategori = $_REQUEST['kategoriBarang'];
-        $foto = $_FILES['fotoBarang'];
+        $foto = $_REQUEST['fotoBarang'];
 
         if ($nama == "") {
             echo "<script>alert('Nama masih kosong')</script>";
@@ -27,55 +27,38 @@
             echo "<script>alert('Harga tidak boleh < 0')</script>";
         } else if ($stok < 0) {
             echo "<script>alert('Stok tidak boleh < 0')</script>";
-        } else if ($kategori == "") {
-            echo "<script>alert('Kategori harus diisi')</script>";
-        } else if ($foto['error'] == 4) {
-            echo "<script>alert('Sertakan foto juga')</script>";
-        } else if ($foto['size'] > 200000) {
-            echo "<script>alert('Size File terlalu besar, MAKS. 200KB')</script>";
-        }  else {
-            // SAVE FOTO
-            $lokasi = "../barang/";
-            if (!file_exists($lokasi)) {
-                @mkdir($lokasi);
-            }
-            $namafoto = $nextId;
-            $temp = $foto['tmp_name'];
-            $lokasi .= $namafoto;
-            move_uploaded_file($temp, $lokasi);
-
+        } else {
             //ADD TO BARANG
-            $sql = "INSERT INTO `barang`(`nama_barang`, `desc_barang`, `harga_barang`, `stok_barang`, `foto_barang`) VALUES (?,?,?,?,?)";
+            $sql = "INSERT INTO `barang`(`nama_barang`, `desc_barang`, `harga_barang`, `stok_barang`, `id_kategori`, `foto_barang`) VALUES (?,?,?,?,?,?)";
             $stmt = $conn -> prepare($sql);
-            $stmt -> bind_param("ssiis", $nama, $desc, $harga, $stok, $lokasi);
+            $stmt -> bind_param("ssiiis", $nama, $desc, $harga, $stok, $kategori, $foto);
             $stmt -> execute();
 
-            //ADD TO KATEGORI_BARANG
-            $sql = "INSERT INTO `kategori_barang` (`id_barang`, `id_kategori`) VALUES (?,?)";
-            $stmt = $conn -> prepare($sql);
-            $stmt -> bind_param("ii", $nextId, $kategori);
-            $stmt -> execute();
-
-            header("Location: admin.php");
+            echo "<script>alert('Success Add Item')</script>";
         }
     }
 
     if (isset($_REQUEST['addBulk'])) {
-
+        $bulk = $_FILES['csv'];
+        
+        if ($bulk["size"] > 0) {
+            $row = 1;
+            if (($handle = fopen($bulk['tmp_name'], "r")) !== FALSE) {
+                while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+                    $num = count($data);
+                    // echo "<p> $num fields in line $row: <br /></p>\n";
+                    $row++;
+                    // echo "<pre>";
+                    // var_dump($data);
+                    // echo "</pre>";
+                    $stmt = $conn->prepare("INSERT INTO `barang` (`nama_barang`, `desc_barang`, `harga_barang`, `stok_barang`, `id_kategori`,`foto_barang`) VALUES (?,?,?,?,?,?)");
+                    $stmt->bind_param("ssiiis", $data[0], $data[1], $data[2], $data[3], $data[4], $data[5]);
+                    $stmt->execute();
+                }
+                fclose($handle);
+            }
+        }
     }
-
-    // $row = 1;
-    // if (($handle = fopen("test.csv", "r")) !== FALSE) {
-    // while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
-    //     $num = count($data);
-    //     echo "<p> $num fields in line $row: <br /></p>\n";
-    //     $row++;
-    //     for ($c=0; $c < $num; $c++) {
-    //         echo $data[$c] . "<br />\n";
-    //     }
-    // }
-    // fclose($handle);
-    // }
 ?>
 
 <!DOCTYPE html>
@@ -97,35 +80,35 @@
         <h2>Item</h2>
             <table>
                 <tr>
-                    <td>Nama Barang</td>
+                    <td>Name</td>
                     <td>:</td>
                     <td>
                         <input type="text" name="namaBarang" placeholder="Nama Barang" style="width: 500px;">
                     </td>
                 </tr>
                 <tr>
-                    <td>Deskripsi Barang</td>
+                    <td>Description</td>
                     <td>:</td>
                     <td>
                         <textarea name="descBarang" cols="100" rows="10" placeholder="Deskripsi Barang" style="resize: none;"></textarea>
                     </td>
                 </tr>
                 <tr>
-                    <td>Harga Barang</td>
+                    <td>Price</td>
                     <td>:</td>
                     <td>
                         Rp. <input type="text" name="hargaBarang" maxlength="9" onkeypress="return onlyNumberKey(event)" placeholder="999.999.999" style="text-align: right; width: 100px;"> ,-
                     </td>
                 </tr>
                 <tr>
-                    <td>Stok Barang</td>
+                    <td>Stock</td>
                     <td>:</td>
                     <td>
                         <input type="text" name="stokBarang" maxlength="9" onkeypress="return onlyNumberKey(event)" placeholder="123456789" style="text-align: right; width: 100px;">
                     </td>
                 </tr>
                 <tr>
-                    <td>Kategori Barang</td>
+                    <td>Category</td>
                     <td>:</td>
                     <td>
                         <?php
@@ -142,9 +125,9 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>Foto Barang</td>
+                    <td>Picture Link</td>
                     <td>:</td>
-                    <td><input type="file" name="fotoBarang"></td>
+                    <td><input type="text" name="fotoBarang" style="width: 700px;" placeholder="Link"></td>
                 </tr>
             </table>
             <button name="addBarang">Add Barang</button>

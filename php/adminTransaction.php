@@ -27,6 +27,11 @@
         } else {
             header("Location: ?from=$fromDate&to=$toDate");
         }
+        header("Refresh:0");
+    }
+
+    if (!isset($_SESSION['namaUser'])) {
+        $_SESSION['namaUser'] = '';
     }
 
     if (!isset($_REQUEST['from']) && !isset($_REQUEST['to'])) {
