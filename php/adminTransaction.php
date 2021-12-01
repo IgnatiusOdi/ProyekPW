@@ -53,7 +53,7 @@ if (!isset($_REQUEST['from']) && !isset($_REQUEST['to'])) {
 
 foreach ($listTransaksi as $key => $value) {
     if (isset($_REQUEST['detail-' . $value['id_htrans']])) {
-        header("Location: transactionDetail.php?id=" . $value['id_htrans']);
+        header("Location: transactionDetail.php?id_detail=" . $value['id_htrans']);
     }
 }
 ?>
@@ -67,34 +67,30 @@ foreach ($listTransaksi as $key => $value) {
     <title>Transaction</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
+    <style>
+        .content{
+            padding: 1% 1%;
+        }
+    </style>
 </head>
-
 <body>
-    <form action="" method="post">
-        <!-- <a href="admin.php">Home</a>
-        <a href="adminAdd.php">Add</a>
-        Transaction
-        
-        <h1>Admin Transaction</h1> -->
-
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">Dashboard</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                    <div class="navbar-nav">
-                        <a class="nav-link " aria-current="page" href="admin.php">Home</a>
-                        <a class="nav-link" href="adminAdd.php">Add</a>
-                        <a class="nav-link active " href="adminTransaction.php">Transaction</a>
-                        <button name="logout" class="btn btn-danger">Logout</button>
-                    </div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Dashboard</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-link " aria-current="page" href="admin.php">Home</a>
+                    <a class="nav-link" href="adminAdd.php">Add</a>
+                    <a class="nav-link active " href="adminTransaction.php">Transaction</a>
+                    <button name="logout" class="btn btn-danger">Logout</button>
                 </div>
             </div>
-        </nav>
-
+        </div>
+    </nav>
+    <form action="" method="post" class="content">
         From: <input type="date" name="fromDate" value="<?= $_SESSION['from'] ?>">
         to <input type="date" name="toDate" value="<?= $_SESSION['to'] ?>"><br>
         Nama User: <input type="text" name="namaUser" placeholder="Search User" value="<?= $_SESSION['namaUser'] ?>">

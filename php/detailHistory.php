@@ -101,8 +101,8 @@
 
         <div class="container" style="margin-top: 100px;">
             <h1><u>Transaction</u></h1>
-            <h4>ID: <?=$id_htrans?></h4>
-            <h4>Date-time : <?=date('d F Y - H:i:s', strtotime($tanggal)); ?></h4>
+            <h4>ID : <?=$id_htrans?></h4>
+            <h4>Date : <?=date('d F Y - H:i:s', strtotime($tanggal)); ?></h4>
             <table class="table" border=1 style="font-size: 20px;">
                 <tr>
                     <td>No.</td>
