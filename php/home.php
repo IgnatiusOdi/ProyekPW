@@ -80,15 +80,15 @@
 				</div>
 
 				<div class="col-md-3 col-xs-12" style="margin-top: 20px; float: right; ">
-					<form action="" method="post">
-						<?php
+					<?php
 						if (isset($_SESSION['user'])) {
-							echo "<button class='btn btn-danger' style='background-color: red;' name='logout'>Logout</button>";
+							echo "<form action='' method='post'>";
+								echo "<button class='btn btn-danger' style='background-color: red;' name='logout'>Logout</button>";
+							echo "</form>";
 						} else {
 							echo "<a href='login.php'><button class='btn'>Sign in</button></a>";
 						}
 						?>
-					</form>
 				</div>
 			</div>
 		</div>
@@ -183,6 +183,7 @@
 
 			</div>
 			<h1>About Badminton Kuy</h1>
+
 			Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cumque rem exercitationem debitis tempora laboriosam doloribus sit voluptates facere neque deleniti quos facilis iure reiciendis libero quod tenetur, magnam omnis ratione labore? Quam itaque architecto autem quis molestiae nesciunt. Magni eveniet voluptatibus quaerat aperiam voluptatum asperiores iusto beatae quisquam, sequi placeat quibusdam voluptate veniam animi illum? Beatae porro perspiciatis exercitationem. Non.
 		</div>
 	</section>
