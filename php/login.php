@@ -25,7 +25,7 @@
                   echo "<script>alert('Password Salah!')</script>";
               } else {
                   $_SESSION['user'] = $index;
-                  header("Location: home.php");
+                  header("Location: search.php");
               }
           }
       }

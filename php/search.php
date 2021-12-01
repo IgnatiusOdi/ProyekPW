@@ -5,6 +5,11 @@ if (isset($_SESSION['thx'])) {
     unset($_SESSION['thx']);
 }
 
+if (isset($_REQUEST['logout'])) {
+    unset($_SESSION['user']);
+    header("Location: login.php");
+}
+
 if (isset($_REQUEST['category'])) {
     $category = $_REQUEST['category'];
     $_SESSION['category'] = $category;
@@ -147,6 +152,11 @@ foreach ($listBarang as $key => $value) {
         .row {
             justify-content: center;
         }
+        .btn{
+            width: auto;
+            margin-top: 5px;
+            height: 40px;
+        }
     </style>
    
 </head>
@@ -160,6 +170,15 @@ foreach ($listBarang as $key => $value) {
                     <a href="" class="active">Search</a>
                     <a href="../midtrans/index.php/snap">Cart</a>
                     <a href="history.php">History</a>
+                    <?php
+                        if (isset($_SESSION['user'])) {
+                            echo "<form action='' method='post'>";
+                                echo "<button class='btn btn-danger' style='background-color: red;' name='logout'>Logout</button>";
+                            echo "</form>";
+                        } else {
+                            echo "<button class='btn btn-info' onclick='window.location.href=\"".'login.php'."\"'>Sign in</button>";
+                        }
+				    ?>
                 </div>
             </div>
         </div>

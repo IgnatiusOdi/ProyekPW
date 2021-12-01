@@ -1,6 +1,11 @@
 <?php
 require_once('connection.php');
 
+if (isset($_REQUEST['logout'])) {
+    unset($_SESSION['user']);
+    header("Location: login.php");
+}
+
 $barangNow = $listBarang[$_REQUEST['id_barang'] - 1];
 
 if (isset($_REQUEST['search'])) {
@@ -22,14 +27,6 @@ if (isset($_REQUEST['addToCart'])) {
         $idUser = $_SESSION['user'] + 1;
         $idBarang = $barangNow['id_barang'];
         $jumlahOrder = $_REQUEST['order'];
-
-        //KURANGI DARI STOK
-        // $stokBarang = $barangNow['stok_barang'];
-        // $sisa = $stokBarang - $jumlahOrder;
-        // $sql = "UPDATE `barang` SET `stok_barang`=? WHERE `id_barang`='$idBarang'";
-        // $q = $conn->prepare($sql);
-        // $q->bind_param("i", $sisa);
-        // $q->execute();
 
         //CARI DI CART BARANG YANG SAMA
         $sql = "SELECT id_barang FROM cart WHERE id_users='$idUser' AND id_barang='$idBarang'";
@@ -70,14 +67,9 @@ if (isset($_REQUEST['addToCart'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detail Barang</title>
     <link rel="stylesheet" href="../css/detailbarang.css">
+    <link type="text/css" rel="stylesheet" href="../css/style.css" />
     <link rel="stylesheet" href="../css/search.css">
     <link type="text/css" rel="stylesheet" href="../css/bootstrap.min.css" />
-    <!-- <link type="text/css" rel="stylesheet" href="../css/slick.css" />
-    <link type="text/css" rel="stylesheet" href="../css/slick-theme.css" />
-    <link type="text/css" rel="stylesheet" href="../css/nouislider.min.css" /> -->
-    <!-- <link rel="stylesheet" href="../css/font-awesome.min.css"> -->
-    <link type="text/css" rel="stylesheet" href="../css/style.css" />
-    <!-- <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet"> -->
     <script src="../js/jquery.min.js"></script>
     <style>
         .row {
@@ -85,10 +77,6 @@ if (isset($_REQUEST['addToCart'])) {
             justify-content: center;
         }
 
-        .btn {
-            margin-top: 0;
-            color: black;
-        }
         body{
             background: #d1e6ed;
         }
@@ -107,6 +95,12 @@ if (isset($_REQUEST['addToCart'])) {
                 
             }
         }
+        .btn{
+            width: auto;
+            margin-top: 5px;
+            height: 40px;
+            color: white;
+        }
     </style>
 </head>
 
@@ -118,6 +112,15 @@ if (isset($_REQUEST['addToCart'])) {
                 <a href=<?= "search.php?page=1&category=" . $_SESSION['category'] . "&itemname=" . $_SESSION['itemname'] ?>>Search</a>
                 <a href="../midtrans/index.php/snap">Cart</a>
                 <a href="history.php">History</a>
+                <?php
+					if (isset($_SESSION['user'])) {
+						echo "<form action='' method='post'>";
+							echo "<button class='btn btn-danger' style='background-color: red;' name='logout'>Logout</button>";
+						echo "</form>";
+					} else {
+                        echo "<button class='btn btn-info' onclick='window.location.href=\"".'login.php'."\"'>Sign in</button>";
+					}
+				?>
             </div>
         </div>
     </div>

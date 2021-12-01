@@ -5,6 +5,11 @@
         unset($_SESSION['thx']);
     }
 
+    if (isset($_REQUEST['logout'])) {
+        unset($_SESSION['user']);
+        header("Location: login.php");
+    }
+
     if (!isset($_SESSION['user'])) {
         header("Location: login.php");
     }
@@ -51,6 +56,13 @@
         tr{
             border: 10px;
         }
+        .btn{
+            width: auto;
+            margin-left: 5px;
+            margin-top: 8px;
+            height: 40px;
+            font-size: 1.6em;
+        }
     </style>
 </head>
 <body>
@@ -61,6 +73,9 @@
                 <a href=<?="search.php?page=1&category=".$_SESSION['category']."&itemname=".$_SESSION['itemname']?>>Search</a>
                 <a href="../midtrans/index.php/snap" >Cart</a>
                 <a href="" class="active">History</a>
+                <form action="" method="post">
+                    <button class='btn btn-danger' style='background-color: red;' name='logout'>Logout</button>
+                </form>
             </div>
         </div>
     </div>

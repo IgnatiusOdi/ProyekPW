@@ -5,6 +5,11 @@
         header("Location: login.php");
     }
 
+    if (isset($_REQUEST['logout'])) {
+        unset($_SESSION['user']);
+        header("Location: login.php");
+    }
+
     $idUser = $_SESSION['user'] + 1;
     $id_htrans = $_REQUEST['id_transaksi'];
     $listHistory = $conn -> query("SELECT * FROM dtrans WHERE id_htrans='$id_htrans'") -> fetch_all(MYSQLI_ASSOC);
@@ -30,6 +35,7 @@
         body{
             margin: 0;
             padding: 0;
+            background: #d1e6ed;
         }
         .header a {
             justify-content: center;
@@ -49,10 +55,6 @@
             position: sticky;
             /* margin-left: 100px; */
         }
-        body{
-            /* background-color: 209, 230, 237; */
-            background: #d1e6ed;
-        }
         .topnav .a{
         width: auto;
         }
@@ -66,6 +68,13 @@
                 width: 100px;
             }
         }
+        .btn{
+            width: auto;
+            margin-left: 5px;
+            margin-top: 8px;
+            height: 40px;
+            font-size: 1.6em;
+        }
     </style>
 </head>
 <body>
@@ -76,6 +85,9 @@
                 <a href=<?="search.php?page=1&category=".$_SESSION['category']."&itemname=".$_SESSION['itemname']?>>Search</a>
                 <a href="../midtrans/index.php/snap" >Cart</a>
                 <a href="history.php">History</a>
+                <form action='' method='post'>
+				    <button class='btn btn-danger' style='background-color: red;' name='logout'>Logout</button>
+				</form>
             </div>
         </div>
     </div>

@@ -42,9 +42,6 @@
 	<link rel="stylesheet" href="../css/font-awesome.min.css">
 	<link type="text/css" rel="stylesheet" href="../css/style.css" />
 	<script src="../js/jquery.min.js"></script>
-	<style>
-		
-	</style>
 </head>
 
 <body>
@@ -88,7 +85,7 @@
 						} else {
 							echo "<a href='login.php'><button class='btn'>Sign in</button></a>";
 						}
-						?>
+					?>
 				</div>
 			</div>
 		</div>

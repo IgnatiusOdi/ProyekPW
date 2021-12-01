@@ -5,6 +5,11 @@ if (isset($_SESSION['thx'])) {
     unset($_SESSION['thx']);
 }
 
+if (isset($_REQUEST['logout'])) {
+    unset($_SESSION['user']);
+    header("Location: ../../php/login.php");
+}
+
 if (!isset($_SESSION['user'])) {
     header("Location: ../../php/login.php");
 }
@@ -92,9 +97,17 @@ if (isset($_REQUEST['checkout'])) {
         .row{
             justify-content:center;
         }
+
+        .btn{
+            width: auto;
+            margin-left: 5px;
+            margin-top: 8px;
+            height: 40px;
+            font-size: 1.6em;
+        }
         
         /* background-color: #d9534f; */
-        .btn-danger {
+        .btn-warning {
             color: #fff;
             background-color: #d9534f;
             border-color: #d43f3a;
@@ -102,7 +115,7 @@ if (isset($_REQUEST['checkout'])) {
             font-size: 20px;
         }
 
-        .btn-danger:hover {
+        .btn-warning:hover {
             color: #fff;
             background-color: #bb2d3b;
             border-color: #b02a37;
@@ -141,6 +154,9 @@ if (isset($_REQUEST['checkout'])) {
                 <a href=<?= "../../php/search.php?page=1&category=" . $_SESSION['category'] . "&itemname=" . $_SESSION['itemname'] ?>>Search</a>
                 <a href="" class="active">Cart</a>
                 <a href="../../php/history.php">History</a>
+                <form action="" method="post">
+                    <button class='btn btn-danger' style='background-color: red;' name='logout'>Logout</button>
+                </form>
             </div>
         </div>
     </div>
@@ -188,7 +204,7 @@ if (isset($_REQUEST['checkout'])) {
         </div>
     </table>
     <form action="" method="post">
-        <button name="clearAll" style="float: left;" class="btn btn-danger" <?= count($listCart) == 0 ? "hidden" : "" ?>>Clear All</button>
+        <button name="clearAll" style="float: left;" class="btn btn-warning" <?= count($listCart) == 0 ? "hidden" : "" ?>>Clear All</button>
         <h3 style="float: right;">Total: Rp. <?= number_format($hargaTotal, 0, '', '.') ?>,-</h3>
         <br><br>
         <button id="pay-button" name="checkout" style="float: right;" class="btn btn-primary" <?= count($listCart) == 0 ? "hidden" : "" ?>>Checkout</button>
