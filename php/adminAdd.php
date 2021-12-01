@@ -90,7 +90,9 @@
                     <a class="nav-link " aria-current="page" href="admin.php">Home</a>
                     <a class="nav-link active" href="adminAdd.php">Add</a>
                     <a class="nav-link " href="adminTransaction.php">Transaction</a>
-                    <button name="logout" class="btn btn-danger">Logout</button>
+                    <form action="" method="post">
+                        <button name="logout" class="btn btn-danger">Logout</button>
+                    </form>
                 </div>
             </div>
         </div>
