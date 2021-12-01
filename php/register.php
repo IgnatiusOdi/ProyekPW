@@ -32,7 +32,7 @@
             } else {
                 $ada = false;
                 foreach ($listUser as $key => $value) {
-                    if ($value['username'] == $username || $value['email_user']) {
+                    if ($value['username'] == $username || $value['email_user'] == $email) {
                         $ada = true;
                         break;
                     }
