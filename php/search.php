@@ -141,10 +141,12 @@ foreach ($listBarang as $key => $value) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script> -->
     <script src="../js/jquery.min.js"></script>
     <style>
+        body{
+            background-color: #ADD8E6;
+        }
         .row {
             justify-content: center;
         }
-       
     </style>
    
 </head>
@@ -199,7 +201,7 @@ foreach ($listBarang as $key => $value) {
             </div>
 
             <form action="" method="post" style="height: fit-content;">
-                <div class="content" style="width: 100%; height: 50%; display: flex;">
+                <div class="content" style="width: 100%; height: 50%; display: flex; justify-content: center;">
                     <?php
                     if (count($listBarang) > 0) {
                         foreach ($listBarang as $key => $value) {
@@ -218,7 +220,7 @@ foreach ($listBarang as $key => $value) {
                                             if ($value['stok_barang'] >= 1)
                                                 echo "<button class='btn w-100' name='addToCart-" . $value['id_barang'] . "'>Add to Cart</button>";
                                             else
-                                                echo "<button class='btn w-100' name='addToCart' disabled>Add to Cart</button>";
+                                                echo "<button class='btn w-100' name='addToCart' disabled>Out of Order</button>";
                                             ?>
                                         </div>
                                     </div>
